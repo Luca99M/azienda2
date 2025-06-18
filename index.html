@@ -848,7 +848,7 @@
         // ==========================================
         // VARIABILI GLOBALI - CREDENZIALI INSERITE
         // ==========================================
-        const CLIENT_ID = '589546025220-gblcf5jnk45vsst58c03n4r87er8sg30.apps.googleusercontent.com';
+        const CLIENT_ID = 'IL_TUO_NUOVO_CLIENT_ID_QUI'; // ← SOSTITUISCI con il Client ID appena creato
         const API_KEY = 'AIzaSyDKaQZVRy5V5lYSEK5fyOqBFMjFbT6giSs';           
         const CSV_FOLDER_ID = '1tJ-0du5OwdlgMxAWFHijhWna8vwYQYZd';
         
@@ -904,6 +904,13 @@
 
         async function initAuth() {
             try {
+                console.log('🔧 Inizializzazione OAuth2...', {
+                    CLIENT_ID,
+                    API_KEY,
+                    DISCOVERY_DOCS,
+                    SCOPES
+                });
+
                 // Verifica che gapi.client sia disponibile
                 if (!gapi.client) {
                     throw new Error('Google API Client non caricato');
@@ -916,23 +923,34 @@
                     scope: SCOPES
                 });
                 
+                console.log('✅ gapi.client.init completato');
+                
                 const authInstance = gapi.auth2.getAuthInstance();
+                console.log('✅ Auth instance ottenuto:', authInstance);
                 
                 // Controlla se già autenticato
                 if (authInstance.isSignedIn.get()) {
+                    console.log('✅ Già autenticato');
                     isAuthenticated = true;
                     document.getElementById('auth-status').textContent = '✅ Connesso a Google Drive';
                     document.getElementById('signout-button').classList.remove('hidden');
                     loadApp();
                 } else {
+                    console.log('🔑 Autenticazione richiesta');
                     document.getElementById('auth-status').textContent = '🔑 Accesso richiesto a Google Drive';
                     document.getElementById('auth-button').classList.remove('hidden');
                 }
                 
             } catch (error) {
-                console.error('Errore inizializzazione auth:', error);
+                console.error('❌ Errore dettagliato inizializzazione auth:', error);
+                console.error('❌ Error details:', {
+                    message: error.message,
+                    details: error.details,
+                    error: error.error,
+                    error_description: error.error_description
+                });
                 document.getElementById('auth-status').textContent = '❌ Errore connessione Google';
-                showStatus(`Errore Google API: ${error.message}`, 'error');
+                showStatus(`Errore Google API: ${error.message || 'Errore sconosciuto'}`, 'error');
             }
         }
 
