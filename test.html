@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test OAuth2 Semplice</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+    <h1>TEST OAUTH2 GOOGLE DRIVE</h1>
+    
+    <div id="status">Caricamento...</div>
+    <br>
+    <button id="login-btn" onclick="signIn()" disabled>ACCEDI</button>
+    <button id="logout-btn" onclick="signOut()" disabled>ESCI</button>
+    <br><br>
+    <button id="test-btn" onclick="testDrive()" disabled>TEST LETTURA DRIVE</button>
+    
+    <div id="result"></div>
+
+    <script>
+        // LE TUE CREDENZIALI
+        const CLIENT_ID = '589546025220-gblcf5jnk45vsst58c03n4r87er8sg30.apps.googleusercontent.com';
+        const API_KEY = 'AIzaSyDKaQZVRy5V5lYSEK5fyOqBFMjFbT6giSs';
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+        let isSignedIn = false;
+
+        function updateUI() {
+            document.getElementById('login-btn').disabled = isSignedIn;
+            document.getElementById('logout-btn').disabled = !isSignedIn;
+            document.getElementById('test-btn').disabled = !isSignedIn;
+            
+            document.getElementById('status').innerHTML = isSignedIn ? 
+                '✅ AUTENTICATO' : '❌ NON AUTENTICATO';
+        }
+
+        function initClient() {
+            console.log('🔧 Inizializzazione...');
+            
+            gapi.load('client:auth2', () => {
+                console.log('🔧 GAPI caricato');
+                
+                gapi.client.init({
+                    apiKey: API_KEY,
+                    clientId: CLIENT_ID,
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+                    scope: SCOPES
+                }).then(() => {
+                    console.log('✅ Client inizializzato');
+                    
+                    const authInstance = gapi.auth2.getAuthInstance();
+                    isSignedIn = authInstance.isSignedIn.get();
+                    
+                    authInstance.isSignedIn.listen(updateSigninStatus);
+                    updateUI();
+                    
+                }, (error) => {
+                    console.error('❌ ERRORE INIT:', error);
+                    document.getElementById('status').innerHTML = '❌ ERRORE: ' + JSON.stringify(error);
+                });
+            });
+        }
+
+        function updateSigninStatus(signedIn) {
+            isSignedIn = signedIn;
+            updateUI();
+        }
+
+        function signIn() {
+            console.log('🔧 Tentativo login...');
+            gapi.auth2.getAuthInstance().signIn().then(() => {
+                console.log('✅ LOGIN OK');
+            }, (error) => {
+                console.error('❌ ERRORE LOGIN:', error);
+                document.getElementById('result').innerHTML = '❌ ERRORE LOGIN: ' + JSON.stringify(error);
+            });
+        }
+
+        function signOut() {
+            gapi.auth2.getAuthInstance().signOut();
+            console.log('✅ LOGOUT');
+        }
+
+        function testDrive() {
+            console.log('🔧 Test Drive...');
+            
+            gapi.client.drive.files.list({
+                pageSize: 5,
+                fields: 'files(id, name)'
+            }).then((response) => {
+                console.log('✅ DRIVE OK:', response);
+                const files = response.result.files;
+                
+                let html = '<h3>✅ DRIVE FUNZIONA!</h3><ul>';
+                files.forEach(file => {
+                    html += `<li>${file.name} (${file.id})</li>`;
+                });
+                html += '</ul>';
+                
+                document.getElementById('result').innerHTML = html;
+            }, (error) => {
+                console.error('❌ ERRORE DRIVE:', error);
+                document.getElementById('result').innerHTML = '❌ ERRORE DRIVE: ' + JSON.stringify(error);
+            });
+        }
+
+        // AVVIO
+        initClient();
+    </script>
+</body>
+</html>
