@@ -1,44 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test OAuth2</title>
+    <title>Test</title>
     <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
-    <h1>TEST OAUTH2</h1>
-    <div id="status">Caricamento...</div>
-    <button id="login-btn" onclick="signIn()" disabled>ACCEDI</button>
+    <h1>TEST</h1>
+    <button onclick="test()">PROVA</button>
     <div id="result"></div>
 
     <script>
-        const CLIENT_ID = '589546025220-gblcf5jnk45vsst58c03n4r87er8sg30.apps.googleusercontent.com';
-        const API_KEY = 'AIzaSyDKaQZVRy5V5lYSEK5fyOqBFMjFbT6giSs';
-        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-
-        function initClient() {
-            console.log('Inizializzazione...');
+        function test() {
+            console.log('CLIENT_ID che sto usando:', '589546025220-gblcf5jnk45vsst58c03n4r87er8sg30.apps.googleusercontent.com');
+            
             gapi.load('client:auth2', () => {
                 gapi.client.init({
-                    apiKey: API_KEY,
-                    clientId: CLIENT_ID,
-                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-                    scope: SCOPES
+                    apiKey: 'AIzaSyDKaQZVRy5V5lYSEK5fyOqBFMjFbT6giSs',
+                    clientId: '589546025220-gblcf5jnk45vsst58c03n4r87er8sg30.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/drive.file'
                 }).then(() => {
-                    console.log('SUCCESSO!');
-                    document.getElementById('status').innerHTML = '✅ PRONTO';
-                    document.getElementById('login-btn').disabled = false;
+                    document.getElementById('result').innerHTML = '✅ SUCCESSO!';
                 }, (error) => {
-                    console.error('ERRORE:', error);
-                    document.getElementById('status').innerHTML = 'ERRORE: ' + error.error;
+                    document.getElementById('result').innerHTML = '❌ ERRORE: ' + JSON.stringify(error);
                 });
             });
         }
-
-        function signIn() {
-            gapi.auth2.getAuthInstance().signIn();
-        }
-
-        initClient();
     </script>
 </body>
 </html>
