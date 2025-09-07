@@ -1002,6 +1002,17 @@
                     produzione: allData.produzione_cella_frigo.length,
                     soldi: allData.soldi.length
                 });
+                
+                // DEBUG: Mostra nomi colonne esatti
+                if (allData.vendite.length > 0) {
+                    console.log('📋 Colonne tabella vendite:', Object.keys(allData.vendite[0]));
+                }
+                if (allData.fatturato.length > 0) {
+                    console.log('📋 Colonne tabella fatturato:', Object.keys(allData.fatturato[0]));
+                }
+                if (allData.prodotti_aggiunti.length > 0) {
+                    console.log('📋 Colonne tabella prodotti_aggiunti:', Object.keys(allData.prodotti_aggiunti[0]));
+                }
 
                 showSuccess(`✅ ${allData.vendite.length + allData.fatturato.length} operazioni caricate`);
                 
