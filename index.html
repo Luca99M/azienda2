@@ -1366,10 +1366,6 @@
                 });
             });
             
-            allData.produzione_cella_frigo.forEach(record => {
-                stock.formaggio += parseFloat(record.forme) || 0;
-            });
-            
             [...allData.vendite, ...allData.fatturato].forEach(record => {
                 ALL_PRODUCTS.forEach(product => {
                     stock[product] -= parseFloat(record[product]) || 0;
