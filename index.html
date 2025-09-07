@@ -1,20 +1,2242 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard Negozio</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Medei Caseificio - Dashboard PRO</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 10px;
+            padding-bottom: 100px;
+        }
+
+        /* HEADER ULTRA COMPATTO */
+        .header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 3px;
+        }
+
+        .header .subtitle {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        /* BOTTOM NAVIGATION MIGLIORATA */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(37, 99, 235, 0.3);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            min-width: 55px;
+            position: relative;
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            background: rgba(37, 99, 235, 0.3);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #3b82f6;
+            border-radius: 2px;
+        }
+
+        .nav-icon {
+            font-size: 1.5em;
+            margin-bottom: 2px;
+        }
+
+        .nav-label {
+            font-size: 0.65em;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        /* PAGES */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cards-grid.two-col {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .cards-grid.three-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            margin-bottom: 12px;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        /* STAT CARDS COMPATTE */
+        .stat-card {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(16, 185, 129, 0.1));
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            color: #94a3b8;
+            line-height: 1.2;
+        }
+
+        /* MAGAZZINO CARD SPECIALE */
+        .inventory-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(37, 99, 235, 0.15));
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .inventory-item:last-child {
+            border-bottom: none;
+        }
+
+        .inventory-name {
+            font-size: 0.9em;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .inventory-quantity {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .inventory-quantity.low {
+            color: #f59e0b;
+        }
+
+        .inventory-quantity.critical {
+            color: #ef4444;
+        }
+
+        /* OPERATIONS LIST */
+        .operations-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .operation-item {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #3b82f6;
+            font-size: 0.85em;
+        }
+
+        .operation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .operation-time {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .operation-type {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .operation-type.vendita {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .operation-type.bancomat {
+            background: rgba(37, 99, 235, 0.2);
+            color: #3b82f6;
+        }
+
+        .operation-type.fatturato {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+
+        .operation-details {
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .operation-operator {
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+
+        /* CHART CONTAINERS */
+        .chart-container {
+            height: 220px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .chart-container.large {
+            height: 280px;
+        }
+
+        .chart-container.small {
+            height: 180px;
+        }
+
+        canvas {
+            background: rgba(15, 23, 42, 0.5) !important;
+            border-radius: 8px;
+        }
+
+        /* FILTERS COMPATTI */
+        .filters {
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .filters h3 {
+            color: #60a5fa;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-row.horizontal {
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .filter-group label {
+            color: #94a3b8;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .filter-input, .filter-select {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .filter-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+
+        .filter-button:active {
+            transform: scale(0.98);
+        }
+
+        /* QUICK STATS */
+        .quick-stats {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            padding: 2px;
+        }
+
+        .quick-stat {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            min-width: fit-content;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .quick-stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .quick-stat-label {
+            font-size: 0.7em;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* CATEGORY BADGES */
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .category-badge.contanti {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .category-badge.bancomat {
+            background: rgba(37, 99, 235, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .category-badge.fatturato {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* PAGE TITLE */
+        .page-title {
+            text-align: center;
+            color: #60a5fa;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+        }
+
+        /* STATUS MESSAGES */
+        .loading {
+            text-align: center;
+            padding: 30px 15px;
+            font-size: 1em;
+            color: #94a3b8;
+        }
+
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "..."; }
+            40% { content: "."; }
+            60% { content: ".."; }
+            80%, 100% { content: "..."; }
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            text-align: center;
+            color: #fca5a5;
+            font-size: 0.85em;
+        }
+
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            text-align: center;
+            color: #6ee7b7;
+            font-size: 0.85em;
+        }
+
+        /* SCROLLBAR CUSTOM */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 0.5);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(37, 99, 235, 0.7);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 380px) {
+            .cards-grid.three-col {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .nav-icon {
+                font-size: 1.3em;
+            }
+            
+            .nav-label {
+                font-size: 0.6em;
+            }
+        }
+
+        /* SAFE AREA per iPhone */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .bottom-nav {
+                padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            }
+            
+            body {
+                padding-bottom: calc(80px + env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Configurazione warning */
+        .config-section {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .config-section h3 {
+            color: #fca5a5;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .config-section p {
+            color: #fed7d7;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+        }
+
+        .config-section code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #fbbf24;
+            font-size: 0.75em;
+        }
+    </style>
 </head>
 <body>
-  <h1>Dashboard Negozio</h1>
-  <nav>
-    <button id="tab-stock">Stock sul bancone</button>
-    <button id="tab-operations">Operazioni di oggi</button>
-    <button id="tab-temporale">Scheda temporale</button>
-  </nav>
-  <section id="content"></section>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🧀 Medei Caseificio</h1>
+            <div class="subtitle">Dashboard PRO v2.0</div>
+        </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module" src="script.js"></script>
+        <!-- CONFIGURAZIONE -->
+        <div id="config-section" class="config-section" style="display: none;">
+            <h3>🔧 CONFIGURAZIONE RICHIESTA</h3>
+            <p><strong>⚠️ INSERISCI LE TUE CREDENZIALI:</strong></p>
+            <p>1. Sostituisci <code>TUA_SUPABASE_URL</code></p>
+            <p>2. Sostituisci <code>TUA_SUPABASE_ANON_KEY</code></p>
+        </div>
+
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="dashboard" class="page active">
+            <div class="page-title">📊 Dashboard Principale</div>
+            
+            <!-- STATISTICHE PRINCIPALI -->
+            <div class="cards-grid three-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="total-sales-today">0</div>
+                    <div class="stat-label">Vendite Oggi</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="revenue-today">€0</div>
+                    <div class="stat-label">Incassi Oggi</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="operators-today">0</div>
+                    <div class="stat-label">Operatori</div>
+                </div>
+            </div>
+
+            <!-- CATEGORIE PRINCIPALI -->
+            <div class="card">
+                <h3>💳 Ripartizione Vendite (3 Categorie)</h3>
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <div class="quick-stat-value" id="stat-contanti">0</div>
+                        <div class="quick-stat-label">Contanti</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-value" id="stat-bancomat">0</div>
+                        <div class="quick-stat-label">Bancomat</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-value" id="stat-fatturati">0</div>
+                        <div class="quick-stat-label">Fatturati</div>
+                    </div>
+                </div>
+                <div class="chart-container small">
+                    <canvas id="categories-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- TREND SETTIMANALE -->
+            <div class="card">
+                <h3>📈 Trend Ultima Settimana</h3>
+                <div class="chart-container">
+                    <canvas id="weekly-trend-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- TOP PRODOTTI -->
+            <div class="card">
+                <h3>🏆 Top Prodotti Venduti</h3>
+                <div class="chart-container">
+                    <canvas id="top-products-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: MAGAZZINO -->
+        <div id="magazzino" class="page">
+            <div class="page-title">📦 Magazzino Negozio</div>
+            
+            <!-- STATO ATTUALE MAGAZZINO -->
+            <div class="card inventory-card">
+                <h3>🧀 Formaggi</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">🟡 Forme Fresche</span>
+                    <span class="inventory-quantity" id="stock-forme-fresche">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">🟤 Forme Stagionate</span>
+                    <span class="inventory-quantity" id="stock-forme-stagionate">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">⚪ Ricotta</span>
+                    <span class="inventory-quantity" id="stock-ricotta">0 kg</span>
+                </div>
+            </div>
+
+            <div class="card inventory-card">
+                <h3>🫒 Olio d'Oliva</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">🍶 Bottiglie 1L</span>
+                    <span class="inventory-quantity" id="stock-olio-1l">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">🏺 Bottiglie 0.5L</span>
+                    <span class="inventory-quantity" id="stock-olio-05l">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">⚱️ Latte 5L</span>
+                    <span class="inventory-quantity" id="stock-olio-5l">0</span>
+                </div>
+            </div>
+
+            <div class="card inventory-card">
+                <h3>🍯 Altri Prodotti</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">🍯 Miele</span>
+                    <span class="inventory-quantity" id="stock-miele">0 vasetti</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">🌰 Noci (1kg)</span>
+                    <span class="inventory-quantity" id="stock-noci">0 sacchi</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">🧀 Grattugiato</span>
+                    <span class="inventory-quantity" id="stock-grattugiato">0 buste</span>
+                </div>
+            </div>
+
+            <!-- MOVIMENTO MAGAZZINO -->
+            <div class="card">
+                <h3>📊 Movimento Ultimi 7 Giorni</h3>
+                <div class="chart-container">
+                    <canvas id="inventory-movement-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- ALERT SCORTE -->
+            <div class="card">
+                <h3>⚠️ Avvisi Scorte</h3>
+                <div id="stock-alerts">
+                    <p style="color: #94a3b8; text-align: center; font-size: 0.9em;">Caricamento avvisi...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: OGGI -->
+        <div id="oggi" class="page">
+            <div class="page-title">📅 Operazioni di Oggi</div>
+            
+            <!-- RIEPILOGO OGGI -->
+            <div class="cards-grid two-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="oggi-operations">0</div>
+                    <div class="stat-label">Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="oggi-revenue">€0</div>
+                    <div class="stat-label">Incasso</div>
+                </div>
+            </div>
+
+            <!-- OPERATORI ATTIVI OGGI -->
+            <div class="card">
+                <h3>👥 Operatori Attivi Oggi</h3>
+                <div class="chart-container small">
+                    <canvas id="oggi-operators-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- PRODOTTI VENDUTI OGGI -->
+            <div class="card">
+                <h3>📦 Prodotti Venduti Oggi</h3>
+                <div class="chart-container small">
+                    <canvas id="oggi-products-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- LISTA DETTAGLIATA OPERAZIONI -->
+            <div class="card">
+                <h3>📝 Dettaglio Operazioni</h3>
+                <div class="operations-list" id="oggi-operations-list">
+                    <p style="color: #94a3b8; text-align: center;">Caricamento operazioni...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: TEMPORALE -->
+        <div id="temporale" class="page">
+            <div class="page-title">⏰ Analisi Temporale</div>
+            
+            <!-- FILTRI AVANZATI -->
+            <div class="filters">
+                <h3>🔍 Selezione Periodo</h3>
+                <div class="filter-row">
+                    <div class="filter-row horizontal">
+                        <div class="filter-group">
+                            <label>Data Inizio</label>
+                            <input type="date" id="temp-start-date" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>Ora Inizio</label>
+                            <input type="time" id="temp-start-time" class="filter-input" value="08:00">
+                        </div>
+                    </div>
+                    <div class="filter-row horizontal">
+                        <div class="filter-group">
+                            <label>Data Fine</label>
+                            <input type="date" id="temp-end-date" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>Ora Fine</label>
+                            <input type="time" id="temp-end-time" class="filter-input" value="20:00">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Periodo Rapido</label>
+                        <select id="temp-quick-period" class="filter-select">
+                            <option value="today">Oggi</option>
+                            <option value="yesterday">Ieri</option>
+                            <option value="last7">Ultimi 7 giorni</option>
+                            <option value="last30">Ultimi 30 giorni</option>
+                            <option value="thisMonth">Questo mese</option>
+                            <option value="custom">Personalizzato</option>
+                        </select>
+                    </div>
+                    <button class="filter-button" onclick="applyTemporalFilter()">
+                        🔍 Analizza Periodo
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATISTICHE PERIODO -->
+            <div class="cards-grid three-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="temp-operations">0</div>
+                    <div class="stat-label">Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="temp-revenue">€0</div>
+                    <div class="stat-label">Incasso</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="temp-avg">0</div>
+                    <div class="stat-label">Media/Giorno</div>
+                </div>
+            </div>
+
+            <!-- GRAFICO PRODOTTI VENDUTI -->
+            <div class="card">
+                <h3>📊 Prodotti Venduti nel Periodo</h3>
+                <div class="chart-container">
+                    <canvas id="temp-products-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- LISTA OPERAZIONI DETTAGLIATA -->
+            <div class="card">
+                <h3>📝 Dettaglio Operazioni nel Periodo</h3>
+                <div class="operations-list" id="temp-operations-list">
+                    <p style="color: #94a3b8; text-align: center;">Seleziona un periodo per vedere le operazioni</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: OPERATORI -->
+        <div id="operatori" class="page">
+            <div class="page-title">👥 Analisi Operatori</div>
+            
+            <!-- FILTRO OPERATORE -->
+            <div class="filters">
+                <h3>👤 Seleziona Operatore</h3>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <select id="operator-filter" class="filter-select">
+                            <option value="">Tutti gli operatori</option>
+                        </select>
+                    </div>
+                    <div class="filter-row horizontal">
+                        <div class="filter-group">
+                            <label>Data Inizio</label>
+                            <input type="date" id="op-start-date" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>Data Fine</label>
+                            <input type="date" id="op-end-date" class="filter-input">
+                        </div>
+                    </div>
+                    <button class="filter-button" onclick="applyOperatorFilter()">
+                        📊 Analizza Operatore
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATISTICHE OPERATORE -->
+            <div class="cards-grid three-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-vendite">0</div>
+                    <div class="stat-label">Contanti</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-bancomat">0</div>
+                    <div class="stat-label">Bancomat</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-fatturati">0</div>
+                    <div class="stat-label">Fatturati</div>
+                </div>
+            </div>
+
+            <!-- CONFRONTO OPERATORI -->
+            <div class="card">
+                <h3>📊 Confronto Operatori (3 Categorie)</h3>
+                <div class="chart-container large">
+                    <canvas id="operators-comparison-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- PERFORMANCE ORARIA -->
+            <div class="card">
+                <h3>⏰ Performance Oraria</h3>
+                <div class="chart-container">
+                    <canvas id="operators-hourly-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- DETTAGLIO OPERATORE SELEZIONATO -->
+            <div class="card" id="operator-details-card" style="display: none;">
+                <h3>📋 Dettagli Operatore</h3>
+                <div id="operator-details-content">
+                    <!-- Popolato dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- STATUS MESSAGE -->
+        <div id="status-message"></div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('dashboard')">
+            <div class="nav-icon">📊</div>
+            <div class="nav-label">Dashboard</div>
+        </div>
+        <div class="nav-item" onclick="showPage('magazzino')">
+            <div class="nav-icon">📦</div>
+            <div class="nav-label">Magazzino</div>
+        </div>
+        <div class="nav-item" onclick="showPage('oggi')">
+            <div class="nav-icon">📅</div>
+            <div class="nav-label">Oggi</div>
+        </div>
+        <div class="nav-item" onclick="showPage('temporale')">
+            <div class="nav-icon">⏰</div>
+            <div class="nav-label">Temporale</div>
+        </div>
+        <div class="nav-item" onclick="showPage('operatori')">
+            <div class="nav-icon">👥</div>
+            <div class="nav-label">Operatori</div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURAZIONE SUPABASE
+        // ==========================================
+        const SUPABASE_URL = 'https://tpxcvmuzitdwhomgubjt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweGN2bXV6aXRkd2hvbWd1Ymp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1MDI1MjEsImV4cCI6MjA2NjA3ODUyMX0.FRlfOrUoiB1dKY8K39kjBd1rmi9pmv5tqbqUocTNp_A';
+
+        // Controlla configurazione
+        if (SUPABASE_URL === 'TUA_SUPABASE_URL' || SUPABASE_ANON_KEY === 'TUA_SUPABASE_ANON_KEY') {
+            document.getElementById('config-section').style.display = 'block';
+            showError('⚠️ Configurazione Supabase richiesta! Modifica le credenziali nel codice.');
+        }
+
+        // Inizializza Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ==========================================
+        // VARIABILI GLOBALI
+        // ==========================================
+        let allData = {
+            vendite: [],
+            fatturato: [],
+            prodotti_aggiunti: [],
+            produzione_cella_frigo: [],
+            soldi: []
+        };
+        let activeCharts = {};
+
+        // COLORI CATEGORIE
+        const CATEGORY_COLORS = {
+            contanti: '#10b981',    // Verde
+            bancomat: '#3b82f6',    // Blu
+            fatturato: '#8b5cf6'    // Viola
+        };
+
+        // ==========================================
+        // CARICAMENTO DATI
+        // ==========================================
+        async function loadAllData() {
+            try {
+                showStatus('📡 Caricamento dati da Supabase...');
+                
+                const [venditeRes, fatturatoRes, prodottiRes, produzioneRes, soldiRes] = await Promise.all([
+                    supabase.from('vendite').select('*').order('data', { ascending: false }),
+                    supabase.from('fatturato').select('*').order('data', { ascending: false }),
+                    supabase.from('prodotti_aggiunti').select('*').order('data', { ascending: false }),
+                    supabase.from('produzione_cella_frigo').select('*').order('data', { ascending: false }),
+                    supabase.from('soldi').select('*').order('data', { ascending: false })
+                ]);
+
+                if (venditeRes.error) throw venditeRes.error;
+                if (fatturatoRes.error) throw fatturatoRes.error;
+                if (prodottiRes.error) throw prodottiRes.error;
+                if (produzioneRes.error) throw produzioneRes.error;
+                if (soldiRes.error) throw soldiRes.error;
+
+                allData.vendite = venditeRes.data || [];
+                allData.fatturato = fatturatoRes.data || [];
+                allData.prodotti_aggiunti = prodottiRes.data || [];
+                allData.produzione_cella_frigo = produzioneRes.data || [];
+                allData.soldi = soldiRes.data || [];
+
+                console.log('✅ Dati caricati:', {
+                    vendite: allData.vendite.length,
+                    fatturato: allData.fatturato.length,
+                    prodotti: allData.prodotti_aggiunti.length,
+                    produzione: allData.produzione_cella_frigo.length,
+                    soldi: allData.soldi.length
+                });
+
+                showSuccess(`✅ ${allData.vendite.length + allData.fatturato.length} operazioni caricate`);
+                
+                // Popola filtri operatori
+                populateOperatorFilter();
+                
+                return true;
+
+            } catch (error) {
+                console.error('Errore caricamento:', error);
+                showError('❌ Errore: ' + error.message);
+                return false;
+            }
+        }
+
+        // ==========================================
+        // FUNZIONI CATEGORIZZAZIONE
+        // ==========================================
+        function categorizeOperations(venditeData, fatturatoData) {
+            const categories = {
+                contanti: venditeData || [],
+                bancomat: [],
+                fatturato: []
+            };
+
+            (fatturatoData || []).forEach(record => {
+                const fatturatore = (record.fatturatore || '').toLowerCase();
+                if (fatturatore === 'bancomat') {
+                    categories.bancomat.push(record);
+                } else {
+                    categories.fatturato.push(record);
+                }
+            });
+
+            return categories;
+        }
+
+        // ==========================================
+        // NAVIGAZIONE
+        // ==========================================
+        function showPage(pageId) {
+            // Nascondi tutte le pagine
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Rimuovi active da tutti i nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Mostra pagina selezionata
+            document.getElementById(pageId).classList.add('active');
+            
+            // Attiva nav item
+            event.currentTarget.classList.add('active');
+            
+            // Carica dati pagina
+            loadPageData(pageId);
+            
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadPageData(pageId) {
+            switch(pageId) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'magazzino':
+                    loadMagazzino();
+                    break;
+                case 'oggi':
+                    loadOggi();
+                    break;
+                case 'temporale':
+                    loadTemporale();
+                    break;
+                case 'operatori':
+                    loadOperatori();
+                    break;
+            }
+        }
+
+        // ==========================================
+        // DASHBOARD PRINCIPALE
+        // ==========================================
+        function loadDashboard() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayData = filterDataByDate(today, today);
+            
+            // Calcola statistiche oggi
+            const todayOps = todayData.vendite.length + todayData.fatturato.length;
+            let todayRevenue = 0;
+            todayData.vendite.forEach(v => todayRevenue += parseFloat(v.importo_inserito) || 0);
+            
+            // Operatori unici oggi
+            const operatorsToday = new Set();
+            [...todayData.vendite, ...todayData.fatturato].forEach(op => {
+                if (op.operatore) operatorsToday.add(op.operatore);
+            });
+            
+            // Aggiorna stats
+            document.getElementById('total-sales-today').textContent = todayOps;
+            document.getElementById('revenue-today').textContent = `€${Math.round(todayRevenue)}`;
+            document.getElementById('operators-today').textContent = operatorsToday.size;
+            
+            // Categorie
+            const categories = categorizeOperations(allData.vendite, allData.fatturato);
+            document.getElementById('stat-contanti').textContent = categories.contanti.length;
+            document.getElementById('stat-bancomat').textContent = categories.bancomat.length;
+            document.getElementById('stat-fatturati').textContent = categories.fatturato.length;
+            
+            // Crea grafici
+            createCategoriesChart(categories);
+            createWeeklyTrendChart();
+            createTopProductsChart();
+        }
+
+        function createCategoriesChart(categories) {
+            const ctx = document.getElementById('categories-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['categories']) {
+                activeCharts['categories'].destroy();
+            }
+            
+            activeCharts['categories'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Contanti', 'Bancomat', 'Fatturati'],
+                    datasets: [{
+                        data: [
+                            categories.contanti.length,
+                            categories.bancomat.length,
+                            categories.fatturato.length
+                        ],
+                        backgroundColor: [
+                            CATEGORY_COLORS.contanti,
+                            CATEGORY_COLORS.bancomat,
+                            CATEGORY_COLORS.fatturato
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#1e293b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createWeeklyTrendChart() {
+            const ctx = document.getElementById('weekly-trend-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['weekly-trend']) {
+                activeCharts['weekly-trend'].destroy();
+            }
+            
+            const days = [];
+            const data = {
+                contanti: [],
+                bancomat: [],
+                fatturato: []
+            };
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayLabel = date.getDate() + '/' + (date.getMonth() + 1);
+                days.push(dayLabel);
+                
+                const dayData = filterDataByDate(dateStr, dateStr);
+                const categories = categorizeOperations(dayData.vendite, dayData.fatturato);
+                
+                data.contanti.push(categories.contanti.length);
+                data.bancomat.push(categories.bancomat.length);
+                data.fatturato.push(categories.fatturato.length);
+            }
+            
+            activeCharts['weekly-trend'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [
+                        {
+                            label: 'Contanti',
+                            data: data.contanti,
+                            borderColor: CATEGORY_COLORS.contanti,
+                            backgroundColor: CATEGORY_COLORS.contanti + '20',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Bancomat',
+                            data: data.bancomat,
+                            borderColor: CATEGORY_COLORS.bancomat,
+                            backgroundColor: CATEGORY_COLORS.bancomat + '20',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Fatturati',
+                            data: data.fatturato,
+                            borderColor: CATEGORY_COLORS.fatturato,
+                            backgroundColor: CATEGORY_COLORS.fatturato + '20',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createTopProductsChart() {
+            const ctx = document.getElementById('top-products-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['top-products']) {
+                activeCharts['top-products'].destroy();
+            }
+            
+            const products = {};
+            const productNames = ['formaggio', 'forma_stagionata', 'ricotta', 'miele', 'olio_1l', 'noci_1kg', 'grattugiato'];
+            const productLabels = {
+                'formaggio': 'Formaggio',
+                'forma_stagionata': 'F.Stagionata',
+                'ricotta': 'Ricotta',
+                'miele': 'Miele',
+                'olio_1l': 'Olio 1L',
+                'noci_1kg': 'Noci',
+                'grattugiato': 'Grattugiato'
+            };
+            
+            productNames.forEach(p => products[p] = 0);
+            
+            [...allData.vendite, ...allData.fatturato].forEach(record => {
+                productNames.forEach(product => {
+                    products[product] += parseFloat(record[product]) || 0;
+                });
+            });
+            
+            const sortedProducts = Object.entries(products)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            activeCharts['top-products'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedProducts.map(([name]) => productLabels[name]),
+                    datasets: [{
+                        label: 'Quantità',
+                        data: sortedProducts.map(([, value]) => value),
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#1e293b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ==========================================
+        // MAGAZZINO
+        // ==========================================
+        function loadMagazzino() {
+            calculateCurrentStock();
+            createInventoryMovementChart();
+            generateStockAlerts();
+        }
+
+        function calculateCurrentStock() {
+            const stock = {
+                formaggio: 0,
+                forma_stagionata: 0,
+                ricotta: 0,
+                miele: 0,
+                olio_1l: 0,
+                olio_05l: 0,
+                olio_5l: 0,
+                noci_1kg: 0,
+                grattugiato: 0
+            };
+            
+            // Aggiungi prodotti in magazzino
+            allData.prodotti_aggiunti.forEach(record => {
+                Object.keys(stock).forEach(product => {
+                    stock[product] += parseFloat(record[product]) || 0;
+                });
+            });
+            
+            // Aggiungi produzione
+            allData.produzione_cella_frigo.forEach(record => {
+                stock.formaggio += parseFloat(record.forme) || 0;
+            });
+            
+            // Sottrai vendite
+            [...allData.vendite, ...allData.fatturato].forEach(record => {
+                Object.keys(stock).forEach(product => {
+                    stock[product] -= parseFloat(record[product]) || 0;
+                });
+            });
+            
+            // Aggiorna UI
+            document.getElementById('stock-forme-fresche').textContent = Math.round(stock.formaggio);
+            document.getElementById('stock-forme-stagionate').textContent = Math.round(stock.forma_stagionata);
+            document.getElementById('stock-ricotta').textContent = Math.round(stock.ricotta) + ' kg';
+            document.getElementById('stock-miele').textContent = Math.round(stock.miele);
+            document.getElementById('stock-olio-1l').textContent = Math.round(stock.olio_1l);
+            document.getElementById('stock-olio-05l').textContent = Math.round(stock.olio_05l || 0);
+            document.getElementById('stock-olio-5l').textContent = Math.round(stock.olio_5l || 0);
+            document.getElementById('stock-noci').textContent = Math.round(stock.noci_1kg);
+            document.getElementById('stock-grattugiato').textContent = Math.round(stock.grattugiato);
+            
+            // Colora in base alle scorte
+            Object.keys(stock).forEach(product => {
+                const value = stock[product];
+                const element = document.getElementById(`stock-${product.replace('_', '-')}`);
+                if (element) {
+                    element.classList.remove('low', 'critical');
+                    if (value < 5) element.classList.add('critical');
+                    else if (value < 10) element.classList.add('low');
+                }
+            });
+        }
+
+        function createInventoryMovementChart() {
+            const ctx = document.getElementById('inventory-movement-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['inventory-movement']) {
+                activeCharts['inventory-movement'].destroy();
+            }
+            
+            const days = [];
+            const aggiunti = [];
+            const venduti = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayLabel = date.getDate() + '/' + (date.getMonth() + 1);
+                days.push(dayLabel);
+                
+                let dayAggiunti = 0;
+                let dayVenduti = 0;
+                
+                allData.prodotti_aggiunti.forEach(record => {
+                    if (record.data === dateStr) {
+                        dayAggiunti += (parseFloat(record.formaggio) || 0) + 
+                                     (parseFloat(record.forma_stagionata) || 0);
+                    }
+                });
+                
+                [...allData.vendite, ...allData.fatturato].forEach(record => {
+                    if (record.data === dateStr) {
+                        dayVenduti += (parseFloat(record.formaggio) || 0) + 
+                                    (parseFloat(record.forma_stagionata) || 0);
+                    }
+                });
+                
+                aggiunti.push(dayAggiunti);
+                venduti.push(-dayVenduti);
+            }
+            
+            activeCharts['inventory-movement'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: days,
+                    datasets: [
+                        {
+                            label: 'Aggiunti',
+                            data: aggiunti,
+                            backgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'Venduti',
+                            data: venduti,
+                            backgroundColor: '#ef4444'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateStockAlerts() {
+            const alertsDiv = document.getElementById('stock-alerts');
+            const alerts = [];
+            
+            // Controlla scorte basse
+            const stockElements = [
+                { id: 'stock-forme-fresche', name: 'Forme Fresche', threshold: 10 },
+                { id: 'stock-forme-stagionate', name: 'Forme Stagionate', threshold: 5 },
+                { id: 'stock-ricotta', name: 'Ricotta', threshold: 5 },
+                { id: 'stock-miele', name: 'Miele', threshold: 10 },
+                { id: 'stock-olio-1l', name: 'Olio 1L', threshold: 20 }
+            ];
+            
+            stockElements.forEach(item => {
+                const element = document.getElementById(item.id);
+                if (element) {
+                    const value = parseInt(element.textContent);
+                    if (value < item.threshold) {
+                        const severity = value < item.threshold / 2 ? 'critical' : 'low';
+                        alerts.push({
+                            name: item.name,
+                            value: value,
+                            severity: severity,
+                            message: severity === 'critical' ? 
+                                `⚠️ ${item.name}: Solo ${value} rimanenti!` :
+                                `📉 ${item.name}: Scorta bassa (${value})`
+                        });
+                    }
+                }
+            });
+            
+            if (alerts.length === 0) {
+                alertsDiv.innerHTML = '<p style="color: #10b981; text-align: center;">✅ Tutte le scorte sono OK</p>';
+            } else {
+                alertsDiv.innerHTML = alerts.map(alert => 
+                    `<div class="operation-item" style="border-left-color: ${alert.severity === 'critical' ? '#ef4444' : '#f59e0b'}">
+                        ${alert.message}
+                    </div>`
+                ).join('');
+            }
+        }
+
+        // ==========================================
+        // OGGI
+        // ==========================================
+        function loadOggi() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayData = filterDataByDate(today, today);
+            
+            // Stats
+            const totalOps = todayData.vendite.length + todayData.fatturato.length;
+            let revenue = 0;
+            todayData.vendite.forEach(v => revenue += parseFloat(v.importo_inserito) || 0);
+            
+            document.getElementById('oggi-operations').textContent = totalOps;
+            document.getElementById('oggi-revenue').textContent = `€${Math.round(revenue)}`;
+            
+            // Grafici
+            createOggiOperatorsChart(todayData);
+            createOggiProductsChart(todayData);
+            displayOggiOperations(todayData);
+        }
+
+        function createOggiOperatorsChart(todayData) {
+            const ctx = document.getElementById('oggi-operators-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['oggi-operators']) {
+                activeCharts['oggi-operators'].destroy();
+            }
+            
+            const operators = {};
+            [...todayData.vendite, ...todayData.fatturato].forEach(record => {
+                const op = record.operatore;
+                if (!operators[op]) operators[op] = 0;
+                operators[op]++;
+            });
+            
+            const sortedOps = Object.entries(operators).sort((a, b) => b[1] - a[1]);
+            
+            activeCharts['oggi-operators'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedOps.map(([name]) => name.substring(0, 10)),
+                    datasets: [{
+                        label: 'Operazioni',
+                        data: sortedOps.map(([, count]) => count),
+                        backgroundColor: '#3b82f6',
+                        borderWidth: 2,
+                        borderColor: '#1e293b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOggiProductsChart(todayData) {
+            const ctx = document.getElementById('oggi-products-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['oggi-products']) {
+                activeCharts['oggi-products'].destroy();
+            }
+            
+            const products = {
+                'Formaggio': 0,
+                'F.Stagionata': 0,
+                'Ricotta': 0,
+                'Miele': 0,
+                'Olio 1L': 0
+            };
+            
+            [...todayData.vendite, ...todayData.fatturato].forEach(record => {
+                products['Formaggio'] += parseFloat(record.formaggio) || 0;
+                products['F.Stagionata'] += parseFloat(record.forma_stagionata) || 0;
+                products['Ricotta'] += parseFloat(record.ricotta) || 0;
+                products['Miele'] += parseFloat(record.miele) || 0;
+                products['Olio 1L'] += parseFloat(record.olio_1l) || 0;
+            });
+            
+            activeCharts['oggi-products'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(products),
+                    datasets: [{
+                        data: Object.values(products),
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#1e293b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayOggiOperations(todayData) {
+            const listDiv = document.getElementById('oggi-operations-list');
+            const allOps = [];
+            
+            // Aggiungi vendite
+            todayData.vendite.forEach(v => {
+                allOps.push({
+                    ...v,
+                    type: 'vendita',
+                    typeLabel: 'Contanti',
+                    time: v.ora || '00:00'
+                });
+            });
+            
+            // Aggiungi fatturato
+            todayData.fatturato.forEach(f => {
+                const fatturatore = (f.fatturatore || '').toLowerCase();
+                allOps.push({
+                    ...f,
+                    type: fatturatore === 'bancomat' ? 'bancomat' : 'fatturato',
+                    typeLabel: fatturatore === 'bancomat' ? 'Bancomat' : 'Fatturato',
+                    time: f.ora || '00:00'
+                });
+            });
+            
+            // Ordina per ora
+            allOps.sort((a, b) => (b.time || '').localeCompare(a.time || ''));
+            
+            if (allOps.length === 0) {
+                listDiv.innerHTML = '<p style="color: #94a3b8; text-align: center;">Nessuna operazione oggi</p>';
+                return;
+            }
+            
+            listDiv.innerHTML = allOps.map(op => {
+                const products = [];
+                if (op.formaggio > 0) products.push(`${op.formaggio} formaggio`);
+                if (op.forma_stagionata > 0) products.push(`${op.forma_stagionata} f.stagionata`);
+                if (op.ricotta > 0) products.push(`${op.ricotta} ricotta`);
+                if (op.miele > 0) products.push(`${op.miele} miele`);
+                if (op.olio_1l > 0) products.push(`${op.olio_1l} olio`);
+                
+                return `
+                    <div class="operation-item">
+                        <div class="operation-header">
+                            <span class="operation-time">${op.time}</span>
+                            <span class="operation-type ${op.type}">${op.typeLabel}</span>
+                        </div>
+                        <div class="operation-details">
+                            ${products.join(', ') || 'Nessun prodotto'}
+                            ${op.importo_inserito ? ` - €${op.importo_inserito}` : ''}
+                        </div>
+                        <div class="operation-operator">👤 ${op.operatore}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // TEMPORALE
+        // ==========================================
+        function loadTemporale() {
+            // Setup date con default ultimo giorno
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            document.getElementById('temp-start-date').value = yesterday.toISOString().split('T')[0];
+            document.getElementById('temp-end-date').value = today.toISOString().split('T')[0];
+            
+            // Quick period handler
+            document.getElementById('temp-quick-period').addEventListener('change', function() {
+                const period = this.value;
+                const today = new Date();
+                let start = new Date();
+                
+                switch(period) {
+                    case 'today':
+                        start = new Date();
+                        break;
+                    case 'yesterday':
+                        start = new Date();
+                        start.setDate(start.getDate() - 1);
+                        today.setDate(today.getDate() - 1);
+                        break;
+                    case 'last7':
+                        start.setDate(start.getDate() - 7);
+                        break;
+                    case 'last30':
+                        start.setDate(start.getDate() - 30);
+                        break;
+                    case 'thisMonth':
+                        start = new Date(today.getFullYear(), today.getMonth(), 1);
+                        break;
+                }
+                
+                if (period !== 'custom') {
+                    document.getElementById('temp-start-date').value = start.toISOString().split('T')[0];
+                    document.getElementById('temp-end-date').value = today.toISOString().split('T')[0];
+                }
+            });
+        }
+
+        function applyTemporalFilter() {
+            const startDate = document.getElementById('temp-start-date').value;
+            const endDate = document.getElementById('temp-end-date').value;
+            const startTime = document.getElementById('temp-start-time').value;
+            const endTime = document.getElementById('temp-end-time').value;
+            
+            if (!startDate || !endDate) {
+                showError('Seleziona le date');
+                return;
+            }
+            
+            const filteredData = filterDataByDateAndTime(startDate, endDate, startTime, endTime);
+            
+            // Aggiorna stats
+            const totalOps = filteredData.vendite.length + filteredData.fatturato.length;
+            let revenue = 0;
+            filteredData.vendite.forEach(v => revenue += parseFloat(v.importo_inserito) || 0);
+            
+            const daysDiff = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+            const dailyAvg = (totalOps / daysDiff).toFixed(1);
+            
+            document.getElementById('temp-operations').textContent = totalOps;
+            document.getElementById('temp-revenue').textContent = `€${Math.round(revenue)}`;
+            document.getElementById('temp-avg').textContent = dailyAvg;
+            
+            // Crea grafici
+            createTempProductsChart(filteredData);
+            displayTempOperations(filteredData);
+        }
+
+        function createTempProductsChart(filteredData) {
+            const ctx = document.getElementById('temp-products-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['temp-products']) {
+                activeCharts['temp-products'].destroy();
+            }
+            
+            const products = {
+                'Formaggio': 0,
+                'F.Stagionata': 0,
+                'Ricotta': 0,
+                'Miele': 0,
+                'Olio 1L': 0,
+                'Noci': 0,
+                'Grattugiato': 0
+            };
+            
+            [...filteredData.vendite, ...filteredData.fatturato].forEach(record => {
+                products['Formaggio'] += parseFloat(record.formaggio) || 0;
+                products['F.Stagionata'] += parseFloat(record.forma_stagionata) || 0;
+                products['Ricotta'] += parseFloat(record.ricotta) || 0;
+                products['Miele'] += parseFloat(record.miele) || 0;
+                products['Olio 1L'] += parseFloat(record.olio_1l) || 0;
+                products['Noci'] += parseFloat(record.noci_1kg) || 0;
+                products['Grattugiato'] += parseFloat(record.grattugiato) || 0;
+            });
+            
+            // Filtra solo prodotti con valore > 0
+            const filteredProducts = Object.entries(products).filter(([, value]) => value > 0);
+            
+            activeCharts['temp-products'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: filteredProducts.map(([name]) => name),
+                    datasets: [{
+                        label: 'Quantità',
+                        data: filteredProducts.map(([, value]) => value),
+                        backgroundColor: '#3b82f6',
+                        borderWidth: 2,
+                        borderColor: '#1e293b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayTempOperations(filteredData) {
+            const listDiv = document.getElementById('temp-operations-list');
+            const allOps = [];
+            
+            // Combina tutte le operazioni
+            filteredData.vendite.forEach(v => {
+                allOps.push({
+                    ...v,
+                    type: 'vendita',
+                    typeLabel: 'Contanti'
+                });
+            });
+            
+            filteredData.fatturato.forEach(f => {
+                const fatturatore = (f.fatturatore || '').toLowerCase();
+                allOps.push({
+                    ...f,
+                    type: fatturatore === 'bancomat' ? 'bancomat' : 'fatturato',
+                    typeLabel: fatturatore === 'bancomat' ? 'Bancomat' : `Fattura: ${f.fatturatore}`
+                });
+            });
+            
+            // Ordina per data e ora
+            allOps.sort((a, b) => {
+                const dateComp = (b.data || '').localeCompare(a.data || '');
+                if (dateComp !== 0) return dateComp;
+                return (b.ora || '').localeCompare(a.ora || '');
+            });
+            
+            if (allOps.length === 0) {
+                listDiv.innerHTML = '<p style="color: #94a3b8; text-align: center;">Nessuna operazione nel periodo</p>';
+                return;
+            }
+            
+            // Mostra massimo 50 operazioni
+            const opsToShow = allOps.slice(0, 50);
+            
+            listDiv.innerHTML = opsToShow.map(op => {
+                const products = [];
+                if (op.formaggio > 0) products.push(`${op.formaggio} formaggio`);
+                if (op.forma_stagionata > 0) products.push(`${op.forma_stagionata} f.stagionata`);
+                if (op.ricotta > 0) products.push(`${op.ricotta} ricotta`);
+                if (op.miele > 0) products.push(`${op.miele} miele`);
+                if (op.olio_1l > 0) products.push(`${op.olio_1l} olio`);
+                if (op.noci_1kg > 0) products.push(`${op.noci_1kg} noci`);
+                if (op.grattugiato > 0) products.push(`${op.grattugiato} grattugiato`);
+                
+                const date = new Date(op.data);
+                const dateStr = date.getDate() + '/' + (date.getMonth() + 1);
+                
+                return `
+                    <div class="operation-item">
+                        <div class="operation-header">
+                            <span class="operation-time">${dateStr} ${op.ora || ''}</span>
+                            <span class="operation-type ${op.type}">${op.typeLabel}</span>
+                        </div>
+                        <div class="operation-details">
+                            ${products.join(', ') || 'Nessun prodotto'}
+                            ${op.importo_inserito ? ` - €${op.importo_inserito}` : ''}
+                        </div>
+                        <div class="operation-operator">👤 ${op.operatore}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (allOps.length > 50) {
+                listDiv.innerHTML += `<p style="color: #94a3b8; text-align: center; margin-top: 10px;">
+                    Mostrate 50 di ${allOps.length} operazioni
+                </p>`;
+            }
+        }
+
+        // ==========================================
+        // OPERATORI
+        // ==========================================
+        function loadOperatori() {
+            // Setup date
+            const today = new Date();
+            const lastMonth = new Date();
+            lastMonth.setDate(lastMonth.getDate() - 30);
+            
+            document.getElementById('op-start-date').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('op-end-date').value = today.toISOString().split('T')[0];
+            
+            // Carica grafici iniziali
+            createOperatorsComparisonChart();
+            createOperatorsHourlyChart();
+        }
+
+        function populateOperatorFilter() {
+            const select = document.getElementById('operator-filter');
+            if (!select) return;
+            
+            const operators = new Set();
+            [...allData.vendite, ...allData.fatturato].forEach(record => {
+                if (record.operatore) operators.add(record.operatore);
+            });
+            
+            const sortedOps = Array.from(operators).sort();
+            select.innerHTML = '<option value="">Tutti gli operatori</option>';
+            sortedOps.forEach(op => {
+                select.innerHTML += `<option value="${op}">${op}</option>`;
+            });
+        }
+
+        function applyOperatorFilter() {
+            const operator = document.getElementById('operator-filter').value;
+            const startDate = document.getElementById('op-start-date').value;
+            const endDate = document.getElementById('op-end-date').value;
+            
+            let filteredData = filterDataByDate(startDate, endDate);
+            
+            if (operator) {
+                // Filtra per operatore specifico
+                filteredData = {
+                    vendite: filteredData.vendite.filter(v => v.operatore === operator),
+                    fatturato: filteredData.fatturato.filter(f => f.operatore === operator)
+                };
+                
+                // Mostra dettagli operatore
+                showOperatorDetails(operator, filteredData);
+            }
+            
+            // Aggiorna stats
+            const categories = categorizeOperations(filteredData.vendite, filteredData.fatturato);
+            document.getElementById('op-vendite').textContent = categories.contanti.length;
+            document.getElementById('op-bancomat').textContent = categories.bancomat.length;
+            document.getElementById('op-fatturati').textContent = categories.fatturato.length;
+            
+            // Aggiorna grafici
+            createOperatorsComparisonChart(operator);
+            createOperatorsHourlyChart(operator);
+        }
+
+        function createOperatorsComparisonChart(selectedOperator = null) {
+            const ctx = document.getElementById('operators-comparison-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['operators-comparison']) {
+                activeCharts['operators-comparison'].destroy();
+            }
+            
+            const operatorStats = {};
+            
+            // Raccogli dati per tutti gli operatori
+            [...allData.vendite, ...allData.fatturato].forEach(record => {
+                const op = record.operatore;
+                if (!operatorStats[op]) {
+                    operatorStats[op] = { contanti: 0, bancomat: 0, fatturato: 0 };
+                }
+            });
+            
+            // Categorizza
+            allData.vendite.forEach(v => {
+                operatorStats[v.operatore].contanti++;
+            });
+            
+            allData.fatturato.forEach(f => {
+                const fatturatore = (f.fatturatore || '').toLowerCase();
+                if (fatturatore === 'bancomat') {
+                    operatorStats[f.operatore].bancomat++;
+                } else {
+                    operatorStats[f.operatore].fatturato++;
+                }
+            });
+            
+            let operators = Object.keys(operatorStats);
+            if (selectedOperator) {
+                operators = operators.filter(op => op === selectedOperator);
+            }
+            
+            activeCharts['operators-comparison'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: operators.map(op => op.substring(0, 10)),
+                    datasets: [
+                        {
+                            label: 'Contanti',
+                            data: operators.map(op => operatorStats[op].contanti),
+                            backgroundColor: CATEGORY_COLORS.contanti
+                        },
+                        {
+                            label: 'Bancomat',
+                            data: operators.map(op => operatorStats[op].bancomat),
+                            backgroundColor: CATEGORY_COLORS.bancomat
+                        },
+                        {
+                            label: 'Fatturati',
+                            data: operators.map(op => operatorStats[op].fatturato),
+                            backgroundColor: CATEGORY_COLORS.fatturato
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            stacked: true,
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            stacked: true,
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOperatorsHourlyChart(selectedOperator = null) {
+            const ctx = document.getElementById('operators-hourly-chart');
+            if (!ctx) return;
+            
+            if (activeCharts['operators-hourly']) {
+                activeCharts['operators-hourly'].destroy();
+            }
+            
+            const hours = Array.from({length: 13}, (_, i) => `${i + 8}:00`);
+            const hourlyData = {};
+            hours.forEach(h => hourlyData[h] = 0);
+            
+            let dataToAnalyze = [...allData.vendite, ...allData.fatturato];
+            if (selectedOperator) {
+                dataToAnalyze = dataToAnalyze.filter(d => d.operatore === selectedOperator);
+            }
+            
+            dataToAnalyze.forEach(record => {
+                if (record.ora) {
+                    const hour = record.ora.split(':')[0] + ':00';
+                    if (hourlyData[hour] !== undefined) {
+                        hourlyData[hour]++;
+                    }
+                }
+            });
+            
+            activeCharts['operators-hourly'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: hours,
+                    datasets: [{
+                        label: selectedOperator ? `${selectedOperator}` : 'Tutte le operazioni',
+                        data: hours.map(h => hourlyData[h]),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function showOperatorDetails(operator, filteredData) {
+            const detailsCard = document.getElementById('operator-details-card');
+            const detailsContent = document.getElementById('operator-details-content');
+            
+            if (!operator) {
+                detailsCard.style.display = 'none';
+                return;
+            }
+            
+            // Calcola statistiche dettagliate
+            let totalRevenue = 0;
+            let totalProducts = 0;
+            const productsSold = {};
+            
+            [...filteredData.vendite, ...filteredData.fatturato].forEach(record => {
+                totalRevenue += parseFloat(record.importo_inserito) || 0;
+                
+                ['formaggio', 'forma_stagionata', 'ricotta', 'miele', 'olio_1l'].forEach(product => {
+                    const qty = parseFloat(record[product]) || 0;
+                    if (qty > 0) {
+                        if (!productsSold[product]) productsSold[product] = 0;
+                        productsSold[product] += qty;
+                        totalProducts += qty;
+                    }
+                });
+            });
+            
+            const productLabels = {
+                'formaggio': 'Formaggio',
+                'forma_stagionata': 'F.Stagionata',
+                'ricotta': 'Ricotta',
+                'miele': 'Miele',
+                'olio_1l': 'Olio 1L'
+            };
+            
+            detailsContent.innerHTML = `
+                <div style="padding: 10px;">
+                    <h4 style="color: #60a5fa; margin-bottom: 10px;">👤 ${operator}</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div style="background: rgba(15, 23, 42, 0.5); padding: 8px; border-radius: 6px;">
+                            <div style="color: #94a3b8; font-size: 0.8em;">Incasso Totale</div>
+                            <div style="color: #10b981; font-size: 1.2em; font-weight: bold;">€${Math.round(totalRevenue)}</div>
+                        </div>
+                        <div style="background: rgba(15, 23, 42, 0.5); padding: 8px; border-radius: 6px;">
+                            <div style="color: #94a3b8; font-size: 0.8em;">Prodotti Venduti</div>
+                            <div style="color: #3b82f6; font-size: 1.2em; font-weight: bold;">${Math.round(totalProducts)}</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 10px; border-radius: 6px;">
+                        <div style="color: #94a3b8; font-size: 0.8em; margin-bottom: 5px;">Dettaglio Prodotti:</div>
+                        ${Object.entries(productsSold)
+                            .map(([product, qty]) => 
+                                `<div style="display: flex; justify-content: space-between; padding: 3px 0;">
+                                    <span style="color: #cbd5e1; font-size: 0.85em;">${productLabels[product]}</span>
+                                    <span style="color: #60a5fa; font-weight: bold;">${Math.round(qty)}</span>
+                                </div>`
+                            ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            detailsCard.style.display = 'block';
+        }
+
+        // ==========================================
+        // FUNZIONI UTILITY
+        // ==========================================
+        function filterDataByDate(startDate, endDate) {
+            return {
+                vendite: allData.vendite.filter(v => v.data >= startDate && v.data <= endDate),
+                fatturato: allData.fatturato.filter(f => f.data >= startDate && f.data <= endDate)
+            };
+        }
+
+        function filterDataByDateAndTime(startDate, endDate, startTime, endTime) {
+            return {
+                vendite: allData.vendite.filter(v => {
+                    if (v.data < startDate || v.data > endDate) return false;
+                    if (v.data === startDate && v.ora < startTime) return false;
+                    if (v.data === endDate && v.ora > endTime) return false;
+                    return true;
+                }),
+                fatturato: allData.fatturato.filter(f => {
+                    if (f.data < startDate || f.data > endDate) return false;
+                    if (f.data === startDate && f.ora < startTime) return false;
+                    if (f.data === endDate && f.ora > endTime) return false;
+                    return true;
+                })
+            };
+        }
+
+        function showStatus(message) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.innerHTML = `<div class="loading">${message}</div>`;
+        }
+
+        function showSuccess(message) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.innerHTML = `<div class="success">${message}</div>`;
+            setTimeout(() => statusDiv.innerHTML = '', 3000);
+        }
+
+        function showError(message) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        // ==========================================
+        // INIZIALIZZAZIONE
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Dashboard PRO v2.0 avviata');
+            
+            if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
+                const success = await loadAllData();
+                if (success) {
+                    loadDashboard();
+                } else {
+                    showError('❌ Impossibile caricare i dati');
+                }
+            } else {
+                showError('⚠️ Configura Supabase prima di continuare');
+            }
+        });
+
+        // Prevent zoom on iOS
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        });
+        
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
 </body>
 </html>
