@@ -2072,15 +2072,11 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('📱 Dashboard Mobile - Magazzino Corretto avviata');
             
-            if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
-                const success = await loadAllData();
-                if (success) {
-                    loadDashboard();
-                } else {
-                    showError('❌ Impossibile caricare i dati. Controlla Supabase.');
-                }
+            const success = await loadAllData();
+            if (success) {
+                loadDashboard();
             } else {
-                showError('⚠️ Configurazione Supabase richiesta');
+                showError('❌ Impossibile caricare i dati. Controlla Supabase.');
             }
         });
 
@@ -2092,4 +2088,4 @@
         });
     </script>
 </body>
-                            </html>
+</html>
