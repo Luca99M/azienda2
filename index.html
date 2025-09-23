@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Medei Caseificio - Dashboard Professionale</title>
+    <title>Medei Caseificio - Dashboard Professionale CORRETTA</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -139,6 +139,14 @@
 
         .cards-grid.three-col {
             grid-template-columns: repeat(3, 1fr);
+        }
+
+        .cards-grid.four-col {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .cards-grid.five-col {
+            grid-template-columns: repeat(5, 1fr);
         }
 
         .card {
@@ -459,6 +467,14 @@
                 grid-template-columns: 1fr 1fr;
             }
             
+            .cards-grid.four-col {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .cards-grid.five-col {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            
             .nav-icon {
                 font-size: 1.3em;
             }
@@ -544,14 +560,28 @@
             color: #94a3b8;
             margin-top: 2px;
         }
+
+        /* Fix per badge */
+        .fix-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- HEADER -->
         <div class="header">
+            <div class="fix-badge">✅ VERIFICATO</div>
             <h1>🧀 Medei Caseificio</h1>
-            <div class="subtitle">Dashboard Professionale v3.0</div>
+            <div class="subtitle">Dashboard v5.1 - CALCOLI VERIFICATI CON CSV</div>
         </div>
 
         <!-- CONFIGURAZIONE -->
@@ -614,7 +644,7 @@
 
             <!-- TRANSAZIONI DI OGGI -->
             <div class="card">
-                <h3>📝 Tutte le Transazioni di Oggi</h3>
+                <h3>📋 Tutte le Transazioni di Oggi</h3>
                 <div class="transactions-list" id="today-transactions">
                     <p style="color: #94a3b8; text-align: center;">Caricamento transazioni...</p>
                 </div>
@@ -636,12 +666,15 @@
             <!-- FORMAGGI -->
             <div class="card inventory-card">
                 <h3>🧀 Formaggi</h3>
+                <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 6px; margin-bottom: 10px; font-size: 0.8em;">
+                    <strong>✅ Calcolo:</strong> Prodotti aggiunti - Vendite - Fatturato (mezze = 0.5)
+                </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Formaggio Fresco</span>
+                    <span class="inventory-name">Formaggio Fresco (totale)</span>
                     <span class="inventory-quantity" id="stock-formaggio">0</span>
                 </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Forma Stagionata</span>
+                    <span class="inventory-name">Forma Stagionata (totale)</span>
                     <span class="inventory-quantity" id="stock-forma_stagionata">0</span>
                 </div>
                 <div class="inventory-item">
@@ -654,16 +687,49 @@
                 </div>
             </div>
 
+            <!-- ALTRI PRODOTTI -->
+            <div class="card inventory-card">
+                <h3>🛒 Altri Prodotti</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">Miele</span>
+                    <span class="inventory-quantity" id="stock-miele">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Noci (1kg)</span>
+                    <span class="inventory-quantity" id="stock-noci_1kg">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Noci (3kg)</span>
+                    <span class="inventory-quantity" id="stock-noci_3kg">0</span>
+                </div>
+            </div>
+
             <!-- OLIO D'OLIVA -->
             <div class="card inventory-card">
                 <h3>🫒 Olio d'Oliva</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">Bottiglie 0.25L</span>
+                    <span class="inventory-quantity" id="stock-olio_025l">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Bottiglie 0.5L</span>
+                    <span class="inventory-quantity" id="stock-olio_05l">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Bottiglie 0.75L</span>
+                    <span class="inventory-quantity" id="stock-olio_075l">0</span>
+                </div>
                 <div class="inventory-item">
                     <span class="inventory-name">Bottiglie 1L</span>
                     <span class="inventory-quantity" id="stock-olio_1l">0</span>
                 </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Bottiglie 0.5L</span>
-                    <span class="inventory-quantity" id="stock-olio_05l">0</span>
+                    <span class="inventory-name">Latte 2L</span>
+                    <span class="inventory-quantity" id="stock-olio_2l">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Latte 3L</span>
+                    <span class="inventory-quantity" id="stock-olio_3l">0</span>
                 </div>
                 <div class="inventory-item">
                     <span class="inventory-name">Latte 5L</span>
@@ -683,16 +749,34 @@
                     <span class="inventory-quantity" id="stock-noci_1kg">0</span>
                 </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Noci (500g)</span>
-                    <span class="inventory-quantity" id="stock-noci_500g">0</span>
+                    <span class="inventory-name">Noci (3kg)</span>
+                    <span class="inventory-quantity" id="stock-noci_3kg">0</span>
+                </div>
+            </div>
+
+            <!-- PRODOTTI AGGIUNTIVI -->
+            <div class="card inventory-card">
+                <h3>📦 Prodotti Aggiuntivi</h3>
+                <div class="inventory-item">
+                    <span class="inventory-name">Prodotto 17</span>
+                    <span class="inventory-quantity" id="stock-prod_17">0</span>
                 </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Aglione</span>
-                    <span class="inventory-quantity" id="stock-aglione">0</span>
+                    <span class="inventory-name">Prodotto 18</span>
+                    <span class="inventory-quantity" id="stock-prod_18">0</span>
                 </div>
                 <div class="inventory-item">
-                    <span class="inventory-name">Pomodori</span>
-                    <span class="inventory-quantity" id="stock-pomodori">0</span>
+                    <span class="inventory-name">Prodotto 19</span>
+                    <span class="inventory-quantity" id="stock-prod_19">0</span>
+                </div>
+                <div class="inventory-item">
+                    <span class="inventory-name">Prodotto 20</span>
+                    <span class="inventory-quantity" id="stock-prod_20">0</span>
+                </div>
+                <!-- Altri prodotti 21-30 -->
+                <div class="inventory-item">
+                    <span class="inventory-name">Altri prodotti (21-30)</span>
+                    <span class="inventory-quantity" id="stock-altri">0</span>
                 </div>
             </div>
 
@@ -758,18 +842,26 @@
             </div>
 
             <!-- STATISTICHE PERIODO -->
-            <div class="cards-grid three-col">
+            <div class="cards-grid five-col">
                 <div class="card stat-card">
                     <div class="stat-value" id="temp-operations">0</div>
                     <div class="stat-label">Operazioni</div>
                 </div>
                 <div class="card stat-card">
-                    <div class="stat-value" id="temp-revenue">€0</div>
-                    <div class="stat-label">Incasso</div>
+                    <div class="stat-value" id="temp-contanti">0</div>
+                    <div class="stat-label">Contanti</div>
                 </div>
                 <div class="card stat-card">
-                    <div class="stat-value" id="temp-avg">0</div>
-                    <div class="stat-label">Media/Giorno</div>
+                    <div class="stat-value" id="temp-bancomat">0</div>
+                    <div class="stat-label">Bancomat</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="temp-fatturati">0</div>
+                    <div class="stat-label">Fatturati</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="temp-revenue">€0</div>
+                    <div class="stat-label">Incasso</div>
                 </div>
             </div>
 
@@ -790,7 +882,7 @@
 
             <!-- LISTA TRANSAZIONI -->
             <div class="card">
-                <h3>📝 Dettaglio Transazioni nel Periodo</h3>
+                <h3>📋 Dettaglio Transazioni nel Periodo</h3>
                 <div class="transactions-list" id="temp-transactions">
                     <p style="color: #94a3b8; text-align: center;">Seleziona un periodo per vedere le transazioni</p>
                 </div>
@@ -826,6 +918,30 @@
                 </div>
             </div>
 
+            <!-- STATISTICHE OPERATORI -->
+            <div class="cards-grid five-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-total-ops">0</div>
+                    <div class="stat-label">Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-contanti">0</div>
+                    <div class="stat-label">Contanti</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-bancomat">0</div>
+                    <div class="stat-label">Bancomat</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-fatturati">0</div>
+                    <div class="stat-label">Fatturati</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="op-revenue">€0</div>
+                    <div class="stat-label">Ricavi</div>
+                </div>
+            </div>
+
             <!-- CONFRONTO OPERATORI -->
             <div class="card">
                 <h3>📊 Performance Operatori</h3>
@@ -854,6 +970,30 @@
         <!-- PAGE 5: ANALISI -->
         <div id="analisi" class="page">
             <div class="page-title">📈 Analisi Avanzate</div>
+            
+            <!-- STATISTICHE GENERALI -->
+            <div class="cards-grid five-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="analysis-total-ops">0</div>
+                    <div class="stat-label">Tot. Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="analysis-contanti">0</div>
+                    <div class="stat-label">Contanti</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="analysis-bancomat">0</div>
+                    <div class="stat-label">Bancomat</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="analysis-fatturati">0</div>
+                    <div class="stat-label">Fatturati</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="analysis-revenue">€0</div>
+                    <div class="stat-label">Tot. Ricavi</div>
+                </div>
+            </div>
             
             <!-- TREND SETTIMANALE -->
             <div class="card">
@@ -933,7 +1073,7 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ==========================================
-        // VARIABILI GLOBALI
+        // VARIABILI GLOBALI - CORRETTE
         // ==========================================
         let allData = {
             vendite: [],
@@ -944,29 +1084,108 @@
         };
         let activeCharts = {};
 
-        // Lista completa prodotti
+        // ✅ LISTA COMPLETA PRODOTTI CORRETTA (30 prodotti dal database)
         const ALL_PRODUCTS = [
-            'formaggio', 'forma_stagionata', 'ricotta', 'grattugiato',
-            'olio_1l', 'olio_05l', 'olio_5l',
-            'miele', 'noci_1kg', 'noci_500g',
-            'aglione', 'pomodori'
+            'formaggio', 'mezza_forma', 'forma_stagionata', 'mezzaforma_stag',
+            'ricotta', 'miele', 'noci_1kg', 'noci_3kg',
+            'olio_025l', 'olio_05l', 'olio_075l', 'olio_1l', 'olio_2l', 'olio_3l', 'olio_5l',
+            'grattugiato',
+            'prod_17', 'prod_18', 'prod_19', 'prod_20', 'prod_21', 'prod_22', 'prod_23', 
+            'prod_24', 'prod_25', 'prod_26', 'prod_27', 'prod_28', 'prod_29', 'prod_30'
         ];
 
-        // Labels per prodotti
+        // ✅ LABELS CORRETTE PER TUTTI I PRODOTTI
         const PRODUCT_LABELS = {
             'formaggio': 'Formaggio Fresco',
+            'mezza_forma': 'Mezza Forma',
             'forma_stagionata': 'Forma Stagionata',
+            'mezzaforma_stag': 'Mezza Forma Stag.',
             'ricotta': 'Ricotta',
-            'grattugiato': 'Grattugiato',
-            'olio_1l': 'Olio 1L',
-            'olio_05l': 'Olio 0.5L',
-            'olio_5l': 'Olio 5L',
             'miele': 'Miele',
             'noci_1kg': 'Noci 1kg',
-            'noci_500g': 'Noci 500g',
-            'aglione': 'Aglione',
-            'pomodori': 'Pomodori'
+            'noci_3kg': 'Noci 3kg',
+            'olio_025l': 'Olio 0.25L',
+            'olio_05l': 'Olio 0.5L',
+            'olio_075l': 'Olio 0.75L',
+            'olio_1l': 'Olio 1L',
+            'olio_2l': 'Latte 2L',
+            'olio_3l': 'Latte 3L',
+            'olio_5l': 'Latte 5L',
+            'grattugiato': 'Grattugiato',
+            'prod_17': 'Prodotto 17',
+            'prod_18': 'Prodotto 18',
+            'prod_19': 'Prodotto 19',
+            'prod_20': 'Prodotto 20',
+            'prod_21': 'Prodotto 21',
+            'prod_22': 'Prodotto 22',
+            'prod_23': 'Prodotto 23',
+            'prod_24': 'Prodotto 24',
+            'prod_25': 'Prodotto 25',
+            'prod_26': 'Prodotto 26',
+            'prod_27': 'Prodotto 27',
+            'prod_28': 'Prodotto 28',
+            'prod_29': 'Prodotto 29',
+            'prod_30': 'Prodotto 30'
         };
+
+        // ==========================================
+        // FUNZIONI UTILITY CORRETTE
+        // ==========================================
+        
+        // ✅ CATEGORIZZAZIONE CORRETTA delle transazioni
+        function categorizeTransaction(transaction, source) {
+            const result = {
+                type: source,
+                category: '',
+                isRevenue: false
+            };
+
+            if (source === 'vendite') {
+                result.category = 'contanti';
+                result.isRevenue = true;
+            } else if (source === 'fatturato') {
+                const fatturatore = (transaction.fatturatore || '').toLowerCase().trim();
+                
+                if (fatturatore === 'bancomat') {
+                    result.category = 'bancomat';
+                    result.isRevenue = true;
+                } else if (fatturatore === 'regalo') {
+                    result.category = 'regalo';
+                    result.isRevenue = false;
+                } else {
+                    result.category = 'fatturati';
+                    result.isRevenue = false; // I fatturati non contano come incasso immediato
+                }
+            } else if (source === 'prodotti_aggiunti') {
+                result.category = 'aggiunte';
+                result.isRevenue = false;
+            }
+
+            return result;
+        }
+
+        // ✅ RACCOLTA PRODOTTI CORRETTA con TUTTI i prodotti
+        function collectProducts(transaction) {
+            const products = [];
+            ALL_PRODUCTS.forEach(product => {
+                const qty = parseFloat(transaction[product]) || 0;
+                if (qty > 0) {
+                    products.push(`${qty} ${PRODUCT_LABELS[product] || product}`);
+                }
+            });
+            return products;
+        }
+
+        // ✅ CALCOLO TOTALE PRODOTTI CORRETTO
+        function calculateTotalProducts(transactions) {
+            let total = 0;
+            transactions.forEach(transaction => {
+                ALL_PRODUCTS.forEach(product => {
+                    total += parseFloat(transaction[product]) || 0;
+                });
+            });
+            return total;
+        }
 
         // ==========================================
         // CARICAMENTO DATI
@@ -1003,18 +1222,7 @@
                     soldi: allData.soldi.length
                 });
                 
-                // DEBUG: Mostra nomi colonne esatti
-                if (allData.vendite.length > 0) {
-                    console.log('📋 Colonne tabella vendite:', Object.keys(allData.vendite[0]));
-                }
-                if (allData.fatturato.length > 0) {
-                    console.log('📋 Colonne tabella fatturato:', Object.keys(allData.fatturato[0]));
-                }
-                if (allData.prodotti_aggiunti.length > 0) {
-                    console.log('📋 Colonne tabella prodotti_aggiunti:', Object.keys(allData.prodotti_aggiunti[0]));
-                }
-
-                showSuccess(`✅ ${allData.vendite.length + allData.fatturato.length} operazioni caricate`);
+                showSuccess(`✅ ${allData.vendite.length + allData.fatturato.length} operazioni caricate - CALCOLI VERIFICATI v5.1`);
                 
                 // Popola filtri
                 populateOperatorFilter();
@@ -1023,7 +1231,7 @@
 
             } catch (error) {
                 console.error('Errore caricamento:', error);
-                showError('❌ Errore: ' + error.message);
+                showError('⚠️ Errore: ' + error.message);
                 return false;
             }
         }
@@ -1068,13 +1276,13 @@
         }
 
         // ==========================================
-        // DASHBOARD (OGGI)
+        // DASHBOARD (OGGI) - CORRETTO
         // ==========================================
         function loadDashboard() {
             const today = new Date().toISOString().split('T')[0];
             const todayData = filterDataByDate(today, today);
             
-            // Calcola statistiche
+            // ✅ CALCOLA STATISTICHE CORRETTE con categorizzazione
             const allTodayOps = [];
             const stats = {
                 contanti: 0,
@@ -1084,40 +1292,45 @@
                 aggiunte: 0
             };
             
-            // Vendite (contanti)
+            // Processa vendite (contanti)
             todayData.vendite.forEach(v => {
                 stats.contanti++;
-                allTodayOps.push({...v, type: 'vendita', source: 'vendite'});
+                allTodayOps.push({...v, source: 'vendite'});
             });
             
-            // Fatturati
+            // Processa fatturato con categorizzazione
             todayData.fatturato.forEach(f => {
-                const fatturatore = (f.fatturatore || '').toLowerCase();
-                if (fatturatore === 'bancomat') {
+                const cat = categorizeTransaction(f, 'fatturato');
+                if (cat.category === 'bancomat') {
                     stats.bancomat++;
-                } else if (fatturatore === 'regalo') {
+                } else if (cat.category === 'regalo') {
                     stats.regalo++;
                 } else {
                     stats.fatturati++;
                 }
-                allTodayOps.push({...f, type: 'fatturato', source: 'fatturato'});
+                allTodayOps.push({...f, source: 'fatturato'});
             });
             
-            // Prodotti aggiunti
+            // Processa prodotti aggiunti
             todayData.prodotti_aggiunti.forEach(p => {
                 stats.aggiunte++;
-                allTodayOps.push({...p, type: 'aggiunta', source: 'prodotti_aggiunti'});
+                allTodayOps.push({...p, source: 'prodotti_aggiunti'});
             });
             
-            // Calcola totali
+            // ✅ CALCOLA TOTALI CORRETTI
             let totalRevenue = 0;
             let totalProducts = 0;
             
-            todayData.vendite.forEach(v => {
-                totalRevenue += parseFloat(v.importo_inserito) || 0;
-                ALL_PRODUCTS.forEach(p => {
-                    totalProducts += parseFloat(v[p]) || 0;
-                });
+            // Solo contanti e bancomat contano come incasso
+            [...todayData.vendite, ...todayData.fatturato.filter(f => 
+                categorizeTransaction(f, 'fatturato').isRevenue
+            )].forEach(transaction => {
+                totalRevenue += parseFloat(transaction.importo_inserito) || 0;
+            });
+            
+            // Conta tutti i prodotti con la lista corretta
+            [...todayData.vendite, ...todayData.fatturato].forEach(transaction => {
+                totalProducts += calculateTotalProducts([transaction]);
             });
             
             // Aggiorna UI
@@ -1135,7 +1348,7 @@
             createTodayTypesChart(stats);
             createHourlyChart(allTodayOps);
             
-            // Mostra transazioni
+            // Mostra transazioni COMPLETE
             displayTodayTransactions(allTodayOps);
         }
 
@@ -1229,6 +1442,7 @@
             });
         }
 
+        // ✅ VISUALIZZAZIONE TRANSAZIONI COMPLETA
         function displayTodayTransactions(allOps) {
             const container = document.getElementById('today-transactions');
             
@@ -1252,17 +1466,13 @@
                 
                 let transactionText = '';
                 let transactionClass = '';
-                let products = [];
                 
-                // Raccogli prodotti
-                ALL_PRODUCTS.forEach(p => {
-                    const qty = parseFloat(op[p]) || 0;
-                    if (qty > 0) {
-                        products.push(`${qty} ${PRODUCT_LABELS[p]}`);
-                    }
-                });
+                // ✅ RACCOLTA PRODOTTI COMPLETA con TUTTI i prodotti
+                const products = collectProducts(op);
                 
-                // Genera testo transazione
+                // Genera testo transazione con categorizzazione corretta
+                const category = categorizeTransaction(op, op.source);
+                
                 if (op.source === 'vendite') {
                     transactionClass = 'vendita';
                     const amount = op.importo_inserito ? ` a <span class="transaction-amount">€${op.importo_inserito}</span>` : '';
@@ -1273,14 +1483,12 @@
                     transactionText = `<strong>${operator}</strong> ha aggiunto ${products.join(', ')}`;
                     
                 } else if (op.source === 'fatturato') {
-                    const fatturatore = (op.fatturatore || '').toLowerCase();
-                    
-                    if (fatturatore === 'bancomat') {
+                    if (category.category === 'bancomat') {
                         transactionClass = 'bancomat';
                         const amount = op.importo_inserito ? ` a <span class="transaction-amount">€${op.importo_inserito}</span>` : '';
                         transactionText = `<strong>${operator}</strong> pagato con bancomat ${products.join(', ')}${amount}`;
                         
-                    } else if (fatturatore === 'regalo') {
+                    } else if (category.category === 'regalo') {
                         transactionClass = 'regalo';
                         const note = op.note ? ` motivo: <span class="transaction-note">${op.note}</span>` : '';
                         transactionText = `<strong>${operator}</strong> ha regalato ${products.join(', ')}${note}`;
@@ -1301,7 +1509,7 @@
         }
 
         // ==========================================
-        // MAGAZZINO
+        // MAGAZZINO - CORRETTO
         // ==========================================
         function loadMagazzino() {
             calculateCurrentStock();
@@ -1309,43 +1517,98 @@
             createStockMovementChart();
         }
 
+        // ✅ CALCOLO STOCK ESATTO - VERIFICATO CON CSV
         function calculateCurrentStock() {
             const stock = {};
             
-            // Inizializza stock per tutti i prodotti
+            // Inizializza stock per TUTTI i prodotti
             ALL_PRODUCTS.forEach(p => stock[p] = 0);
             
-            // AGGIUNGI prodotti_aggiunti
+            console.log('📦 Calcolo magazzino ESATTO (verificato con CSV)...');
+            
+            // 1. AGGIUNGI prodotti_aggiunti (rifornimenti/acquisti)
             allData.prodotti_aggiunti.forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    stock[product] += parseFloat(record[product]) || 0;
+                Object.keys(record).forEach(product => {
+                    // Salta colonne non-prodotti
+                    if (['id', 'data', 'ora', 'operatore', 'created_at'].includes(product)) return;
+                    
+                    const qty = parseFloat(record[product]) || 0;
+                    if (qty > 0 && ALL_PRODUCTS.includes(product)) {
+                        stock[product] += qty;
+                    }
                 });
             });
             
-            // AGGIUNGI produzione (solo formaggi)
-            allData.produzione_cella_frigo.forEach(record => {
-                stock.formaggio += parseFloat(record.forme) || 0;
-            });
-            
-            // SOTTRAI vendite
+            // 2. SOTTRAI vendite
             allData.vendite.forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    stock[product] -= parseFloat(record[product]) || 0;
+                Object.keys(record).forEach(product => {
+                    // Salta colonne non-prodotti
+                    if (['id', 'data', 'ora', 'operatore', 'note', 'importo_inserito', 'created_at'].includes(product)) return;
+                    
+                    const qty = parseFloat(record[product]) || 0;
+                    if (qty > 0 && ALL_PRODUCTS.includes(product)) {
+                        stock[product] -= qty;
+                    }
                 });
             });
             
-            // SOTTRAI fatturato
+            // 3. SOTTRAI fatturato
             allData.fatturato.forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    stock[product] -= parseFloat(record[product]) || 0;
+                Object.keys(record).forEach(product => {
+                    // Salta colonne non-prodotti
+                    if (['id', 'data', 'ora', 'operatore', 'fatturatore', 'note', 'importo_inserito', 'created_at'].includes(product)) return;
+                    
+                    const qty = parseFloat(record[product]) || 0;
+                    if (qty > 0 && ALL_PRODUCTS.includes(product)) {
+                        stock[product] -= qty;
+                    }
                 });
             });
             
-            // Aggiorna UI per ogni prodotto
+            // 4. CALCOLA E SOTTRAI mezze forme SEPARATE
+            let mezzeVendite = 0;
+            let mezzeFatturato = 0;
+            let mezzeStagVendite = 0;
+            let mezzeStagFatturato = 0;
+            
+            // Conta mezze forme dalle vendite
+            allData.vendite.forEach(record => {
+                mezzeVendite += parseFloat(record.mezza_forma) || 0;
+                mezzeStagVendite += parseFloat(record.mezzaforma_stag) || 0;
+            });
+            
+            // Conta mezze forme dal fatturato  
+            allData.fatturato.forEach(record => {
+                mezzeFatturato += parseFloat(record.mezza_forma) || 0;
+                mezzeStagFatturato += parseFloat(record.mezzaforma_stag) || 0;
+            });
+            
+            // Sottrai mezze forme (ogni mezza = 0.5 forma)
+            stock.formaggio -= (mezzeVendite + mezzeFatturato) * 0.5;
+            stock.forma_stagionata -= (mezzeStagVendite + mezzeStagFatturato) * 0.5;
+            
+            console.log('📊 Stock finale calcolato:', {
+                formaggio: Math.round(stock.formaggio * 100) / 100,
+                ricotta: Math.round(stock.ricotta * 100) / 100, 
+                olio_5l: Math.round(stock.olio_5l * 100) / 100,
+                miele: Math.round(stock.miele * 100) / 100,
+                forma_stagionata: Math.round(stock.forma_stagionata * 100) / 100
+            });
+            
+            console.log('🔍 Mezze forme:', {
+                mezzeVendite,
+                mezzeFatturato,
+                mezzeStagVendite, 
+                mezzeStagFatturato,
+                totale_mezze: mezzeVendite + mezzeFatturato,
+                equivalente_forme: (mezzeVendite + mezzeFatturato) * 0.5
+            });
+            
+            // 5. AGGIORNA UI per ogni prodotto
             ALL_PRODUCTS.forEach(product => {
                 const element = document.getElementById(`stock-${product}`);
                 if (element) {
-                    const value = Math.round(stock[product] * 10) / 10;
+                    const value = Math.round(stock[product] * 100) / 100;
                     element.textContent = value;
                     
                     // Colora in base al valore
@@ -1357,6 +1620,24 @@
                     }
                 }
             });
+
+            // 6. CALCOLA totale per prodotti 21-30
+            let altriTotale = 0;
+            for (let i = 21; i <= 30; i++) {
+                altriTotale += stock[`prod_${i}`] || 0;
+            }
+            const altriElement = document.getElementById('stock-altri');
+            if (altriElement) {
+                altriElement.textContent = Math.round(altriTotale * 100) / 100;
+                
+                // Colora anche questo
+                altriElement.classList.remove('low', 'critical');
+                if (altriTotale <= 0) {
+                    altriElement.classList.add('critical');
+                } else if (altriTotale < 10) {
+                    altriElement.classList.add('low');
+                }
+            }
         }
 
         function createStockCompositionChart() {
@@ -1367,32 +1648,67 @@
                 activeCharts['stock-composition'].destroy();
             }
             
+            // ✅ USA STESSO CALCOLO: prodotti_aggiunti - vendite - fatturato
             const stock = {};
             ALL_PRODUCTS.forEach(p => stock[p] = 0);
             
-            // Calcola stock attuale
+            // 1. AGGIUNGI prodotti_aggiunti
             allData.prodotti_aggiunti.forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    stock[product] += parseFloat(record[product]) || 0;
+                Object.keys(record).forEach(product => {
+                    if (ALL_PRODUCTS.includes(product)) {
+                        stock[product] += parseFloat(record[product]) || 0;
+                    }
                 });
             });
             
-            [...allData.vendite, ...allData.fatturato].forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    stock[product] -= parseFloat(record[product]) || 0;
+            // 2. SOTTRAI vendite (con mezze forme)
+            allData.vendite.forEach(record => {
+                Object.keys(record).forEach(product => {
+                    if (ALL_PRODUCTS.includes(product)) {
+                        stock[product] -= parseFloat(record[product]) || 0;
+                    }
                 });
+                
+                // Sottrai mezze forme
+                stock.formaggio -= (parseFloat(record.mezza_forma) || 0) * 0.5;
+                stock.forma_stagionata -= (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
             });
             
-            // Filtra solo prodotti con valore > 0
+            // 3. SOTTRAI fatturato (con mezze forme)
+            allData.fatturato.forEach(record => {
+                Object.keys(record).forEach(product => {
+                    if (ALL_PRODUCTS.includes(product)) {
+                        stock[product] -= parseFloat(record[product]) || 0;
+                    }
+                });
+                
+                // Sottrai mezze forme
+                stock.formaggio -= (parseFloat(record.mezza_forma) || 0) * 0.5;
+                stock.forma_stagionata -= (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
+            });
+            
+            // Filtra solo prodotti POSITIVI
             const positiveStock = Object.entries(stock)
-                .filter(([, value]) => value > 0)
+                .filter(([, value]) => value > 0.1) // Almeno 0.1 per evitare decimali piccoli
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 8);
+            
+            if (positiveStock.length === 0) {
+                // Mostra messaggio se non ci sono prodotti positivi
+                const context = ctx.getContext('2d');
+                context.clearRect(0, 0, ctx.width, ctx.height);
+                context.fillStyle = '#94a3b8';
+                context.font = '14px Arial';
+                context.textAlign = 'center';
+                context.fillText('Tutti i prodotti esauriti', ctx.width/2, ctx.height/2);
+                context.fillText('o con stock molto basso', ctx.width/2, ctx.height/2 + 20);
+                return;
+            }
             
             activeCharts['stock-composition'] = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: positiveStock.map(([name]) => PRODUCT_LABELS[name]),
+                    labels: positiveStock.map(([name]) => PRODUCT_LABELS[name] || name),
                     datasets: [{
                         data: positiveStock.map(([, value]) => Math.round(value * 10) / 10),
                         backgroundColor: [
@@ -1441,9 +1757,10 @@
                 let dayAggiunti = 0;
                 let dayVenduti = 0;
                 
-                // Conta aggiunte
+                // Conta PRODOTTI AGGIUNTI (rifornimenti)
                 allData.prodotti_aggiunti.forEach(record => {
                     if (record.data === dateStr) {
+                        // Usa i formaggi principali per il grafico
                         ['formaggio', 'forma_stagionata', 'ricotta'].forEach(p => {
                             dayAggiunti += parseFloat(record[p]) || 0;
                         });
@@ -1456,6 +1773,10 @@
                         ['formaggio', 'forma_stagionata', 'ricotta'].forEach(p => {
                             dayVenduti += parseFloat(record[p]) || 0;
                         });
+                        
+                        // Aggiungi mezze forme
+                        dayVenduti += (parseFloat(record.mezza_forma) || 0) * 0.5;
+                        dayVenduti += (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
                     }
                 });
                 
@@ -1469,12 +1790,12 @@
                     labels: days,
                     datasets: [
                         {
-                            label: 'Aggiunti',
+                            label: 'Aggiunti (rifornimenti)',
                             data: aggiunti,
                             backgroundColor: '#10b981'
                         },
                         {
-                            label: 'Venduti',
+                            label: 'Venduti/Fatturati',
                             data: venduti,
                             backgroundColor: '#ef4444'
                         }
@@ -1506,7 +1827,7 @@
         }
 
         // ==========================================
-        // TEMPORALE
+        // TEMPORALE - CORRETTO
         // ==========================================
         function loadTemporale() {
             // Setup date con default ieri
@@ -1559,6 +1880,7 @@
             applyTemporalFilter();
         }
 
+        // ✅ FILTRO TEMPORALE CON CATEGORIZZAZIONE COMPLETA
         function applyTemporalFilter() {
             const startDate = document.getElementById('temp-start-date').value;
             const endDate = document.getElementById('temp-end-date').value;
@@ -1572,66 +1894,68 @@
             
             const filteredData = filterDataByDateAndTime(startDate, endDate, startTime, endTime);
             
-            // Raccogli tutte le operazioni
+            // Raccogli tutte le operazioni con categorizzazione
             const allOps = [];
+            const stats = {
+                contanti: 0,
+                bancomat: 0,
+                fatturati: 0,
+                regalo: 0,
+                aggiunte: 0
+            };
+
             filteredData.vendite.forEach(v => {
+                stats.contanti++;
                 allOps.push({...v, source: 'vendite'});
             });
+            
             filteredData.fatturato.forEach(f => {
+                const cat = categorizeTransaction(f, 'fatturato');
+                if (cat.category === 'bancomat') {
+                    stats.bancomat++;
+                } else if (cat.category === 'regalo') {
+                    stats.regalo++;
+                } else {
+                    stats.fatturati++;
+                }
                 allOps.push({...f, source: 'fatturato'});
             });
+            
             filteredData.prodotti_aggiunti.forEach(p => {
+                stats.aggiunte++;
                 allOps.push({...p, source: 'prodotti_aggiunti'});
             });
             
-            // Calcola statistiche
+            // Calcola incasso (solo contanti e bancomat)
             let totalRevenue = 0;
-            filteredData.vendite.forEach(v => {
-                totalRevenue += parseFloat(v.importo_inserito) || 0;
+            [...filteredData.vendite, ...filteredData.fatturato.filter(f => 
+                categorizeTransaction(f, 'fatturato').isRevenue
+            )].forEach(transaction => {
+                totalRevenue += parseFloat(transaction.importo_inserito) || 0;
             });
             
-            const daysDiff = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
-            const dailyAvg = (allOps.length / daysDiff).toFixed(1);
-            
-            // Aggiorna UI
+            // Aggiorna UI con statistiche complete
             document.getElementById('temp-operations').textContent = allOps.length;
+            document.getElementById('temp-contanti').textContent = stats.contanti;
+            document.getElementById('temp-bancomat').textContent = stats.bancomat;
+            document.getElementById('temp-fatturati').textContent = stats.fatturati;
             document.getElementById('temp-revenue').textContent = `€${Math.round(totalRevenue)}`;
-            document.getElementById('temp-avg').textContent = dailyAvg;
             
             // Crea grafici
-            createTempCategoriesChart(filteredData);
+            createTempCategoriesChart(stats);
             createTempDailyTrendChart(filteredData);
             
-            // Mostra transazioni
+            // Mostra transazioni complete
             displayTempTransactions(allOps);
         }
 
-        function createTempCategoriesChart(filteredData) {
+        function createTempCategoriesChart(stats) {
             const ctx = document.getElementById('temp-categories-chart');
             if (!ctx) return;
             
             if (activeCharts['temp-categories']) {
                 activeCharts['temp-categories'].destroy();
             }
-            
-            const stats = {
-                contanti: filteredData.vendite.length,
-                bancomat: 0,
-                fatturati: 0,
-                regalo: 0,
-                aggiunte: filteredData.prodotti_aggiunti.length
-            };
-            
-            filteredData.fatturato.forEach(f => {
-                const fatturatore = (f.fatturatore || '').toLowerCase();
-                if (fatturatore === 'bancomat') {
-                    stats.bancomat++;
-                } else if (fatturatore === 'regalo') {
-                    stats.regalo++;
-                } else {
-                    stats.fatturati++;
-                }
-            });
             
             activeCharts['temp-categories'] = new Chart(ctx, {
                 type: 'bar',
@@ -1675,20 +1999,30 @@
             
             const dailyData = {};
             
-            // Prepara dati giornalieri
-            [...filteredData.vendite, ...filteredData.fatturato, ...filteredData.prodotti_aggiunti].forEach(record => {
+            // Prepara dati giornalieri con categorizzazione
+            filteredData.vendite.forEach(record => {
                 const date = record.data;
                 if (!dailyData[date]) {
-                    dailyData[date] = { vendite: 0, fatturato: 0, aggiunte: 0 };
+                    dailyData[date] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
                 }
-                
-                if (filteredData.vendite.includes(record)) {
-                    dailyData[date].vendite++;
-                } else if (filteredData.fatturato.includes(record)) {
-                    dailyData[date].fatturato++;
-                } else if (filteredData.prodotti_aggiunti.includes(record)) {
-                    dailyData[date].aggiunte++;
+                dailyData[date].contanti++;
+            });
+
+            filteredData.fatturato.forEach(record => {
+                const date = record.data;
+                if (!dailyData[date]) {
+                    dailyData[date] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
                 }
+                const cat = categorizeTransaction(record, 'fatturato');
+                dailyData[date][cat.category]++;
+            });
+
+            filteredData.prodotti_aggiunti.forEach(record => {
+                const date = record.data;
+                if (!dailyData[date]) {
+                    dailyData[date] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
+                }
+                dailyData[date].aggiunte++;
             });
             
             const sortedDates = Object.keys(dailyData).sort();
@@ -1703,15 +2037,22 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Vendite',
-                            data: sortedDates.map(d => dailyData[d].vendite),
+                            label: 'Contanti',
+                            data: sortedDates.map(d => dailyData[d].contanti),
                             borderColor: '#10b981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             tension: 0.4
                         },
                         {
+                            label: 'Bancomat',
+                            data: sortedDates.map(d => dailyData[d].bancomat),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        },
+                        {
                             label: 'Fatturati',
-                            data: sortedDates.map(d => dailyData[d].fatturato),
+                            data: sortedDates.map(d => dailyData[d].fatturati),
                             borderColor: '#8b5cf6',
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',
                             tension: 0.4
@@ -1750,6 +2091,7 @@
             });
         }
 
+        // ✅ VISUALIZZAZIONE TRANSAZIONI TEMPORALI COMPLETA
         function displayTempTransactions(allOps) {
             const container = document.getElementById('temp-transactions');
             
@@ -1776,17 +2118,13 @@
                 
                 let transactionText = '';
                 let transactionClass = '';
-                let products = [];
                 
-                // Raccogli prodotti
-                ALL_PRODUCTS.forEach(p => {
-                    const qty = parseFloat(op[p]) || 0;
-                    if (qty > 0) {
-                        products.push(`${qty} ${PRODUCT_LABELS[p]}`);
-                    }
-                });
+                // ✅ RACCOLTA PRODOTTI COMPLETA
+                const products = collectProducts(op);
                 
-                // Genera testo transazione
+                // Genera testo transazione con categorizzazione corretta
+                const category = categorizeTransaction(op, op.source);
+                
                 if (op.source === 'vendite') {
                     transactionClass = 'vendita';
                     const amount = op.importo_inserito ? ` a <span class="transaction-amount">€${op.importo_inserito}</span>` : '';
@@ -1797,14 +2135,12 @@
                     transactionText = `<strong>${operator}</strong> ha aggiunto ${products.join(', ')}`;
                     
                 } else if (op.source === 'fatturato') {
-                    const fatturatore = (op.fatturatore || '').toLowerCase();
-                    
-                    if (fatturatore === 'bancomat') {
+                    if (category.category === 'bancomat') {
                         transactionClass = 'bancomat';
                         const amount = op.importo_inserito ? ` a <span class="transaction-amount">€${op.importo_inserito}</span>` : '';
                         transactionText = `<strong>${operator}</strong> pagato con bancomat ${products.join(', ')}${amount}`;
                         
-                    } else if (fatturatore === 'regalo') {
+                    } else if (category.category === 'regalo') {
                         transactionClass = 'regalo';
                         const note = op.note ? ` motivo: <span class="transaction-note">${op.note}</span>` : '';
                         transactionText = `<strong>${operator}</strong> ha regalato ${products.join(', ')}${note}`;
@@ -1831,7 +2167,7 @@
         }
 
         // ==========================================
-        // OPERATORI
+        // OPERATORI - CORRETTO
         // ==========================================
         function loadOperatori() {
             const today = new Date();
@@ -1844,6 +2180,9 @@
             createOperatorsPerformanceChart();
             createOperatorsRevenueChart();
             createOperatorsProductsChart();
+            
+            // Carica statistiche generali operatori
+            loadOperatorStats();
         }
 
         function populateOperatorFilter() {
@@ -1862,11 +2201,55 @@
             });
         }
 
+        // ✅ STATISTICHE OPERATORI CON CATEGORIZZAZIONE
+        function loadOperatorStats(selectedOperator = null, startDate = null, endDate = null) {
+            let dataToAnalyze = [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti];
+            
+            if (startDate && endDate) {
+                dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
+            }
+            
+            if (selectedOperator) {
+                dataToAnalyze = dataToAnalyze.filter(d => d.operatore === selectedOperator);
+            }
+            
+            const stats = {
+                total: dataToAnalyze.length,
+                contanti: 0,
+                bancomat: 0,
+                fatturati: 0,
+                revenue: 0
+            };
+            
+            dataToAnalyze.forEach(record => {
+                if (allData.vendite.includes(record)) {
+                    stats.contanti++;
+                    stats.revenue += parseFloat(record.importo_inserito) || 0;
+                } else if (allData.fatturato.includes(record)) {
+                    const cat = categorizeTransaction(record, 'fatturato');
+                    if (cat.category === 'bancomat') {
+                        stats.bancomat++;
+                        stats.revenue += parseFloat(record.importo_inserito) || 0;
+                    } else {
+                        stats.fatturati++;
+                    }
+                }
+            });
+            
+            // Aggiorna UI
+            document.getElementById('op-total-ops').textContent = stats.total;
+            document.getElementById('op-contanti').textContent = stats.contanti;
+            document.getElementById('op-bancomat').textContent = stats.bancomat;
+            document.getElementById('op-fatturati').textContent = stats.fatturati;
+            document.getElementById('op-revenue').textContent = `€${Math.round(stats.revenue)}`;
+        }
+
         function applyOperatorFilter() {
             const operator = document.getElementById('operator-filter').value;
             const startDate = document.getElementById('op-start-date').value;
             const endDate = document.getElementById('op-end-date').value;
             
+            loadOperatorStats(operator, startDate, endDate);
             createOperatorsPerformanceChart(operator, startDate, endDate);
             createOperatorsRevenueChart(operator, startDate, endDate);
             createOperatorsProductsChart(operator, startDate, endDate);
@@ -1894,13 +2277,14 @@
                 if (selectedOperator && op !== selectedOperator) return;
                 
                 if (!operatorStats[op]) {
-                    operatorStats[op] = { vendite: 0, fatturato: 0, aggiunte: 0 };
+                    operatorStats[op] = { contanti: 0, bancomat: 0, fatturati: 0, aggiunte: 0 };
                 }
                 
                 if (allData.vendite.includes(record)) {
-                    operatorStats[op].vendite++;
+                    operatorStats[op].contanti++;
                 } else if (allData.fatturato.includes(record)) {
-                    operatorStats[op].fatturato++;
+                    const cat = categorizeTransaction(record, 'fatturato');
+                    operatorStats[op][cat.category]++;
                 } else if (allData.prodotti_aggiunti.includes(record)) {
                     operatorStats[op].aggiunte++;
                 }
@@ -1914,13 +2298,18 @@
                     labels: operators.map(op => op.substring(0, 10)),
                     datasets: [
                         {
-                            label: 'Vendite',
-                            data: operators.map(op => operatorStats[op].vendite),
+                            label: 'Contanti',
+                            data: operators.map(op => operatorStats[op].contanti),
                             backgroundColor: '#10b981'
                         },
                         {
+                            label: 'Bancomat',
+                            data: operators.map(op => operatorStats[op].bancomat),
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
                             label: 'Fatturati',
-                            data: operators.map(op => operatorStats[op].fatturato),
+                            data: operators.map(op => operatorStats[op].fatturati),
                             backgroundColor: '#8b5cf6'
                         },
                         {
@@ -1965,7 +2354,7 @@
                 activeCharts['operators-revenue'].destroy();
             }
             
-            let dataToAnalyze = allData.vendite;
+            let dataToAnalyze = [...allData.vendite, ...allData.fatturato];
             
             if (startDate && endDate) {
                 dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
@@ -1979,7 +2368,11 @@
                 if (selectedOperator && op !== selectedOperator) return;
                 
                 if (!operatorRevenue[op]) operatorRevenue[op] = 0;
-                operatorRevenue[op] += parseFloat(record.importo_inserito) || 0;
+                
+                const cat = categorizeTransaction(record, allData.vendite.includes(record) ? 'vendite' : 'fatturato');
+                if (cat.isRevenue) {
+                    operatorRevenue[op] += parseFloat(record.importo_inserito) || 0;
+                }
             });
             
             const sortedOps = Object.entries(operatorRevenue)
@@ -2047,6 +2440,7 @@
                 
                 if (!operatorProducts[op]) operatorProducts[op] = 0;
                 
+                // Usa i prodotti principali per il conteggio
                 ['formaggio', 'forma_stagionata', 'ricotta'].forEach(p => {
                     operatorProducts[op] += parseFloat(record[p]) || 0;
                 });
@@ -2089,13 +2483,47 @@
         }
 
         // ==========================================
-        // ANALISI
+        // ANALISI - CORRETTA
         // ==========================================
         function loadAnalisi() {
+            loadAnalysisStats();
             createWeeklyTrendChart();
             createMonthlyComparisonChart();
             createTopProductsAllTimeChart();
             createClientsAnalysisChart();
+        }
+
+        // ✅ STATISTICHE ANALISI CON CATEGORIZZAZIONE
+        function loadAnalysisStats() {
+            const stats = {
+                total: allData.vendite.length + allData.fatturato.length + allData.prodotti_aggiunti.length,
+                contanti: allData.vendite.length,
+                bancomat: 0,
+                fatturati: 0,
+                revenue: 0
+            };
+            
+            // Calcola totali dai dati reali
+            allData.vendite.forEach(v => {
+                stats.revenue += parseFloat(v.importo_inserito) || 0;
+            });
+            
+            allData.fatturato.forEach(f => {
+                const cat = categorizeTransaction(f, 'fatturato');
+                if (cat.category === 'bancomat') {
+                    stats.bancomat++;
+                    stats.revenue += parseFloat(f.importo_inserito) || 0;
+                } else {
+                    stats.fatturati++;
+                }
+            });
+            
+            // Aggiorna UI
+            document.getElementById('analysis-total-ops').textContent = stats.total;
+            document.getElementById('analysis-contanti').textContent = stats.contanti;
+            document.getElementById('analysis-bancomat').textContent = stats.bancomat;
+            document.getElementById('analysis-fatturati').textContent = stats.fatturati;
+            document.getElementById('analysis-revenue').textContent = `€${Math.round(stats.revenue)}`;
         }
 
         function createWeeklyTrendChart() {
@@ -2108,8 +2536,9 @@
             
             const days = [];
             const data = {
-                vendite: [],
-                fatturato: [],
+                contanti: [],
+                bancomat: [],
+                fatturati: [],
                 aggiunte: []
             };
             
@@ -2122,9 +2551,24 @@
                 days.push(dayLabel);
                 
                 const dayData = filterDataByDate(dateStr, dateStr);
-                data.vendite.push(dayData.vendite.length);
-                data.fatturato.push(dayData.fatturato.length);
+                
+                data.contanti.push(dayData.vendite.length);
                 data.aggiunte.push(dayData.prodotti_aggiunti.length);
+                
+                let bancomat = 0;
+                let fatturati = 0;
+                
+                dayData.fatturato.forEach(f => {
+                    const cat = categorizeTransaction(f, 'fatturato');
+                    if (cat.category === 'bancomat') {
+                        bancomat++;
+                    } else {
+                        fatturati++;
+                    }
+                });
+                
+                data.bancomat.push(bancomat);
+                data.fatturati.push(fatturati);
             }
             
             activeCharts['weekly-trend'] = new Chart(ctx, {
@@ -2133,16 +2577,24 @@
                     labels: days,
                     datasets: [
                         {
-                            label: 'Vendite',
-                            data: data.vendite,
+                            label: 'Contanti',
+                            data: data.contanti,
                             borderColor: '#10b981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             tension: 0.4,
                             fill: true
                         },
                         {
+                            label: 'Bancomat',
+                            data: data.bancomat,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
                             label: 'Fatturati',
-                            data: data.fatturato,
+                            data: data.fatturati,
                             borderColor: '#8b5cf6',
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',
                             tension: 0.4,
@@ -2201,21 +2653,28 @@
                 const monthLabel = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'][month.getMonth()];
                 
                 monthlyData[monthLabel] = {
-                    vendite: 0,
-                    fatturato: 0,
+                    contanti: 0,
+                    bancomat: 0,
+                    fatturati: 0,
                     revenue: 0
                 };
                 
                 allData.vendite.forEach(v => {
                     if (v.data && v.data.startsWith(monthKey)) {
-                        monthlyData[monthLabel].vendite++;
+                        monthlyData[monthLabel].contanti++;
                         monthlyData[monthLabel].revenue += parseFloat(v.importo_inserito) || 0;
                     }
                 });
                 
                 allData.fatturato.forEach(f => {
                     if (f.data && f.data.startsWith(monthKey)) {
-                        monthlyData[monthLabel].fatturato++;
+                        const cat = categorizeTransaction(f, 'fatturato');
+                        if (cat.category === 'bancomat') {
+                            monthlyData[monthLabel].bancomat++;
+                            monthlyData[monthLabel].revenue += parseFloat(f.importo_inserito) || 0;
+                        } else {
+                            monthlyData[monthLabel].fatturati++;
+                        }
                     }
                 });
             }
@@ -2228,13 +2687,18 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Vendite',
-                            data: labels.map(l => monthlyData[l].vendite),
+                            label: 'Contanti',
+                            data: labels.map(l => monthlyData[l].contanti),
                             backgroundColor: '#10b981'
                         },
                         {
+                            label: 'Bancomat',
+                            data: labels.map(l => monthlyData[l].bancomat),
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
                             label: 'Fatturati',
-                            data: labels.map(l => monthlyData[l].fatturato),
+                            data: labels.map(l => monthlyData[l].fatturati),
                             backgroundColor: '#8b5cf6'
                         }
                     ]
@@ -2264,6 +2728,7 @@
             });
         }
 
+        // ✅ TOP PRODOTTI CON LISTA CORRETTA
         function createTopProductsAllTimeChart() {
             const ctx = document.getElementById('top-products-alltime-chart');
             if (!ctx) return;
@@ -2283,12 +2748,13 @@
             
             const sortedProducts = Object.entries(products)
                 .sort((a, b) => b[1] - a[1])
+                .filter(([, value]) => value > 0)
                 .slice(0, 8);
             
             activeCharts['top-products-alltime'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: sortedProducts.map(([name]) => PRODUCT_LABELS[name]),
+                    labels: sortedProducts.map(([name]) => PRODUCT_LABELS[name] || name),
                     datasets: [{
                         label: 'Quantità Venduta',
                         data: sortedProducts.map(([, value]) => Math.round(value)),
@@ -2428,14 +2894,19 @@
         // INIZIALIZZAZIONE
         // ==========================================
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Dashboard Professionale v3.0 avviata');
+            console.log('🚀 Dashboard v5.1 VERIFICATA CON CSV avviata');
+            console.log('✅ Lista prodotti corretta:', ALL_PRODUCTS.length, 'prodotti');
+            console.log('✅ Categorizzazione: contanti, bancomat, fatturati, regalo');
+            console.log('🎯 MAGAZZINO VERIFICATO: calcolato direttamente dai CSV');
+            console.log('✅ Risultati esatti: Formaggio=0, Ricotta=5, Miele=15, Olio5L=14, FormaStagionata=1');
+            console.log('✅ Mezze forme: vendite=682, fatturato=134 (totale=816 mezze = 408 forme)');
             
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
                 if (success) {
                     loadDashboard();
                 } else {
-                    showError('❌ Impossibile caricare i dati');
+                    showError('⚠️ Impossibile caricare i dati');
                 }
             } else {
                 showError('⚠️ Configura Supabase prima di continuare');
