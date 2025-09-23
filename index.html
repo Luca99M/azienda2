@@ -1517,16 +1517,35 @@
             createStockMovementChart();
         }
 
-        // ✅ CALCOLO STOCK ESATTO - VERIFICATO CON CSV
+        // ✅ CALCOLO STOCK CON DEBUG COMPLETO
         function calculateCurrentStock() {
             const stock = {};
             
             // Inizializza stock per TUTTI i prodotti
             ALL_PRODUCTS.forEach(p => stock[p] = 0);
             
-            console.log('📦 Calcolo magazzino ESATTO (verificato con CSV)...');
+            console.log('🔍 DEBUG MAGAZZINO - PASSO PER PASSO');
+            console.log('📊 Dati caricati da Supabase:');
+            console.log('- prodotti_aggiunti:', allData.prodotti_aggiunti.length, 'righe');
+            console.log('- vendite:', allData.vendite.length, 'righe');
+            console.log('- fatturato:', allData.fatturato.length, 'righe');
+            
+            // DEBUG: Mostra un esempio di riga da ogni tabella
+            if (allData.prodotti_aggiunti.length > 0) {
+                console.log('📋 Esempio riga prodotti_aggiunti:', allData.prodotti_aggiunti[0]);
+            }
+            if (allData.vendite.length > 0) {
+                console.log('📋 Esempio riga vendite:', allData.vendite[0]);
+            }
+            if (allData.fatturato.length > 0) {
+                console.log('📋 Esempio riga fatturato:', allData.fatturato[0]);
+            }
             
             // 1. AGGIUNGI prodotti_aggiunti (rifornimenti/acquisti)
+            console.log('\n➕ PASSO 1: AGGIUNGO PRODOTTI_AGGIUNTI');
+            let totaleAggiunti = {};
+            ALL_PRODUCTS.forEach(p => totaleAggiunti[p] = 0);
+            
             allData.prodotti_aggiunti.forEach(record => {
                 Object.keys(record).forEach(product => {
                     // Salta colonne non-prodotti
@@ -1535,11 +1554,21 @@
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] += qty;
+                        totaleAggiunti[product] += qty;
                     }
                 });
             });
             
+            console.log('Totali aggiunti:');
+            Object.entries(totaleAggiunti).forEach(([prod, qty]) => {
+                if (qty > 0) console.log(`  ${prod}: +${qty}`);
+            });
+            
             // 2. SOTTRAI vendite
+            console.log('\n➖ PASSO 2: SOTTRAGGO VENDITE');
+            let totaleVendite = {};
+            ALL_PRODUCTS.forEach(p => totaleVendite[p] = 0);
+            
             allData.vendite.forEach(record => {
                 Object.keys(record).forEach(product => {
                     // Salta colonne non-prodotti
@@ -1548,11 +1577,21 @@
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] -= qty;
+                        totaleVendite[product] += qty;
                     }
                 });
             });
             
+            console.log('Totali vendite:');
+            Object.entries(totaleVendite).forEach(([prod, qty]) => {
+                if (qty > 0) console.log(`  ${prod}: -${qty}`);
+            });
+            
             // 3. SOTTRAI fatturato
+            console.log('\n➖ PASSO 3: SOTTRAGGO FATTURATO');
+            let totaleFatturato = {};
+            ALL_PRODUCTS.forEach(p => totaleFatturato[p] = 0);
+            
             allData.fatturato.forEach(record => {
                 Object.keys(record).forEach(product => {
                     // Salta colonne non-prodotti
@@ -1561,11 +1600,18 @@
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] -= qty;
+                        totaleFatturato[product] += qty;
                     }
                 });
             });
             
+            console.log('Totali fatturato:');
+            Object.entries(totaleFatturato).forEach(([prod, qty]) => {
+                if (qty > 0) console.log(`  ${prod}: -${qty}`);
+            });
+            
             // 4. CALCOLA E SOTTRAI mezze forme SEPARATE
+            console.log('\n🔄 PASSO 4: CALCOLO MEZZE FORME');
             let mezzeVendite = 0;
             let mezzeFatturato = 0;
             let mezzeStagVendite = 0;
@@ -1583,28 +1629,50 @@
                 mezzeStagFatturato += parseFloat(record.mezzaforma_stag) || 0;
             });
             
+            console.log('Mezze forme trovate:');
+            console.log(`  Mezze vendite: ${mezzeVendite}`);
+            console.log(`  Mezze fatturato: ${mezzeFatturato}`);
+            console.log(`  Mezze stag vendite: ${mezzeStagVendite}`);
+            console.log(`  Mezze stag fatturato: ${mezzeStagFatturato}`);
+            
             // Sottrai mezze forme (ogni mezza = 0.5 forma)
-            stock.formaggio -= (mezzeVendite + mezzeFatturato) * 0.5;
-            stock.forma_stagionata -= (mezzeStagVendite + mezzeStagFatturato) * 0.5;
+            const totaleMezze = mezzeVendite + mezzeFatturato;
+            const totaleMezzeStag = mezzeStagVendite + mezzeStagFatturato;
             
-            console.log('📊 Stock finale calcolato:', {
-                formaggio: Math.round(stock.formaggio * 100) / 100,
-                ricotta: Math.round(stock.ricotta * 100) / 100, 
-                olio_5l: Math.round(stock.olio_5l * 100) / 100,
-                miele: Math.round(stock.miele * 100) / 100,
-                forma_stagionata: Math.round(stock.forma_stagionata * 100) / 100
+            stock.formaggio -= totaleMezze * 0.5;
+            stock.forma_stagionata -= totaleMezzeStag * 0.5;
+            
+            console.log(`  Sottraggo ${totaleMezze} mezze = ${totaleMezze * 0.5} forme dal formaggio`);
+            console.log(`  Sottraggo ${totaleMezzeStag} mezze stag = ${totaleMezzeStag * 0.5} forme stagionate`);
+            
+            // 5. MOSTRA RISULTATI FINALI
+            console.log('\n🎯 RISULTATI FINALI:');
+            const risultati = {};
+            ALL_PRODUCTS.forEach(product => {
+                const value = Math.round(stock[product] * 100) / 100;
+                risultati[product] = value;
+                if (value !== 0) {
+                    console.log(`  ${product}: ${value}`);
+                }
             });
             
-            console.log('🔍 Mezze forme:', {
-                mezzeVendite,
-                mezzeFatturato,
-                mezzeStagVendite, 
-                mezzeStagFatturato,
-                totale_mezze: mezzeVendite + mezzeFatturato,
-                equivalente_forme: (mezzeVendite + mezzeFatturato) * 0.5
+            // 6. CONFRONTA CON CALCOLI ATTESI
+            console.log('\n📊 CONFRONTO CON CALCOLI ATTESI:');
+            const attesi = {
+                formaggio: 0,
+                ricotta: 5,
+                miele: 15,
+                olio_5l: 14,
+                forma_stagionata: 1
+            };
+            
+            Object.entries(attesi).forEach(([prod, expected]) => {
+                const actual = risultati[prod];
+                const match = Math.abs(actual - expected) < 0.1 ? '✅' : '❌';
+                console.log(`  ${prod}: atteso=${expected}, calcolato=${actual} ${match}`);
             });
             
-            // 5. AGGIORNA UI per ogni prodotto
+            // 7. AGGIORNA UI
             ALL_PRODUCTS.forEach(product => {
                 const element = document.getElementById(`stock-${product}`);
                 if (element) {
@@ -1621,7 +1689,7 @@
                 }
             });
 
-            // 6. CALCOLA totale per prodotti 21-30
+            // 8. CALCOLA totale per prodotti 21-30
             let altriTotale = 0;
             for (let i = 21; i <= 30; i++) {
                 altriTotale += stock[`prod_${i}`] || 0;
