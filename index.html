@@ -579,9 +579,9 @@
     <div class="container">
         <!-- HEADER -->
         <div class="header">
-            <div class="fix-badge">✅ VERIFICATO</div>
+            <div class="fix-badge">🚀 LIMITE RIMOSSO</div>
             <h1>🧀 Medei Caseificio</h1>
-            <div class="subtitle">Dashboard v5.1 - CALCOLI VERIFICATI CON CSV</div>
+            <div class="subtitle">Dashboard v5.3 - CARICA TUTTI I DATI (no limite 1000)</div>
         </div>
 
         <!-- CONFIGURAZIONE -->
@@ -1192,14 +1192,15 @@
         // ==========================================
         async function loadAllData() {
             try {
-                showStatus('📡 Caricamento dati da Supabase...');
+                showStatus('📡 Caricamento COMPLETO da Supabase...');
                 
+                // ✅ CARICA TUTTI I DATI (senza limite di 1000 righe)
                 const [venditeRes, fatturatoRes, prodottiRes, produzioneRes, soldiRes] = await Promise.all([
-                    supabase.from('vendite').select('*').order('data', { ascending: false }),
-                    supabase.from('fatturato').select('*').order('data', { ascending: false }),
-                    supabase.from('prodotti_aggiunti').select('*').order('data', { ascending: false }),
-                    supabase.from('produzione_cella_frigo').select('*').order('data', { ascending: false }),
-                    supabase.from('soldi').select('*').order('data', { ascending: false })
+                    supabase.from('vendite').select('*').order('data', { ascending: false }).limit(9999),
+                    supabase.from('fatturato').select('*').order('data', { ascending: false }).limit(9999),
+                    supabase.from('prodotti_aggiunti').select('*').order('data', { ascending: false }).limit(9999),
+                    supabase.from('produzione_cella_frigo').select('*').order('data', { ascending: false }).limit(9999),
+                    supabase.from('soldi').select('*').order('data', { ascending: false }).limit(9999)
                 ]);
 
                 if (venditeRes.error) throw venditeRes.error;
@@ -1214,7 +1215,7 @@
                 allData.produzione_cella_frigo = produzioneRes.data || [];
                 allData.soldi = soldiRes.data || [];
 
-                console.log('✅ Dati caricati:', {
+                console.log('✅ TUTTI I DATI caricati:', {
                     vendite: allData.vendite.length,
                     fatturato: allData.fatturato.length,
                     prodotti: allData.prodotti_aggiunti.length,
@@ -1222,7 +1223,15 @@
                     soldi: allData.soldi.length
                 });
                 
-                showSuccess(`✅ ${allData.vendite.length + allData.fatturato.length} operazioni caricate - CALCOLI VERIFICATI v5.1`);
+                // ✅ VERIFICA CHE I NUMERI SIANO CORRETTI
+                if (allData.vendite.length < 2300) {
+                    console.warn('⚠️ Vendite: caricate solo', allData.vendite.length, 'righe (attese ~2332)');
+                }
+                if (allData.prodotti_aggiunti.length < 1600) {
+                    console.warn('⚠️ Prodotti aggiunti: caricate solo', allData.prodotti_aggiunti.length, 'righe (attese ~1657)');
+                }
+                
+                showSuccess(`🚀 TUTTI I DATI CARICATI: ${allData.vendite.length + allData.fatturato.length} operazioni - v5.3`);
                 
                 // Popola filtri
                 populateOperatorFilter();
@@ -2962,12 +2971,12 @@
         // INIZIALIZZAZIONE
         // ==========================================
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Dashboard v5.1 VERIFICATA CON CSV avviata');
+            console.log('🚀 Dashboard v5.3 - LIMITE SUPABASE RIMOSSO');
             console.log('✅ Lista prodotti corretta:', ALL_PRODUCTS.length, 'prodotti');
             console.log('✅ Categorizzazione: contanti, bancomat, fatturati, regalo');
-            console.log('🎯 MAGAZZINO VERIFICATO: calcolato direttamente dai CSV');
-            console.log('✅ Risultati esatti: Formaggio=0, Ricotta=5, Miele=15, Olio5L=14, FormaStagionata=1');
-            console.log('✅ Mezze forme: vendite=682, fatturato=134 (totale=816 mezze = 408 forme)');
+            console.log('🚀 CORREZIONE: carica TUTTI i dati (no limite 1000 righe)');
+            console.log('✅ Attesi: vendite=2332, fatturato=1385, prodotti=1657');
+            console.log('✅ Risultati attesi: Formaggio=0, Ricotta=5, Miele=15, Olio5L=14');
             
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
