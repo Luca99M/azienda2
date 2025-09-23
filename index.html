@@ -579,9 +579,9 @@
     <div class="container">
         <!-- HEADER -->
         <div class="header">
-            <div class="fix-badge">🚀 LIMITE RIMOSSO</div>
+            <div class="fix-badge">🔄 PAGINAZIONE</div>
             <h1>🧀 Medei Caseificio</h1>
-            <div class="subtitle">Dashboard v5.3 - CARICA TUTTI I DATI (no limite 1000)</div>
+            <div class="subtitle">Dashboard v5.4 - PAGINAZIONE SUPABASE (carica tutto)</div>
         </div>
 
         <!-- CONFIGURAZIONE -->
@@ -1190,32 +1190,56 @@
         // ==========================================
         // CARICAMENTO DATI
         // ==========================================
+        // ✅ FUNZIONE PER CARICARE TUTTI I DATI CON PAGINAZIONE
+        async function loadAllDataWithPagination(tableName) {
+            let allRows = [];
+            let start = 0;
+            const batchSize = 1000;
+            
+            while (true) {
+                const { data, error } = await supabase
+                    .from(tableName)
+                    .select('*')
+                    .order('data', { ascending: false })
+                    .range(start, start + batchSize - 1);
+                
+                if (error) throw error;
+                
+                if (!data || data.length === 0) break;
+                
+                allRows = allRows.concat(data);
+                console.log(`📥 ${tableName}: caricati ${allRows.length} righe...`);
+                
+                if (data.length < batchSize) break; // Fine dati
+                
+                start += batchSize;
+            }
+            
+            return allRows;
+        }
+
         async function loadAllData() {
             try {
-                showStatus('📡 Caricamento COMPLETO da Supabase...');
+                showStatus('📡 Caricamento COMPLETO con paginazione...');
                 
-                // ✅ CARICA TUTTI I DATI (senza limite di 1000 righe)
-                const [venditeRes, fatturatoRes, prodottiRes, produzioneRes, soldiRes] = await Promise.all([
-                    supabase.from('vendite').select('*').order('data', { ascending: false }).limit(9999),
-                    supabase.from('fatturato').select('*').order('data', { ascending: false }).limit(9999),
-                    supabase.from('prodotti_aggiunti').select('*').order('data', { ascending: false }).limit(9999),
-                    supabase.from('produzione_cella_frigo').select('*').order('data', { ascending: false }).limit(9999),
-                    supabase.from('soldi').select('*').order('data', { ascending: false }).limit(9999)
+                // ✅ CARICA TUTTI I DATI CON PAGINAZIONE
+                console.log('🔄 Caricamento con paginazione...');
+                
+                const [venditeData, fatturatoData, prodottiData, produzioneData, soldiData] = await Promise.all([
+                    loadAllDataWithPagination('vendite'),
+                    loadAllDataWithPagination('fatturato'),
+                    loadAllDataWithPagination('prodotti_aggiunti'),
+                    loadAllDataWithPagination('produzione_cella_frigo'),
+                    loadAllDataWithPagination('soldi')
                 ]);
 
-                if (venditeRes.error) throw venditeRes.error;
-                if (fatturatoRes.error) throw fatturatoRes.error;
-                if (prodottiRes.error) throw prodottiRes.error;
-                if (produzioneRes.error) throw produzioneRes.error;
-                if (soldiRes.error) throw soldiRes.error;
+                allData.vendite = venditeData;
+                allData.fatturato = fatturatoData;
+                allData.prodotti_aggiunti = prodottiData;
+                allData.produzione_cella_frigo = produzioneData;
+                allData.soldi = soldiData;
 
-                allData.vendite = venditeRes.data || [];
-                allData.fatturato = fatturatoRes.data || [];
-                allData.prodotti_aggiunti = prodottiRes.data || [];
-                allData.produzione_cella_frigo = produzioneRes.data || [];
-                allData.soldi = soldiRes.data || [];
-
-                console.log('✅ TUTTI I DATI caricati:', {
+                console.log('✅ TUTTI I DATI caricati con paginazione:', {
                     vendite: allData.vendite.length,
                     fatturato: allData.fatturato.length,
                     prodotti: allData.prodotti_aggiunti.length,
@@ -1224,14 +1248,34 @@
                 });
                 
                 // ✅ VERIFICA CHE I NUMERI SIANO CORRETTI
-                if (allData.vendite.length < 2300) {
-                    console.warn('⚠️ Vendite: caricate solo', allData.vendite.length, 'righe (attese ~2332)');
-                }
-                if (allData.prodotti_aggiunti.length < 1600) {
-                    console.warn('⚠️ Prodotti aggiunti: caricate solo', allData.prodotti_aggiunti.length, 'righe (attese ~1657)');
+                const totaliAttesi = {
+                    vendite: 2332,
+                    fatturato: 1385,
+                    prodotti_aggiunti: 1657
+                };
+                
+                let tuttoOk = true;
+                
+                if (allData.vendite.length !== totaliAttesi.vendite) {
+                    console.warn(`⚠️ Vendite: caricate ${allData.vendite.length}, attese ${totaliAttesi.vendite}`);
+                    if (allData.vendite.length < totaliAttesi.vendite) tuttoOk = false;
                 }
                 
-                showSuccess(`🚀 TUTTI I DATI CARICATI: ${allData.vendite.length + allData.fatturato.length} operazioni - v5.3`);
+                if (allData.fatturato.length !== totaliAttesi.fatturato) {
+                    console.warn(`⚠️ Fatturato: caricate ${allData.fatturato.length}, attese ${totaliAttesi.fatturato}`);
+                    if (allData.fatturato.length < totaliAttesi.fatturato) tuttoOk = false;
+                }
+                
+                if (allData.prodotti_aggiunti.length !== totaliAttesi.prodotti_aggiunti) {
+                    console.warn(`⚠️ Prodotti aggiunti: caricate ${allData.prodotti_aggiunti.length}, attese ${totaliAttesi.prodotti_aggiunti}`);
+                    if (allData.prodotti_aggiunti.length < totaliAttesi.prodotti_aggiunti) tuttoOk = false;
+                }
+                
+                if (tuttoOk) {
+                    showSuccess(`🎯 PERFETTO: Tutti i dati caricati correttamente!`);
+                } else {
+                    showSuccess(`✅ Dati caricati: ${allData.vendite.length + allData.fatturato.length} operazioni`);
+                }
                 
                 // Popola filtri
                 populateOperatorFilter();
@@ -1668,18 +1712,28 @@
             // 6. CONFRONTA CON CALCOLI ATTESI
             console.log('\n📊 CONFRONTO CON CALCOLI ATTESI:');
             const attesi = {
-                formaggio: 0,
-                ricotta: 5,
-                miele: 15,
-                olio_5l: 14,
-                forma_stagionata: 1
+                formaggio: 0,      // 7888 - 4175 - 3305 - 408 mezze
+                ricotta: 5,        // 5068 - 1661 - 3402  
+                miele: 15,         // 92 - 48 - 29
+                olio_5l: 14,       // 1087 - 548 - 525
+                forma_stagionata: 1 // 907.5 - 532 - 271 - 103.5 mezze
             };
             
+            let calcoliCorretti = true;
             Object.entries(attesi).forEach(([prod, expected]) => {
                 const actual = risultati[prod];
                 const match = Math.abs(actual - expected) < 0.1 ? '✅' : '❌';
                 console.log(`  ${prod}: atteso=${expected}, calcolato=${actual} ${match}`);
+                if (Math.abs(actual - expected) >= 0.1) {
+                    calcoliCorretti = false;
+                }
             });
+            
+            if (calcoliCorretti) {
+                console.log('\n🎯 SUCCESSO: Tutti i calcoli sono corretti!');
+            } else {
+                console.log('\n❌ ERRORE: I calcoli non corrispondono agli attesi');
+            }
             
             // 7. AGGIORNA UI
             ALL_PRODUCTS.forEach(product => {
@@ -2971,12 +3025,12 @@
         // INIZIALIZZAZIONE
         // ==========================================
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Dashboard v5.3 - LIMITE SUPABASE RIMOSSO');
+            console.log('🚀 Dashboard v5.4 - PAGINAZIONE SUPABASE');
             console.log('✅ Lista prodotti corretta:', ALL_PRODUCTS.length, 'prodotti');
             console.log('✅ Categorizzazione: contanti, bancomat, fatturati, regalo');
-            console.log('🚀 CORREZIONE: carica TUTTI i dati (no limite 1000 righe)');
-            console.log('✅ Attesi: vendite=2332, fatturato=1385, prodotti=1657');
-            console.log('✅ Risultati attesi: Formaggio=0, Ricotta=5, Miele=15, Olio5L=14');
+            console.log('🔄 NUOVA STRATEGIA: usa paginazione per caricare TUTTI i dati');
+            console.log('✅ Carica in lotti da 1000 fino a completamento');
+            console.log('🎯 Target: vendite=2332, fatturato=1385, prodotti=1657');
             
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
