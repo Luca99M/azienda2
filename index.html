@@ -1255,7 +1255,7 @@
         if (!window.supabase_client) {
             window.supabase_client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
-        const supabase = window.supabase_client;
+        // RIMUOVI QUESTA RIGA: const supabase = window.supabase_client;
         // ==========================================
         // VARIABILI GLOBALI
         // ==========================================
@@ -4058,4 +4058,5 @@
     </script>
 </body>
 </html>
+
 
