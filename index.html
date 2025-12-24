@@ -1250,12 +1250,13 @@
             document.getElementById('config-section').style.display = 'block';
             showError('⚠️ Configurazione Supabase richiesta! Modifica le credenziali nel codice.');
         }
-
-        // Inizializza Supabase
-        if (!window.supabase_client) {
-            window.supabase_client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
-        // RIMUOVI QUESTA RIGA: const supabase = window.supabase_client;
+        
+        // Inizializza Supabase CORRETTAMENTE
+        const { createClient } = window.supabase;
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        console.log('✅ Supabase inizializzato:', supabase);
+        console.log('✅ Test .from():', typeof supabase.from);
         // ==========================================
         // VARIABILI GLOBALI
         // ==========================================
@@ -4058,5 +4059,6 @@
     </script>
 </body>
 </html>
+
 
 
