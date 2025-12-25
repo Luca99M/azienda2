@@ -1252,7 +1252,7 @@
         }
 
         // Inizializza Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ==========================================
         // VARIABILI GLOBALI
@@ -1376,7 +1376,7 @@
             const batchSize = 1000;
             
             while (true) {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from(tableName)
                     .select('*')
                     .order('data', { ascending: false })
