@@ -1730,7 +1730,7 @@
                 
                 if (op.source === 'vendite') {
                     transactionClass = 'vendita';
-                    const amount = calculateEstimatedRevenue(op);
+                    const amount = Number(op.importo_inserito || 0);
                     transactionText = `<strong>${operator}</strong> ha venduto ${products.join(', ')} a <span class="transaction-amount">€${Math.round(amount)}</span>`;
                     
                 } else if (op.source === 'prodotti_aggiunti') {
@@ -1740,7 +1740,7 @@
                 } else if (op.source === 'fatturato') {
                     if (category.category === 'bancomat') {
                         transactionClass = 'bancomat';
-                        const amount = calculateEstimatedRevenue(op);
+                        const amount = Number(op.importo_inserito || 0);
                         transactionText = `<strong>${operator}</strong> pagato con bancomat ${products.join(', ')} a <span class="transaction-amount">€${Math.round(amount)}</span>`;
                         
                     } else if (category.category === 'regalo') {
