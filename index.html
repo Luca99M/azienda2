@@ -2476,17 +2476,57 @@
             document.getElementById('op-fatturati').textContent = stats.fatturati;
             document.getElementById('op-revenue').textContent = `€${Math.round(stats.revenue)}`;
         }
-
         function applyOperatorFilter() {
-            const operator = document.getElementById('operator-filter').value;
+            const selectedOperator = document.getElementById('operator-filter').value;
             const startDate = document.getElementById('op-start-date').value;
             const endDate = document.getElementById('op-end-date').value;
-            
-            loadOperatorStats(operator, startDate, endDate);
-            createOperatorsPerformanceChart(operator, startDate, endDate);
-            createOperatorsRevenueChart(operator, startDate, endDate);
-            createOperatorsProductsChart(operator, startDate, endDate);
+        
+            const transactions = [
+                ...allData.vendite.map(v => ({ ...v, source: 'vendite' })),
+                ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' })),
+                ...allData.prodotti_aggiunti.map(p => ({ ...p, source: 'prodotti_aggiunti' }))
+            ].filter(t =>
+                (!selectedOperator || t.operatore === selectedOperator) &&
+                (!startDate || t.data >= startDate) &&
+                (!endDate || t.data <= endDate)
+            );
+        
+            const container = document.getElementById('operator-transactions');
+        
+            if (!transactions.length) {
+                container.innerHTML = '<p style="color:#94a3b8;text-align:center;">Nessuna transazione trovata</p>';
+                return;
+            }
+        
+            transactions.sort((a, b) => {
+                const ta = (a.data || '') + (a.ora || '');
+                const tb = (b.data || '') + (b.ora || '');
+                return tb.localeCompare(ta);
+            });
+        
+            container.innerHTML = transactions.map(op => {
+                const time = op.ora || '--:--';
+                const products = collectProducts(op);
+                const amount = Number(op.importo_inserito || 0);
+        
+                let label = '';
+                if (op.source === 'vendite') label = 'Vendita';
+                if (op.source === 'fatturato') label = 'Fatturato';
+                if (op.source === 'prodotti_aggiunti') label = 'Aggiunta';
+        
+                return `
+                    <div class="transaction-item ${op.source}">
+                        <div class="transaction-time">${op.data} – ${time}</div>
+                        <div class="transaction-text">
+                            <strong>${op.operatore || '—'}</strong> • ${label}<br>
+                            ${products.join(', ')}
+                            ${amount ? `<br><span class="transaction-amount">€${amount}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
+
 
         function createOperatorsPerformanceChart(selectedOperator = null, startDate = null, endDate = null) {
             const ctx = document.getElementById('operators-performance-chart');
