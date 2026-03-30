@@ -914,12 +914,13 @@
                     <canvas id="operators-products-chart"></canvas>
                 </div>
             </div>
-        </div>
-        <!-- TRANSAZIONI OPERATORE -->
-        <div class="card">
-            <h3>📋 Dettaglio Transazioni Operatore</h3>
-            <div class="transactions-list" id="operator-transactions">
-                <p style="color: #94a3b8; text-align: center;">Seleziona operatore e periodo</p>
+
+            <!-- TRANSAZIONI OPERATORE -->
+            <div class="card">
+                <h3>📋 Dettaglio Transazioni Operatore</h3>
+                <div class="transactions-list" id="operator-transactions">
+                    <p style="color: #94a3b8; text-align: center;">Seleziona operatore e periodo</p>
+                </div>
             </div>
         </div>
         <!-- PAGE 5: ANALISI -->
@@ -2438,11 +2439,8 @@
             
             document.getElementById('op-start-date').value = lastMonth.toISOString().split('T')[0];
             document.getElementById('op-end-date').value = today.toISOString().split('T')[0];
-            
-            createOperatorsPerformanceChart();
-            createOperatorsRevenueChart();
-            createOperatorsProductsChart();
-            loadOperatorStats();
+
+            applyOperatorFilter();
         }
 
         function loadOperatorStats(selectedOperator = null, startDate = null, endDate = null) {
@@ -4072,6 +4070,18 @@
             statusDiv.innerHTML = `<div class="error">${message}</div>`;
         }
 
+        function initOperatorFilterEvents() {
+            const operatorFilter = document.getElementById('operator-filter');
+            const startDate = document.getElementById('op-start-date');
+            const endDate = document.getElementById('op-end-date');
+
+            [operatorFilter, startDate, endDate].forEach(element => {
+                if (!element || element.dataset.operatorBound === 'true') return;
+                element.addEventListener('change', applyOperatorFilter);
+                element.dataset.operatorBound = 'true';
+            });
+        }
+
         // ==========================================
         // INIZIALIZZAZIONE
         // ==========================================
@@ -4085,6 +4095,8 @@
             console.log('  - Nuove pagine: Prodotto, Fatturatori, Cella Frigo');
             console.log('  - Temporale: percentuali operatori, entrate economiche');
             console.log('⚡ Ottimizzazioni: rimosso calcolo prezzi pesante');
+
+            initOperatorFilterEvents();
             
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
