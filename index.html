@@ -914,15 +914,78 @@
                     <canvas id="operators-products-chart"></canvas>
                 </div>
             </div>
-        </div>
-        <!-- TRANSAZIONI OPERATORE -->
-        <div class="card">
-            <h3>📋 Dettaglio Transazioni Operatore</h3>
-            <div class="transactions-list" id="operator-transactions">
-                <p style="color: #94a3b8; text-align: center;">Seleziona operatore e periodo</p>
+
+            <!-- TRANSAZIONI OPERATORE -->
+            <div class="card">
+                <h3>📋 Dettaglio Transazioni Operatore</h3>
+                <div class="transactions-list" id="operator-transactions">
+                    <p style="color: #94a3b8; text-align: center;">Seleziona operatore e periodo</p>
+                </div>
             </div>
         </div>
-        <!-- PAGE 5: ANALISI -->
+
+        <!-- PAGE 5: TIPOLOGIE OPERAZIONI -->
+        <div id="tipologie" class="page">
+            <div class="page-title">🧩 Tipologie Operazioni</div>
+
+            <div class="filters">
+                <h3>🎯 Filtro Tipologia</h3>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <select id="type-filter" class="filter-select">
+                            <option value="">Tutte le tipologie</option>
+                            <option value="venduto">Venduto</option>
+                            <option value="venduto_con_note">Venduto con note</option>
+                            <option value="bancomat">Bancomat</option>
+                            <option value="fatturato">Fatturato</option>
+                            <option value="fatturato_con_note">Fatturato con note</option>
+                            <option value="regalo">Regalo</option>
+                            <option value="regalo_con_note">Regalo con note</option>
+                        </select>
+                    </div>
+                    <div class="filter-row horizontal">
+                        <div class="filter-group">
+                            <label>Data Inizio</label>
+                            <input type="date" id="type-start-date" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>Data Fine</label>
+                            <input type="date" id="type-end-date" class="filter-input">
+                        </div>
+                    </div>
+                    <button class="filter-button" onclick="applyTypeFilter()">
+                        🔍 Analizza Tipologia
+                    </button>
+                </div>
+            </div>
+
+            <div class="cards-grid four-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="type-total">0</div>
+                    <div class="stat-label">Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="type-with-notes">0</div>
+                    <div class="stat-label">Con note</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="type-with-amount">0</div>
+                    <div class="stat-label">Con importo</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="type-revenue">€0</div>
+                    <div class="stat-label">Ricavi</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Dettaglio Tipologia</h3>
+                <div class="transactions-list" id="type-transactions">
+                    <p style="color:#94a3b8;text-align:center;">Seleziona tipologia e periodo</p>
+                </div>
+            </div>
+        </div>
+        <!-- PAGE 6: ANALISI -->
         <div id="analisi" class="page">
             <div class="page-title">📈 Analisi Avanzate</div>
             
@@ -1226,6 +1289,10 @@
             <div class="nav-icon">👥</div>
             <div class="nav-label">Operatori</div>
         </div>
+        <div class="nav-item" onclick="showPage('tipologie')">
+            <div class="nav-icon">🧩</div>
+            <div class="nav-label">Tipologie</div>
+        </div>
         <div class="nav-item" onclick="showPage('analisi')">
             <div class="nav-icon">📈</div>
             <div class="nav-label">Analisi</div>
@@ -1321,6 +1388,34 @@
         // FUNZIONI UTILITY
         // ==========================================
         
+        function normalizeText(value) {
+            return (value || '')
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function cleanTextSpacing(value) {
+            return (value || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function normalizeKeyword(value) {
+            return normalizeText(value).replace(/[^a-z0-9]/g, '');
+        }
+
+        function isBancomatValue(value) {
+            return normalizeKeyword(value).includes('bancomat');
+        }
+
+        function isRegaloValue(value) {
+            return normalizeKeyword(value).includes('regalo');
+        }
+
+        function clientMatches(recordClient, selectedClient) {
+            if (!selectedClient) return true;
+            return normalizeText(recordClient) === normalizeText(selectedClient);
+        }
+
         function categorizeTransaction(transaction, source) {
             const result = {
                 type: source,
@@ -1332,12 +1427,12 @@
                 result.category = 'contanti';
                 result.isRevenue = true;
             } else if (source === 'fatturato') {
-                const fatturatore = (transaction.fatturatore || '').toLowerCase().trim();
+                const fatturatore = transaction.fatturatore || '';
                 
-                if (fatturatore === 'bancomat') {
+                if (isBancomatValue(fatturatore)) {
                     result.category = 'bancomat';
                     result.isRevenue = true;
-                } else if (fatturatore === 'regalo') {
+                } else if (isRegaloValue(fatturatore)) {
                     result.category = 'regalo';
                     result.isRevenue = false;
                 } else {
@@ -1468,6 +1563,15 @@
             });
         }
 
+        function normalizeOperatorName(operator) {
+            return normalizeText(operator);
+        }
+
+        function operatorMatches(recordOperator, selectedOperator) {
+            if (!selectedOperator) return true;
+            return normalizeOperatorName(recordOperator) === normalizeOperatorName(selectedOperator);
+        }
+
         function populateProductFilter() {
             const select = document.getElementById('product-filter');
             if (!select) return;
@@ -1485,9 +1589,9 @@
             const clients = new Set();
             allData.fatturato.forEach(record => {
                 if (record.fatturatore && 
-                    record.fatturatore.toLowerCase() !== 'bancomat' && 
-                    record.fatturatore.toLowerCase() !== 'regalo') {
-                    clients.add(record.fatturatore);
+                    !isBancomatValue(record.fatturatore) && 
+                    !isRegaloValue(record.fatturatore)) {
+                    clients.add(cleanTextSpacing(record.fatturatore));
                 }
             });
             
@@ -1530,6 +1634,9 @@
                     break;
                 case 'operatori':
                     loadOperatori();
+                    break;
+                case 'tipologie':
+                    loadTipologie();
                     break;
                 case 'analisi':
                     loadAnalisi();
@@ -2429,11 +2536,8 @@
             
             document.getElementById('op-start-date').value = lastMonth.toISOString().split('T')[0];
             document.getElementById('op-end-date').value = today.toISOString().split('T')[0];
-            
-            createOperatorsPerformanceChart();
-            createOperatorsRevenueChart();
-            createOperatorsProductsChart();
-            loadOperatorStats();
+
+            applyOperatorFilter();
         }
 
         function loadOperatorStats(selectedOperator = null, startDate = null, endDate = null) {
@@ -2444,7 +2548,7 @@
             }
             
             if (selectedOperator) {
-                dataToAnalyze = dataToAnalyze.filter(d => d.operatore === selectedOperator);
+                dataToAnalyze = dataToAnalyze.filter(d => operatorMatches(d.operatore, selectedOperator));
             }
             
             const stats = {
@@ -2480,13 +2584,18 @@
             const selectedOperator = document.getElementById('operator-filter').value;
             const startDate = document.getElementById('op-start-date').value;
             const endDate = document.getElementById('op-end-date').value;
+
+            loadOperatorStats(selectedOperator, startDate, endDate);
+            createOperatorsPerformanceChart(selectedOperator, startDate, endDate);
+            createOperatorsRevenueChart(selectedOperator, startDate, endDate);
+            createOperatorsProductsChart(selectedOperator, startDate, endDate);
         
             const transactions = [
                 ...allData.vendite.map(v => ({ ...v, source: 'vendite' })),
                 ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' })),
                 ...allData.prodotti_aggiunti.map(p => ({ ...p, source: 'prodotti_aggiunti' }))
             ].filter(t =>
-                (!selectedOperator || (t.operatore || '').toLowerCase().trim() === selectedOperator.toLowerCase().trim()) &&
+                operatorMatches(t.operatore, selectedOperator) &&
                 (!startDate || t.data >= startDate) &&
                 (!endDate || t.data <= endDate)
             );
@@ -2547,7 +2656,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorStats[op]) {
                     operatorStats[op] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
@@ -2643,7 +2752,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorRevenue[op]) operatorRevenue[op] = 0;
                 
@@ -2714,7 +2823,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorProducts[op]) operatorProducts[op] = 0;
                 
@@ -2757,6 +2866,119 @@
                     }
                 }
             });
+        }
+
+        // ==========================================
+        // TIPOLOGIE OPERAZIONI
+        // ==========================================
+        function getTypeLabel(type) {
+            const labels = {
+                venduto: 'Venduto',
+                venduto_con_note: 'Venduto con note',
+                bancomat: 'Bancomat',
+                fatturato: 'Fatturato',
+                fatturato_con_note: 'Fatturato con note',
+                regalo: 'Regalo',
+                regalo_con_note: 'Regalo con note'
+            };
+            return labels[type] || type;
+        }
+
+        function hasTransactionNote(record) {
+            return !!normalizeText(record.note);
+        }
+
+        function detectOperationType(record, source) {
+            const hasNote = hasTransactionNote(record);
+
+            if (source === 'vendite') {
+                return hasNote ? 'venduto_con_note' : 'venduto';
+            }
+
+            const category = categorizeTransaction(record, source).category;
+            if (category === 'bancomat') return 'bancomat';
+            if (category === 'regalo') return hasNote ? 'regalo_con_note' : 'regalo';
+            return hasNote ? 'fatturato_con_note' : 'fatturato';
+        }
+
+        function loadTipologie() {
+            const today = new Date();
+            const lastMonth = new Date();
+            lastMonth.setDate(lastMonth.getDate() - 30);
+
+            document.getElementById('type-start-date').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('type-end-date').value = today.toISOString().split('T')[0];
+
+            applyTypeFilter();
+        }
+
+        function applyTypeFilter() {
+            const selectedType = document.getElementById('type-filter').value;
+            const startDate = document.getElementById('type-start-date').value;
+            const endDate = document.getElementById('type-end-date').value;
+
+            let operations = [
+                ...allData.vendite.map(v => ({ ...v, source: 'vendite' })),
+                ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' }))
+            ];
+
+            operations = operations.map(op => {
+                const opType = detectOperationType(op, op.source);
+                return { ...op, operationType: opType, withNote: hasTransactionNote(op) };
+            });
+
+            operations = operations.filter(op =>
+                (!selectedType || op.operationType === selectedType) &&
+                (!startDate || op.data >= startDate) &&
+                (!endDate || op.data <= endDate)
+            );
+
+            const stats = {
+                total: operations.length,
+                withNotes: operations.filter(op => op.withNote).length,
+                withAmount: operations.filter(op => (parseFloat(op.importo_inserito) || 0) > 0).length,
+                revenue: operations.reduce((sum, op) => {
+                    const cat = categorizeTransaction(op, op.source);
+                    if (!cat.isRevenue) return sum;
+                    return sum + (parseFloat(op.importo_inserito) || 0);
+                }, 0)
+            };
+
+            document.getElementById('type-total').textContent = stats.total;
+            document.getElementById('type-with-notes').textContent = stats.withNotes;
+            document.getElementById('type-with-amount').textContent = stats.withAmount;
+            document.getElementById('type-revenue').textContent = `€${Math.round(stats.revenue)}`;
+
+            const container = document.getElementById('type-transactions');
+            if (!operations.length) {
+                container.innerHTML = '<p style="color:#94a3b8;text-align:center;">Nessuna operazione trovata</p>';
+                return;
+            }
+
+            operations.sort((a, b) => {
+                const ta = (a.data || '') + (a.ora || '');
+                const tb = (b.data || '') + (b.ora || '');
+                return tb.localeCompare(ta);
+            });
+
+            container.innerHTML = operations.slice(0, 150).map(op => {
+                const amount = parseFloat(op.importo_inserito) || 0;
+                const products = collectProducts(op);
+                const note = hasTransactionNote(op) ? `<br>📝 ${op.note}` : '';
+                const label = getTypeLabel(op.operationType);
+
+                return `
+                    <div class="transaction-item ${op.source}">
+                        <div class="transaction-time">${op.data || '—'} • ${op.ora || '--:--'}</div>
+                        <div class="transaction-text">
+                            <strong>${op.operatore || 'Sconosciuto'}</strong> • ${label}<br>
+                            ${products.length ? products.join(', ') : 'Nessun prodotto'}
+                            ${amount ? `<br><span class="transaction-amount">€${Math.round(amount)}</span>` : ''}
+                            ${note}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // ==========================================
@@ -3084,8 +3306,8 @@
             const clients = {};
             
             allData.fatturato.forEach(f => {
-                const client = f.fatturatore;
-                if (!client || client.toLowerCase() === 'bancomat' || client.toLowerCase() === 'regalo') return;
+                const client = normalizeText(f.fatturatore);
+                if (!client || isBancomatValue(client) || isRegaloValue(client)) return;
                 
                 if (!clients[client]) clients[client] = 0;
                 clients[client]++;
@@ -3432,8 +3654,8 @@
         function loadClientStats(selectedClient = null, startDate = null, endDate = null) {
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
-                f.fatturatore.toLowerCase() !== 'bancomat' && 
-                f.fatturatore.toLowerCase() !== 'regalo'
+                !isBancomatValue(f.fatturatore) && 
+                !isRegaloValue(f.fatturatore)
             );
             
             if (startDate && endDate) {
@@ -3441,7 +3663,7 @@
             }
             
             if (selectedClient) {
-                invoiceData = invoiceData.filter(d => d.fatturatore === selectedClient);
+                invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
             
             const stats = {
@@ -3475,8 +3697,8 @@
             
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
-                f.fatturatore.toLowerCase() !== 'bancomat' && 
-                f.fatturatore.toLowerCase() !== 'regalo'
+                !isBancomatValue(f.fatturatore) && 
+                !isRegaloValue(f.fatturatore)
             );
             
             if (startDate && endDate) {
@@ -3484,7 +3706,7 @@
             }
             
             if (selectedClient) {
-                invoiceData = invoiceData.filter(d => d.fatturatore === selectedClient);
+                invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
             
             const monthlyData = {};
@@ -3581,8 +3803,8 @@
             
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
-                f.fatturatore.toLowerCase() !== 'bancomat' && 
-                f.fatturatore.toLowerCase() !== 'regalo'
+                !isBancomatValue(f.fatturatore) && 
+                !isRegaloValue(f.fatturatore)
             );
             
             if (startDate && endDate) {
@@ -3590,7 +3812,7 @@
             }
             
             if (selectedClient) {
-                invoiceData = invoiceData.filter(d => d.fatturatore === selectedClient);
+                invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
             
             const productTotals = {};
@@ -3649,8 +3871,8 @@
             
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
-                f.fatturatore.toLowerCase() !== 'bancomat' && 
-                f.fatturatore.toLowerCase() !== 'regalo'
+                !isBancomatValue(f.fatturatore) && 
+                !isRegaloValue(f.fatturatore)
             );
             
             if (startDate && endDate) {
@@ -3660,7 +3882,7 @@
             const clientStats = {};
             
             invoiceData.forEach(record => {
-                const client = record.fatturatore;
+                const client = normalizeText(record.fatturatore);
                 if (!clientStats[client]) {
                     clientStats[client] = { count: 0, value: 0 };
                 }
@@ -4058,6 +4280,30 @@
             statusDiv.innerHTML = `<div class="error">${message}</div>`;
         }
 
+        function initOperatorFilterEvents() {
+            const operatorFilter = document.getElementById('operator-filter');
+            const startDate = document.getElementById('op-start-date');
+            const endDate = document.getElementById('op-end-date');
+
+            [operatorFilter, startDate, endDate].forEach(element => {
+                if (!element || element.dataset.operatorBound === 'true') return;
+                element.addEventListener('change', applyOperatorFilter);
+                element.dataset.operatorBound = 'true';
+            });
+        }
+
+        function initTypeFilterEvents() {
+            const typeFilter = document.getElementById('type-filter');
+            const startDate = document.getElementById('type-start-date');
+            const endDate = document.getElementById('type-end-date');
+
+            [typeFilter, startDate, endDate].forEach(element => {
+                if (!element || element.dataset.typeBound === 'true') return;
+                element.addEventListener('change', applyTypeFilter);
+                element.dataset.typeBound = 'true';
+            });
+        }
+
         // ==========================================
         // INIZIALIZZAZIONE
         // ==========================================
@@ -4071,6 +4317,9 @@
             console.log('  - Nuove pagine: Prodotto, Fatturatori, Cella Frigo');
             console.log('  - Temporale: percentuali operatori, entrate economiche');
             console.log('⚡ Ottimizzazioni: rimosso calcolo prezzi pesante');
+
+            initOperatorFilterEvents();
+            initTypeFilterEvents();
             
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
@@ -4102,4 +4351,3 @@
     </script>
 </body>
 </html>
-
