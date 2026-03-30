@@ -1458,7 +1458,7 @@
             
             const operators = new Set();
             [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti].forEach(record => {
-                if (record.operatore) operators.add(record.operatore);
+                if (record.operatore) if (record.operatore) operators.add(record.operatore.trim());
             });
             
             const sortedOps = Array.from(operators).sort();
@@ -2486,7 +2486,7 @@
                 ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' })),
                 ...allData.prodotti_aggiunti.map(p => ({ ...p, source: 'prodotti_aggiunti' }))
             ].filter(t =>
-                (!selectedOperator || t.operatore === selectedOperator) &&
+                (!selectedOperator || (t.operatore || '').toLowerCase().trim() === selectedOperator.toLowerCase().trim()) &&
                 (!startDate || t.data >= startDate) &&
                 (!endDate || t.data <= endDate)
             );
