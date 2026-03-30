@@ -1565,6 +1565,7 @@
 
         function normalizeOperatorName(operator) {
             return normalizeText(operator);
+            return (operator || '').toLowerCase().trim();
         }
 
         function operatorMatches(recordOperator, selectedOperator) {
