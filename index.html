@@ -1468,6 +1468,15 @@
             });
         }
 
+        function normalizeOperatorName(operator) {
+            return (operator || '').toLowerCase().trim();
+        }
+
+        function operatorMatches(recordOperator, selectedOperator) {
+            if (!selectedOperator) return true;
+            return normalizeOperatorName(recordOperator) === normalizeOperatorName(selectedOperator);
+        }
+
         function populateProductFilter() {
             const select = document.getElementById('product-filter');
             if (!select) return;
@@ -2444,7 +2453,7 @@
             }
             
             if (selectedOperator) {
-                dataToAnalyze = dataToAnalyze.filter(d => d.operatore === selectedOperator);
+                dataToAnalyze = dataToAnalyze.filter(d => operatorMatches(d.operatore, selectedOperator));
             }
             
             const stats = {
@@ -2480,13 +2489,18 @@
             const selectedOperator = document.getElementById('operator-filter').value;
             const startDate = document.getElementById('op-start-date').value;
             const endDate = document.getElementById('op-end-date').value;
+
+            loadOperatorStats(selectedOperator, startDate, endDate);
+            createOperatorsPerformanceChart(selectedOperator, startDate, endDate);
+            createOperatorsRevenueChart(selectedOperator, startDate, endDate);
+            createOperatorsProductsChart(selectedOperator, startDate, endDate);
         
             const transactions = [
                 ...allData.vendite.map(v => ({ ...v, source: 'vendite' })),
                 ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' })),
                 ...allData.prodotti_aggiunti.map(p => ({ ...p, source: 'prodotti_aggiunti' }))
             ].filter(t =>
-                (!selectedOperator || (t.operatore || '').toLowerCase().trim() === selectedOperator.toLowerCase().trim()) &&
+                operatorMatches(t.operatore, selectedOperator) &&
                 (!startDate || t.data >= startDate) &&
                 (!endDate || t.data <= endDate)
             );
@@ -2547,7 +2561,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorStats[op]) {
                     operatorStats[op] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
@@ -2643,7 +2657,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorRevenue[op]) operatorRevenue[op] = 0;
                 
@@ -2714,7 +2728,7 @@
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
-                if (selectedOperator && op !== selectedOperator) return;
+                if (!operatorMatches(op, selectedOperator)) return;
                 
                 if (!operatorProducts[op]) operatorProducts[op] = 0;
                 
@@ -4102,4 +4116,3 @@
     </script>
 </body>
 </html>
-
