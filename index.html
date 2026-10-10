@@ -810,6 +810,119 @@
             min-height: 1.4em;
             margin-top: 8px;
         }
+        /* TELEFONO: testi piu' grandi e meno elementi affiancati (deve restare in fondo) */
+        @media (max-width: 600px) {
+            body {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 12px 12px 110px;
+            }
+
+            .cards-grid.three-col,
+            .cards-grid.four-col,
+            .cards-grid.five-col {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-card {
+                min-height: 96px;
+                padding: 14px 10px;
+            }
+
+            .stat-value {
+                font-size: 1.7em;
+            }
+
+            .stat-label {
+                font-size: 0.85em;
+            }
+
+            .card h3,
+            .filters h3 {
+                font-size: 1.1em;
+            }
+
+            .page-title {
+                font-size: 1.35em;
+            }
+
+            /* numeri rapidi di "Oggi": tutti visibili, su due righe */
+            .quick-stats {
+                flex-wrap: wrap;
+                overflow: visible;
+            }
+
+            .quick-stat {
+                flex: 1 1 28%;
+                min-width: 0;
+            }
+
+            .quick-stat-value {
+                font-size: 1.4em;
+            }
+
+            .quick-stat-label {
+                font-size: 0.85em;
+            }
+
+            .transaction-item {
+                font-size: 1em;
+                padding: 12px;
+            }
+
+            .filter-group label {
+                font-size: 0.9em;
+            }
+
+            /* filtri uno sotto l'altro */
+            .v-filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 260px;
+            }
+
+            .chart-container.small {
+                height: 220px;
+            }
+
+            .chart-container.large {
+                height: 300px;
+            }
+
+            .nav-icon {
+                font-size: 1.35em;
+            }
+
+            .nav-label {
+                font-size: 0.68em;
+            }
+
+            .nav-item {
+                min-width: 0;
+                padding: 6px 4px;
+            }
+
+            .prezzi-name strong {
+                font-size: 1em;
+            }
+
+            .prezzi-name span,
+            .prezzi-info {
+                font-size: 0.85em;
+            }
+
+            .m-delta {
+                font-size: 0.8em;
+            }
+
+            .m-warning {
+                font-size: 0.95em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1653,6 +1766,28 @@
             </div>
         </div>
 
+        <!-- PAGINA CONFIGURAZIONE PRODOTTI -->
+        <div id="page-configprodotti" class="page">
+            <!-- PREZZI PRODOTTI FATTURATI (per la stima del giro d'affari) -->
+            <div style="background:linear-gradient(135deg,#78350f,#d97706);border-radius:14px;padding:16px;margin:0 0 16px;">
+                <h2 style="font-size:1.3em;margin-bottom:4px;">💶 Prezzi prodotti fatturati</h2>
+                <p style="font-size:0.85em;opacity:0.9;">In cassa le fatture non hanno l'importo. Inserisci il prezzo a pezzo che fai ai clienti: l'Analisi mensile calcola il valore delle fatture e il giro d'affari totale.</p>
+            </div>
+            <div class="prezzi-info" id="prezzi-info"></div>
+            <div id="prezzi-list"></div>
+            <button class="prezzi-save-btn" id="prezzi-save-btn" type="button">💾 Salva prezzi</button>
+            <div class="prezzi-saved" id="prezzi-saved"></div>
+
+            <div style="background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:14px;padding:16px;margin:28px 0 16px;">
+                <h2 style="font-size:1.3em;margin-bottom:4px;">⚙️ Configura Prodotti</h2>
+                <p style="font-size:0.85em;opacity:0.8;">Rinomina, nascondi o riordina i prodotti nel gestionale. Le colonne del database non cambiano.</p>
+            </div>
+            <div id="config-prod-list"></div>
+            <button class="config-save-btn" onclick="salvaConfigProdotti()">💾 Salva configurazione</button>
+            <button class="config-reset-btn" onclick="resetConfigProdotti()">🔄 Ripristina valori originali</button>
+
+        </div>
+
         <!-- STATUS MESSAGE -->
         <div id="status-message"></div>
     </div>
@@ -2364,7 +2499,7 @@
                             position: 'bottom',
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     }
@@ -2415,11 +2550,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -2691,7 +2826,7 @@
                             position: 'bottom',
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     }
@@ -2840,11 +2975,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -2943,7 +3078,7 @@
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' },
                             title: {
                                 display: true,
@@ -2957,7 +3092,7 @@
                             position: 'right',
                             ticks: { 
                                 color: '#94a3b8', 
-                                font: { size: 10 },
+                                font: { size: 12 },
                                 callback: function(value) {
                                     return value + '%';
                                 }
@@ -2970,7 +3105,7 @@
                             }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -3045,7 +3180,7 @@
                         legend: {
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     },
@@ -3054,7 +3189,7 @@
                             stacked: true,
                             ticks: { 
                                 color: '#94a3b8', 
-                                font: { size: 10 },
+                                font: { size: 12 },
                                 callback: function(value) {
                                     return '€' + value;
                                 }
@@ -3063,7 +3198,7 @@
                         },
                         x: {
                             stacked: true,
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -3331,19 +3466,19 @@
                         legend: {
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     },
                     scales: {
                         y: {
                             stacked: true,
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
                             stacked: true,
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -3406,7 +3541,7 @@
                         y: {
                             ticks: {
                                 color: '#94a3b8',
-                                font: { size: 10 },
+                                font: { size: 12 },
                                 callback: function(value) {
                                     return '€' + value;
                                 }
@@ -3414,7 +3549,7 @@
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -3474,11 +3609,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -3946,11 +4081,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4090,11 +4225,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4157,11 +4292,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4227,7 +4362,7 @@
                             position: 'bottom',
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     }
@@ -4368,7 +4503,7 @@
                         legend: {
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     },
@@ -4377,7 +4512,7 @@
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         y1: {
@@ -4386,7 +4521,7 @@
                             position: 'right',
                             ticks: { 
                                 color: '#94a3b8', 
-                                font: { size: 10 },
+                                font: { size: 12 },
                                 callback: function(value) {
                                     return '€' + value;
                                 }
@@ -4394,7 +4529,7 @@
                             grid: { drawOnChartArea: false }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4458,11 +4593,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4526,7 +4661,7 @@
                         y: {
                             ticks: { 
                                 color: '#94a3b8', 
-                                font: { size: 10 },
+                                font: { size: 12 },
                                 callback: function(value) {
                                     return '€' + value;
                                 }
@@ -4534,7 +4669,7 @@
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4705,10 +4840,10 @@
             return {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 12 } } } },
                 scales: {
-                    x: { stacked: true, ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
-                    y: { stacked: true, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 }, precision: 0 }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+                    x: { stacked: true, ticks: { color: '#94a3b8', font: { size: 12 } }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                    y: { stacked: true, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 12 }, precision: 0 }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
                 },
                 ...extra
             };
@@ -4917,16 +5052,16 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { labels: { color: '#94a3b8', font: { size: 10 } } }
+                        legend: { labels: { color: '#94a3b8', font: { size: 12 } } }
                     },
                     scales: {
                         y: {
                             min: 0,
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 8 },
+                            ticks: { color: '#94a3b8', font: { size: 12 }, maxTicksLimit: 8 },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4994,17 +5129,17 @@
                         legend: {
                             labels: {
                                 color: '#94a3b8',
-                                font: { size: 10 }
+                                font: { size: 12 }
                             }
                         }
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -5058,11 +5193,11 @@
                     },
                     scales: {
                         y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -5191,26 +5326,6 @@
         }, false);
     </script>
 
-    <!-- PAGINA CONFIGURAZIONE PRODOTTI -->
-    <div id="page-configprodotti" class="page" style="padding:15px; padding-bottom:100px;">
-        <div style="background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:14px;padding:16px;margin-bottom:16px;">
-            <h2 style="font-size:1.3em;margin-bottom:4px;">⚙️ Configura Prodotti</h2>
-            <p style="font-size:0.85em;opacity:0.8;">Rinomina, nascondi o riordina i prodotti nel gestionale. Le colonne del database non cambiano.</p>
-        </div>
-        <div id="config-prod-list"></div>
-        <button class="config-save-btn" onclick="salvaConfigProdotti()">💾 Salva configurazione</button>
-        <button class="config-reset-btn" onclick="resetConfigProdotti()">🔄 Ripristina valori originali</button>
-
-        <!-- PREZZI PRODOTTI FATTURATI (per la stima del giro d'affari) -->
-        <div style="background:linear-gradient(135deg,#78350f,#d97706);border-radius:14px;padding:16px;margin:28px 0 16px;">
-            <h2 style="font-size:1.3em;margin-bottom:4px;">💶 Prezzi prodotti fatturati</h2>
-            <p style="font-size:0.85em;opacity:0.9;">In cassa le fatture non hanno l'importo. Inserisci il prezzo a pezzo che fai ai clienti: l'Analisi mensile calcola il valore delle fatture e il giro d'affari totale.</p>
-        </div>
-        <div class="prezzi-info" id="prezzi-info"></div>
-        <div id="prezzi-list"></div>
-        <button class="prezzi-save-btn" id="prezzi-save-btn" type="button">💾 Salva prezzi</button>
-        <div class="prezzi-saved" id="prezzi-saved"></div>
-    </div>
 
 </body>
 </html>
