@@ -387,6 +387,136 @@
             transform: scale(0.98);
         }
 
+        /* PAGINA VENDITE */
+        .v-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .v-chip {
+            flex: 1 1 auto;
+            min-height: 44px;
+            padding: 8px 14px;
+            border-radius: 22px;
+            border: 2px solid rgba(37, 99, 235, 0.3);
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .v-chip.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+        }
+
+        .v-filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .v-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            margin-top: 6px;
+            color: #cbd5e1;
+            font-size: 0.9em;
+        }
+
+        .v-check input {
+            width: 20px;
+            height: 20px;
+        }
+
+        .v-reset {
+            background: none;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            color: #94a3b8;
+            border-radius: 8px;
+            min-height: 40px;
+            padding: 6px 14px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        #v-stat-split {
+            font-size: 1.2em;
+        }
+
+        /* ANALISI MENSILE */
+        .m-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .m-nav .filter-select {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .m-arrow {
+            min-width: 48px;
+            min-height: 44px;
+            border-radius: 8px;
+            border: 2px solid rgba(37, 99, 235, 0.3);
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .m-arrow:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .m-warning {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .m-highlight {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(16, 185, 129, 0.12));
+            border-color: rgba(245, 158, 11, 0.45);
+        }
+
+        .m-delta {
+            font-size: 0.75em;
+            margin-top: 4px;
+            color: #94a3b8;
+        }
+
+        .m-delta.up { color: #10b981; }
+        .m-delta.down { color: #ef4444; }
+
+        #m-revenue-split, #m-ops-split {
+            font-size: 1.2em;
+        }
+
+        .m-note {
+            background: rgba(37, 99, 235, 0.08);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
         /* PAGE TITLE */
         .page-title {
             text-align: center;
@@ -466,19 +596,19 @@
             .cards-grid.three-col {
                 grid-template-columns: 1fr 1fr;
             }
-            
+
             .cards-grid.four-col {
                 grid-template-columns: 1fr 1fr;
             }
-            
+
             .cards-grid.five-col {
                 grid-template-columns: 1fr 1fr 1fr;
             }
-            
+
             .nav-icon {
                 font-size: 1.1em;
             }
-            
+
             .nav-label {
                 font-size: 0.55em;
             }
@@ -494,7 +624,7 @@
             .bottom-nav {
                 padding-bottom: calc(8px + env(safe-area-inset-bottom));
             }
-            
+
             body {
                 padding-bottom: calc(80px + env(safe-area-inset-bottom));
             }
@@ -612,6 +742,74 @@
             color: #ef4444; font-size: 0.9em;
             cursor: pointer; margin-top: 8px;
         }
+        /* PREZZI FATTURE */
+        .prezzi-info {
+            font-size: 0.8em;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .prezzi-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(217, 119, 6, 0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+        .prezzi-row.missing {
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+        .prezzi-name {
+            flex: 1;
+            min-width: 0;
+        }
+        .prezzi-name strong {
+            display: block;
+            color: #e2e8f0;
+            font-size: 0.95em;
+        }
+        .prezzi-name span {
+            color: #94a3b8;
+            font-size: 0.75em;
+        }
+        .prezzi-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #94a3b8;
+        }
+        .prezzi-input {
+            width: 90px;
+            min-height: 44px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(217, 119, 6, 0.35);
+            color: white;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 16px;
+            text-align: right;
+        }
+        .prezzi-input:focus {
+            outline: none;
+            border-color: #f59e0b;
+        }
+        .prezzi-save-btn {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none; border-radius: 12px;
+            color: white; font-size: 1.1em;
+            font-weight: 700; cursor: pointer; margin-top: 8px;
+        }
+        .prezzi-saved {
+            text-align: center;
+            color: #10b981;
+            font-size: 0.9em;
+            min-height: 1.4em;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -633,7 +831,7 @@
         <!-- PAGE 1: DASHBOARD OGGI -->
         <div id="dashboard" class="page active">
             <div class="page-title">📊 Dashboard - Oggi</div>
-            
+
             <!-- STATISTICHE OGGI -->
             <div class="cards-grid three-col">
                 <div class="card stat-card">
@@ -700,7 +898,7 @@
         <!-- PAGE 2: MAGAZZINO -->
         <div id="magazzino" class="page">
             <div class="page-title">📦 Magazzino Attuale</div>
-            
+
             <!-- FORMAGGI -->
             <div class="card inventory-card">
                 <h3>🧀 Formaggi</h3>
@@ -792,7 +990,7 @@
         <!-- PAGE 3: TEMPORALE -->
         <div id="temporale" class="page">
             <div class="page-title">⏰ Analisi Temporale</div>
-            
+
             <!-- FILTRI -->
             <div class="filters">
                 <h3>🔍 Selezione Periodo</h3>
@@ -893,7 +1091,7 @@
         <!-- PAGE 4: OPERATORI -->
         <div id="operatori" class="page">
             <div class="page-title">👥 Analisi Operatori</div>
-            
+
             <!-- FILTRO OPERATORE -->
             <div class="filters">
                 <h3>👤 Seleziona Operatore</h3>
@@ -1039,61 +1237,91 @@
         </div>
         <!-- PAGE 6: ANALISI -->
         <div id="analisi" class="page">
-            <div class="page-title">📈 Analisi Avanzate</div>
-            
-            <!-- STATISTICHE GENERALI -->
-            <div class="cards-grid five-col">
-                <div class="card stat-card">
-                    <div class="stat-value" id="analysis-total-ops">0</div>
-                    <div class="stat-label">Tot. Operazioni</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-value" id="analysis-contanti">0</div>
-                    <div class="stat-label">Contanti</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-value" id="analysis-bancomat">0</div>
-                    <div class="stat-label">Bancomat</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-value" id="analysis-fatturati">0</div>
-                    <div class="stat-label">Fatturati</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-value" id="analysis-revenue">€0</div>
-                    <div class="stat-label">Tot. Ricavi</div>
-                </div>
-            </div>
-            
-            <!-- TREND SETTIMANALE -->
-            <div class="card">
-                <h3>📊 Trend Ultima Settimana (con Regalo)</h3>
-                <div class="chart-container large">
-                    <canvas id="weekly-trend-chart"></canvas>
+            <div class="page-title">📈 Analisi Mensile</div>
+
+            <div class="filters">
+                <div class="m-nav">
+                    <button class="m-arrow" id="m-prev" type="button" aria-label="Mese precedente">◀</button>
+                    <select id="m-month" class="filter-select" aria-label="Mese"></select>
+                    <button class="m-arrow" id="m-next" type="button" aria-label="Mese successivo">▶</button>
                 </div>
             </div>
 
-            <!-- CONFRONTO MESI -->
-            <div class="card">
-                <h3>📅 Confronto Mensile</h3>
-                <div class="chart-container">
-                    <canvas id="monthly-comparison-chart"></canvas>
+            <div class="m-warning" id="m-warning" style="display:none"></div>
+
+            <div class="cards-grid two-col">
+                <div class="card stat-card m-highlight">
+                    <div class="stat-value" id="m-giro">€0</div>
+                    <div class="stat-label">Giro d'affari stimato</div>
+                    <div class="m-delta" id="m-giro-delta"></div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-fatture">€0</div>
+                    <div class="stat-label">Fatture (stima)</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-revenue">€0</div>
+                    <div class="stat-label">Incasso del mese</div>
+                    <div class="m-delta" id="m-revenue-delta"></div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-revenue-split">€0 · €0</div>
+                    <div class="stat-label">Contanti · Bancomat</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-ops">0</div>
+                    <div class="stat-label">Operazioni</div>
+                    <div class="m-delta" id="m-ops-delta"></div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-ops-split">0 · 0 · 0 · 0</div>
+                    <div class="stat-label">Contanti · Bancomat · Fatture · Regali</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-avg">€0</div>
+                    <div class="stat-label">Scontrino medio</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="m-forms">0</div>
+                    <div class="stat-label">Forme vendute</div>
                 </div>
             </div>
 
-            <!-- TOP PRODOTTI -->
             <div class="card">
-                <h3>🏆 Top Prodotti di Sempre</h3>
+                <h3>💰 Giro d'affari ultimi 12 mesi</h3>
                 <div class="chart-container">
-                    <canvas id="top-products-alltime-chart"></canvas>
+                    <canvas id="m-revenue-chart"></canvas>
                 </div>
             </div>
 
-            <!-- ANDAMENTO RICAVI STIMATI -->
             <div class="card">
-                <h3>💰 Andamento Ricavi Stimati nel Tempo</h3>
+                <h3>📅 Giorno per giorno</h3>
                 <div class="chart-container">
-                    <canvas id="estimated-revenue-trend-chart"></canvas>
+                    <canvas id="m-daily-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🧾 Operazioni ultimi 12 mesi</h3>
+                <div class="chart-container">
+                    <canvas id="m-ops-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Prodotti più venduti nel mese</h3>
+                <div class="chart-container">
+                    <canvas id="m-products-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>ℹ️ Come si calcola l'incasso</h3>
+                <div class="m-note">
+                    <strong>Incasso</strong> = importi inseriti in cassa per le vendite in <strong>contanti</strong> + importi delle vendite con <strong>bancomat</strong>.<br>
+                    <strong>Fatture (stima)</strong> = pezzi fatturati × prezzo che hai inserito in Impostazioni → Prezzi prodotti fatturati.<br>
+                    <strong>Giro d'affari</strong> = Incasso + Fatture (stima). I <strong>regali</strong> non sono compresi.<br>
+                    La cassa salva gli importi bancomat da luglio 2025 e quelli in contanti da ottobre 2025: i mesi prima sono incompleti e sono segnati con ⚠️.
                 </div>
             </div>
         </div>
@@ -1101,7 +1329,7 @@
         <!-- PAGE 6: SINGOLO PRODOTTO -->
         <div id="prodotto" class="page">
             <div class="page-title">🔍 Analisi Singolo Prodotto</div>
-            
+
             <!-- FILTRO PRODOTTO -->
             <div class="filters">
                 <h3>📦 Seleziona Prodotto</h3>
@@ -1173,7 +1401,7 @@
         <!-- PAGE 7: FATTURATORI -->
         <div id="fatturatori" class="page">
             <div class="page-title">🏢 Analisi Fatturatori</div>
-            
+
             <!-- FILTRO FATTURATORE -->
             <div class="filters">
                 <h3>🏢 Seleziona Fatturatore</h3>
@@ -1243,9 +1471,114 @@
         </div>
 
         <!-- PAGE 8: FORME CELLA FRIGO -->
+        <!-- PAGINA VENDITE: unisce Temporale, Tipologie, Prodotto e Clienti -->
+        <div id="vendite" class="page">
+            <div class="page-title">🧾 Vendite</div>
+
+            <div class="filters">
+                <div class="v-chips" id="v-period-chips">
+                    <button class="v-chip active" data-period="today">Oggi</button>
+                    <button class="v-chip" data-period="yesterday">Ieri</button>
+                    <button class="v-chip" data-period="last7">7 giorni</button>
+                    <button class="v-chip" data-period="last30">30 giorni</button>
+                    <button class="v-chip" data-period="thisMonth">Mese</button>
+                    <button class="v-chip" data-period="custom">Date…</button>
+                </div>
+                <div class="filter-row horizontal" id="v-custom-dates" style="display:none; margin-top:10px;">
+                    <div class="filter-group">
+                        <label for="v-start-date">Dal</label>
+                        <input type="date" id="v-start-date" class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label for="v-end-date">Al</label>
+                        <input type="date" id="v-end-date" class="filter-input">
+                    </div>
+                </div>
+
+                <div class="v-filter-grid">
+                    <div class="filter-group">
+                        <label for="v-type">Tipologia</label>
+                        <select id="v-type" class="filter-select">
+                            <option value="">Tutte le vendite</option>
+                            <option value="contanti">Contanti</option>
+                            <option value="bancomat">Bancomat</option>
+                            <option value="fatturati">Fattura</option>
+                            <option value="regalo">Regalo</option>
+                            <option value="aggiunte">Aggiunte al bancone</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="v-operator">Operatore</label>
+                        <select id="v-operator" class="filter-select">
+                            <option value="">Tutti</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="v-product">Prodotto</label>
+                        <select id="v-product" class="filter-select">
+                            <option value="">Tutti</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="v-client">Cliente (fattura)</label>
+                        <select id="v-client" class="filter-select">
+                            <option value="">Tutti</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="v-check"><input type="checkbox" id="v-notes"> Solo operazioni con note</label>
+                <button class="v-reset" id="v-reset" type="button">Azzera filtri</button>
+            </div>
+
+            <div class="cards-grid two-col">
+                <div class="card stat-card">
+                    <div class="stat-value" id="v-stat-ops">0</div>
+                    <div class="stat-label">Operazioni</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="v-stat-revenue">€0</div>
+                    <div class="stat-label">Incasso (contanti + bancomat)</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="v-stat-qty">0</div>
+                    <div class="stat-label" id="v-stat-qty-label">Pezzi</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="v-stat-split">–</div>
+                    <div class="stat-label">Contanti · Bancomat · Fatture · Regali</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 id="v-trend-title">📈 Andamento</h3>
+                <div class="chart-container">
+                    <canvas id="v-trend-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 id="v-products-title">📦 Prodotti</h3>
+                <div class="chart-container">
+                    <canvas id="v-products-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card" id="v-clients-card">
+                <h3>🏢 Clienti (fatture)</h3>
+                <div class="chart-container">
+                    <canvas id="v-clients-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Operazioni</h3>
+                <div class="transactions-list" id="v-transactions"></div>
+            </div>
+        </div>
+
         <div id="cellafrigo" class="page">
             <div class="page-title">🧊 Forme Cella Frigo</div>
-            
+
             <!-- FILTRI -->
             <div class="filters">
                 <h3>🔍 Selezione Periodo</h3>
@@ -1274,15 +1607,15 @@
                 </div>
                 <div class="card stat-card">
                     <div class="stat-value" id="frigo-produced-forms">0</div>
-                    <div class="stat-label">Forme Prodotte</div>
+                    <div class="stat-label">Prodotte dal 21/07/25</div>
                 </div>
                 <div class="card stat-card">
                     <div class="stat-value" id="frigo-taken-forms">0</div>
-                    <div class="stat-label">Forme Prelevate</div>
+                    <div class="stat-label">Vendute dal 21/07/25</div>
                 </div>
                 <div class="card stat-card">
                     <div class="stat-value" id="frigo-capacity">0%</div>
-                    <div class="stat-label">Capacità Utilizzo</div>
+                    <div class="stat-label">Riempimento (max 3000)</div>
                 </div>
             </div>
 
@@ -1291,8 +1624,9 @@
                 <h3>ℹ️ Come vengono calcolate le forme in cella</h3>
                 <div style="background: rgba(16, 185, 129, 0.1); padding: 12px; border-radius: 8px; font-size: 0.9em; line-height: 1.5;">
                     <strong>📈 Forme Prodotte:</strong> dalla tabella <code>produzione_cella_frigo</code><br>
-                    <strong>📉 Forme Prelevate:</strong> formaggio fresco + forme stagionate dalla tabella <code>prodotti_aggiunti</code><br>
-                    <strong>🧊 Forme in Cella:</strong> Prodotte - Prelevate
+                    <strong>📉 Forme Vendute:</strong> formaggio fresco + forme stagionate (tabelle <code>vendite</code> e <code>fatturato</code>)<br>
+                    <strong>🧊 Forme in Cella:</strong> giacenza al 20/07/2025 + prodotte − vendute<br>
+                    <strong>📌 20/07/2025:</strong> unificazione di fresche, stagionate e mezze forme; la correzione fatta quel giorno vale come giacenza iniziale, non come produzione
                 </div>
             </div>
 
@@ -1329,41 +1663,29 @@
             <div class="nav-icon">📊</div>
             <div class="nav-label">Oggi</div>
         </div>
+        <div class="nav-item" onclick="showPage('vendite')">
+            <div class="nav-icon">🧾</div>
+            <div class="nav-label">Vendite</div>
+        </div>
         <div class="nav-item" onclick="showPage('magazzino')">
             <div class="nav-icon">📦</div>
             <div class="nav-label">Magazzino</div>
-        </div>
-        <div class="nav-item" onclick="showPage('temporale')">
-            <div class="nav-icon">⏰</div>
-            <div class="nav-label">Temporale</div>
-        </div>
-        <div class="nav-item" onclick="showPage('operatori')">
-            <div class="nav-icon">👥</div>
-            <div class="nav-label">Operatori</div>
-        </div>
-        <div class="nav-item" onclick="showPage('tipologie')">
-            <div class="nav-icon">🧩</div>
-            <div class="nav-label">Tipologie</div>
-        </div>
-        <div class="nav-item" onclick="showPage('analisi')">
-            <div class="nav-icon">📈</div>
-            <div class="nav-label">Analisi</div>
-        </div>
-        <div class="nav-item" onclick="showPage('prodotto')">
-            <div class="nav-icon">🔍</div>
-            <div class="nav-label">Prodotto</div>
-        </div>
-        <div class="nav-item" onclick="showPage('fatturatori')">
-            <div class="nav-icon">🏢</div>
-            <div class="nav-label">Clienti</div>
         </div>
         <div class="nav-item" onclick="showPage('cellafrigo')">
             <div class="nav-icon">🧊</div>
             <div class="nav-label">Cella</div>
         </div>
+        <div class="nav-item" onclick="showPage('operatori')">
+            <div class="nav-icon">👥</div>
+            <div class="nav-label">Operatori</div>
+        </div>
+        <div class="nav-item" onclick="showPage('analisi')">
+            <div class="nav-icon">📈</div>
+            <div class="nav-label">Analisi</div>
+        </div>
         <div class="nav-item" onclick="showPage('configprodotti')">
             <div class="nav-icon">⚙️</div>
-            <div class="nav-label">Config</div>
+            <div class="nav-label">Impost.</div>
         </div>
     </div>
 
@@ -1386,6 +1708,8 @@
         // ==========================================
         // VARIABILI GLOBALI
         // ==========================================
+        // Copia completa per magazzino/cella (vedi loadAllData)
+        const stockData = { vendite: [], fatturato: [], prodotti_aggiunti: [] };
         let allData = {
             vendite: [],
             fatturato: [],
@@ -1568,7 +1892,7 @@
         // ==========================================
         // FUNZIONI UTILITY
         // ==========================================
-        
+
         function normalizeText(value) {
             return (value || '')
                 .toLowerCase()
@@ -1609,7 +1933,7 @@
                 result.isRevenue = true;
             } else if (source === 'fatturato') {
                 const fatturatore = transaction.fatturatore || '';
-                
+
                 if (isBancomatValue(fatturatore)) {
                     result.category = 'bancomat';
                     result.isRevenue = true;
@@ -1656,44 +1980,143 @@
             let allRows = [];
             let start = 0;
             const batchSize = 1000;
-            
+
+            let useId = true;
+
             while (true) {
-                const { data, error } = await supabaseClient
+                let query = supabaseClient
                     .from(tableName)
                     .select('*')
-                    .order('data', { ascending: false })
-                    .range(start, start + batchSize - 1);
-                
+                    .order('data', { ascending: false });
+                // ordine univoco: senza, le pagine da 1000 righe si sovrappongono e alcune righe compaiono due volte
+                if (useId) query = query.order('id', { ascending: false });
+                const { data, error } = await query.range(start, start + batchSize - 1);
+
+                if (error && useId && start === 0) {
+                    console.warn(`${tableName}: colonna id non disponibile, carico senza`);
+                    useId = false;
+                    continue;
+                }
                 if (error) throw error;
-                
+
                 if (!data || data.length === 0) break;
-                
+
                 allRows = allRows.concat(data);
                 console.log(`📥 ${tableName}: caricati ${allRows.length} righe...`);
-                
+
                 if (data.length < batchSize) break;
-                
+
                 start += batchSize;
             }
-            
-            return allRows;
+
+            // Sicurezza extra: rimuove eventuali righe duplicate (stesso id)
+            const seen = new Set();
+            return allRows.filter(r => {
+                if (r.id == null) return true;
+                if (seen.has(r.id)) return false;
+                seen.add(r.id);
+                return true;
+            });
+        }
+
+        // Data locale (ora italiana) in formato YYYY-MM-DD; toISOString usa l'ora UTC
+        function localISODate(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        // ==========================================
+        // CONTROLLO SINCRONIZZAZIONE CASSA
+        // ==========================================
+        // Il PC del negozio ogni ~10 minuti cancella le tabelle online e le ricarica a blocchi.
+        // Se la pagina legge in quel momento vede dati a meta' o doppi: in quel caso aspetta e riprova.
+        // (Solo letture: il database non viene mai modificato.)
+        const SYNC_TABLES = ['vendite', 'fatturato', 'prodotti_aggiunti', 'produzione_cella_frigo', 'soldi'];
+        const SYNC_MAX_SPAN_MS = 5 * 60 * 1000; // una ricarica di una tabella dura meno di un minuto
+        const SYNC_MAX_ATTEMPTS = 25; // circa 3-4 minuti: la ricarica di tutte le tabelle dura 1-2 minuti
+        const SYNC_RETRY_MS = 8000;
+
+        async function getTableSnapshot(tableName) {
+            const { count, error } = await supabaseClient
+                .from(tableName)
+                .select('id', { count: 'exact', head: true });
+            if (error) throw error;
+            const { data, error: err2 } = await supabaseClient
+                .from(tableName)
+                .select('created_at')
+                .order('created_at', { ascending: false, nullsFirst: false })
+                .limit(1);
+            if (err2) throw err2;
+            return { count, latest: data && data[0] ? data[0].created_at : null };
+        }
+
+        // Restituisce null se la tabella e' coerente, altrimenti il motivo
+        function checkTableConsistency(tableName, rows, before, after) {
+            if (after.count === 0) return `${tableName}: vuota (ricarica in corso)`;
+            if (before.count !== after.count || before.latest !== after.latest) {
+                return `${tableName}: cambiata durante la lettura (${before.count} → ${after.count} righe)`;
+            }
+            if (rows.length !== after.count) {
+                return `${tableName}: lette ${rows.length} righe su ${after.count}`;
+            }
+            const times = rows.map(r => Date.parse(r.created_at)).filter(t => !isNaN(t));
+            if (times.length > 0) {
+                const span = Math.max(...times) - Math.min(...times);
+                if (span > SYNC_MAX_SPAN_MS) {
+                    return `${tableName}: righe di due ricariche diverse mescolate`;
+                }
+            }
+            return null;
+        }
+
+        async function loadTablesConsistent() {
+            let lastResult = null;
+            for (let attempt = 1; attempt <= SYNC_MAX_ATTEMPTS; attempt++) {
+                const before = await Promise.all(SYNC_TABLES.map(getTableSnapshot));
+                const rows = await Promise.all(SYNC_TABLES.map(loadAllDataWithPagination));
+                const after = await Promise.all(SYNC_TABLES.map(getTableSnapshot));
+
+                const problems = SYNC_TABLES
+                    .map((t, i) => checkTableConsistency(t, rows[i], before[i], after[i]))
+                    .filter(Boolean);
+
+                lastResult = { rows, problems };
+                if (problems.length === 0) return lastResult;
+
+                console.warn(`⏳ Tentativo ${attempt}: dati non stabili`, problems);
+                if (attempt < SYNC_MAX_ATTEMPTS) {
+                    showStatus(`⏳ Il negozio sta aggiornando i dati online, riprovo tra pochi secondi… (${attempt}/${SYNC_MAX_ATTEMPTS})`);
+                    await new Promise(res => setTimeout(res, SYNC_RETRY_MS));
+                }
+            }
+            return lastResult;
+        }
+
+        // Righe scritte dalla cassa che non sono operazioni vere
+        const NON_SALE_OPERATORS = ['CONTROLLO', 'START'];
+        function isNonSaleRow(r) {
+            return NON_SALE_OPERATORS.includes(String(r.operatore || '').trim().toUpperCase())
+                || String(r.fatturatore || '').trim().toUpperCase() === 'CONTROLLO';
         }
 
         async function loadAllData() {
             try {
                 showStatus('📡 Caricamento dati completo...');
-                
-                const [venditeData, fatturatoData, prodottiData, produzioneData, soldiData] = await Promise.all([
-                    loadAllDataWithPagination('vendite'),
-                    loadAllDataWithPagination('fatturato'),
-                    loadAllDataWithPagination('prodotti_aggiunti'),
-                    loadAllDataWithPagination('produzione_cella_frigo'),
-                    loadAllDataWithPagination('soldi')
-                ]);
 
-                allData.vendite = venditeData;
-                allData.fatturato = fatturatoData;
-                allData.prodotti_aggiunti = prodottiData;
+                const { rows, problems } = await loadTablesConsistent();
+                const [venditeData, fatturatoData, prodottiData, produzioneData, soldiData] = rows;
+
+                // Magazzino e cella usano TUTTE le righe (come l'app cassa, rettifiche comprese)
+                stockData.vendite = venditeData;
+                stockData.fatturato = fatturatoData;
+                stockData.prodotti_aggiunti = prodottiData;
+
+                // Statistiche e liste operazioni: senza rettifiche "CONTROLLO" e giacenza iniziale "START"
+                allData.vendite = venditeData.filter(r => !isNonSaleRow(r));
+                allData.fatturato = fatturatoData.filter(r => !isNonSaleRow(r));
+                allData.prodotti_aggiunti = prodottiData.filter(r => !isNonSaleRow(r));
                 allData.produzione_cella_frigo = produzioneData;
                 allData.soldi = soldiData;
 
@@ -1704,12 +2127,16 @@
                     produzione: allData.produzione_cella_frigo.length,
                     soldi: allData.soldi.length
                 });
-                
-                showSuccess(`🎯 Dati caricati: ${allData.vendite.length + allData.fatturato.length} operazioni`);
-                
+
+                if (problems.length > 0) {
+                    showError('⚠️ Dati online forse incompleti (aggiornamento dal negozio in corso). Ricarica la pagina tra un minuto.');
+                } else {
+                    showSuccess(`🎯 Dati caricati: ${allData.vendite.length + allData.fatturato.length} operazioni`);
+                }
+
                 // Popola filtri
                 populateFilters();
-                
+
                 return true;
 
             } catch (error) {
@@ -1731,12 +2158,12 @@
         function populateOperatorFilter() {
             const select = document.getElementById('operator-filter');
             if (!select) return;
-            
+
             const operators = new Set();
             [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti].forEach(record => {
                 if (record.operatore) if (record.operatore) operators.add(record.operatore.trim());
             });
-            
+
             const sortedOps = Array.from(operators).sort();
             select.innerHTML = '<option value="">Tutti gli operatori</option>';
             sortedOps.forEach(op => {
@@ -1757,7 +2184,7 @@
         function populateProductFilter() {
             const select = document.getElementById('product-filter');
             if (!select) return;
-            
+
             select.innerHTML = '<option value="">Scegli un prodotto</option>';
             ALL_PRODUCTS.forEach(product => {
                 select.innerHTML += `<option value="${product}">${PRODUCT_LABELS[product] || product}</option>`;
@@ -1767,7 +2194,7 @@
         function populateClientFilter() {
             const select = document.getElementById('client-filter');
             if (!select) return;
-            
+
             const clients = new Set();
             allData.fatturato.forEach(record => {
                 if (record.fatturatore && 
@@ -1776,7 +2203,7 @@
                     clients.add(cleanTextSpacing(record.fatturatore));
                 }
             });
-            
+
             const sortedClients = Array.from(clients).sort();
             select.innerHTML = '<option value="">Tutti i fatturatori</option>';
             sortedClients.forEach(client => {
@@ -1790,18 +2217,21 @@
         function showPage(pageId) {
             if (pageId === 'configprodotti') {
                 renderConfigProdotti(); // async
+                initPrezziPanel();
+                renderPrezziPanel();
             }
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-            
+
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            
-            document.getElementById(pageId).classList.add('active');
+
+            // la pagina Config ha id 'page-configprodotti'
+            (document.getElementById(pageId) || document.getElementById('page-' + pageId)).classList.add('active');
             event.currentTarget.classList.add('active');
-            
+
             loadPageData(pageId);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1832,6 +2262,9 @@
                 case 'fatturatori':
                     loadFatturatori();
                     break;
+                case 'vendite':
+                    loadVendite();
+                    break;
                 case 'cellafrigo':
                     loadCellaFrigo();
                     break;
@@ -1842,9 +2275,9 @@
         // DASHBOARD (OGGI) - MODIFICATA
         // ==========================================
         function loadDashboard() {
-            const today = new Date().toISOString().split('T')[0];
+            const today = localISODate(new Date());
             const todayData = filterDataByDate(today, today);
-            
+
             const allTodayOps = [];
             const stats = {
                 contanti: 0,
@@ -1853,52 +2286,52 @@
                 regalo: 0,
                 aggiunte: 0
             };
-            
+
             todayData.vendite.forEach(v => {
                 stats.contanti++;
                 allTodayOps.push({...v, source: 'vendite'});
             });
-            
+
             todayData.fatturato.forEach(f => {
                 const cat = categorizeTransaction(f, 'fatturato');
                 stats[cat.category]++;
                 allTodayOps.push({...f, source: 'fatturato'});
             });
-            
+
             todayData.prodotti_aggiunti.forEach(p => {
                 stats.aggiunte++;
                 allTodayOps.push({...p, source: 'prodotti_aggiunti'});
             });
-            
+
             // 🔄 CALCOLA RICAVI TOTALI E BANCOMAT SEPARATAMENTE
             let totalRevenue = 0;
             let bancomatRevenue = 0;
-            
+
             [...todayData.vendite, ...todayData.fatturato].forEach(transaction => {
                 const cat = categorizeTransaction(transaction, 
                     allData.vendite.includes(transaction) ? 'vendite' : 'fatturato');
-                
+
                 if (cat.isRevenue) {
                     const revenue = parseFloat(transaction.importo_inserito) || 0;
                     totalRevenue += revenue;
-                    
+
                     if (cat.category === 'bancomat') {
                         bancomatRevenue += revenue;
                     }
                 }
             });
-            
+
             // Aggiorna UI
             document.getElementById('today-operations').textContent = allTodayOps.length;
             document.getElementById('today-revenue').textContent = `€${Math.round(totalRevenue)}`;
             document.getElementById('today-bancomat').textContent = `€${Math.round(bancomatRevenue)}`;
-            
+
             document.getElementById('stat-contanti').textContent = stats.contanti;
             document.getElementById('stat-bancomat').textContent = stats.bancomat;
             document.getElementById('stat-fatturati').textContent = stats.fatturati;
             document.getElementById('stat-regalo').textContent = stats.regalo;
             document.getElementById('stat-aggiunte').textContent = stats.aggiunte;
-            
+
             createTodayTypesChart(stats);
             createHourlyChart(allTodayOps);
             displayTodayTransactions(allTodayOps);
@@ -1907,11 +2340,11 @@
         function createTodayTypesChart(stats) {
             const ctx = document.getElementById('today-types-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['today-types']) {
                 activeCharts['today-types'].destroy();
             }
-            
+
             activeCharts['today-types'] = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -1942,16 +2375,16 @@
         function createHourlyChart(todayOps) {
             const ctx = document.getElementById('hourly-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['hourly']) {
                 activeCharts['hourly'].destroy();
             }
-            
+
             const hourlyData = {};
             for (let h = 8; h <= 20; h++) {
                 hourlyData[h] = 0;
             }
-            
+
             todayOps.forEach(op => {
                 if (op.ora) {
                     const hour = parseInt(op.ora.split(':')[0]);
@@ -1960,7 +2393,7 @@
                     }
                 }
             });
-            
+
             activeCharts['hourly'] = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1996,56 +2429,56 @@
 
         function displayTodayTransactions(allOps) {
             const container = document.getElementById('today-transactions');
-            
+
             allOps.sort((a, b) => {
                 const timeA = a.ora || '00:00';
                 const timeB = b.ora || '00:00';
                 return timeB.localeCompare(timeA);
             });
-            
+
             if (allOps.length === 0) {
                 container.innerHTML = '<p style="color: #94a3b8; text-align: center;">Nessuna transazione oggi</p>';
                 return;
             }
-            
+
             container.innerHTML = allOps.map(op => {
                 const date = new Date(op.data);
                 const dateStr = date.getDate() + '/' + (date.getMonth() + 1);
                 const time = op.ora || '00:00';
                 const operator = op.operatore || 'Sconosciuto';
-                
+
                 let transactionText = '';
                 let transactionClass = '';
-                
+
                 const products = collectProducts(op);
                 const category = categorizeTransaction(op, op.source);
-                
+
                 if (op.source === 'vendite') {
                     transactionClass = 'vendita';
                     const amount = Number(op.importo_inserito || 0);
                     transactionText = `<strong>${operator}</strong> ha venduto ${products.join(', ')} a <span class="transaction-amount">€${Math.round(amount)}</span>`;
-                    
+
                 } else if (op.source === 'prodotti_aggiunti') {
                     transactionClass = 'aggiunta';
                     transactionText = `<strong>${operator}</strong> ha aggiunto ${products.join(', ')}`;
-                    
+
                 } else if (op.source === 'fatturato') {
                     if (category.category === 'bancomat') {
                         transactionClass = 'bancomat';
                         const amount = Number(op.importo_inserito || 0);
                         transactionText = `<strong>${operator}</strong> pagato con bancomat ${products.join(', ')} a <span class="transaction-amount">€${Math.round(amount)}</span>`;
-                        
+
                     } else if (category.category === 'regalo') {
                         transactionClass = 'regalo';
                         const note = op.note ? ` - ${op.note}` : '';
                         transactionText = `<strong>${operator}</strong> ha regalato ${products.join(', ')}${note}`;
-                        
+
                     } else {
                         transactionClass = 'fatturato';
                         transactionText = `<strong>${operator}</strong> ha fatturato ${products.join(', ')} a ${op.fatturatore || 'Cliente'}`;
                     }
                 }
-                
+
                 return `
                     <div class="transaction-item ${transactionClass}">
                         <div class="transaction-time">Alle ${time} del ${dateStr}</div>
@@ -2066,62 +2499,62 @@
         function calculateCurrentStock() {
             const stock = {};
             ALL_PRODUCTS.forEach(p => stock[p] = 0);
-            
+
             // 1. AGGIUNGI prodotti_aggiunti
-            allData.prodotti_aggiunti.forEach(record => {
+            stockData.prodotti_aggiunti.forEach(record => {
                 Object.keys(record).forEach(product => {
                     if (['id', 'data', 'ora', 'operatore', 'created_at'].includes(product)) return;
-                    
+
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] += qty;
                     }
                 });
             });
-            
+
             // 2. SOTTRAI vendite
-            allData.vendite.forEach(record => {
+            stockData.vendite.forEach(record => {
                 Object.keys(record).forEach(product => {
                     if (['id', 'data', 'ora', 'operatore', 'note', 'importo_inserito', 'created_at'].includes(product)) return;
-                    
+
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] -= qty;
                     }
                 });
             });
-            
+
             // 3. SOTTRAI fatturato
-            allData.fatturato.forEach(record => {
+            stockData.fatturato.forEach(record => {
                 Object.keys(record).forEach(product => {
                     if (['id', 'data', 'ora', 'operatore', 'fatturatore', 'note', 'importo_inserito', 'created_at'].includes(product)) return;
-                    
+
                     const qty = parseFloat(record[product]) || 0;
                     if (qty > 0 && ALL_PRODUCTS.includes(product)) {
                         stock[product] -= qty;
                     }
                 });
             });
-            
+
             // 4. CALCOLA mezze forme
             let mezzeNormali = 0;
             let mezzeStag = 0;
-            
-            [...allData.vendite, ...allData.fatturato].forEach(record => {
+
+            [...stockData.vendite, ...stockData.fatturato].forEach(record => {
                 mezzeNormali += parseFloat(record.mezza_forma) || 0;
                 mezzeStag += parseFloat(record.mezzaforma_stag) || 0;
             });
-            
+
             stock.formaggio -= mezzeNormali * 0.5;
             stock.forma_stagionata -= mezzeStag * 0.5;
-            
+
             // 5. AGGIORNA UI
             ['formaggio', 'forma_stagionata', 'ricotta', 'grattugiato'].forEach(product => {
                 const element = document.getElementById(`stock-${product}`);
                 if (element) {
                     const value = Math.round(stock[product] * 100) / 100;
                     element.textContent = value;
-                    
+
                     element.classList.remove('low', 'critical');
                     if (value <= 0) {
                         element.classList.add('critical');
@@ -2130,14 +2563,14 @@
                     }
                 }
             });
-            
+
             // OLIO D'OLIVA
             ['olio_025l', 'olio_05l', 'olio_075l', 'olio_1l', 'olio_2l', 'olio_3l', 'olio_5l'].forEach(product => {
                 const element = document.getElementById(`stock-${product}`);
                 if (element) {
                     const value = Math.round(stock[product] * 100) / 100;
                     element.textContent = value;
-                    
+
                     element.classList.remove('low', 'critical');
                     if (value <= 0) {
                         element.classList.add('critical');
@@ -2146,14 +2579,14 @@
                     }
                 }
             });
-            
+
             // ALTRI PRODOTTI
             ['miele', 'noci_1kg', 'noci_3kg'].forEach(product => {
                 const element = document.getElementById(`stock-${product}`);
                 if (element) {
                     const value = Math.round(stock[product] * 100) / 100;
                     element.textContent = value;
-                    
+
                     element.classList.remove('low', 'critical');
                     if (value <= 0) {
                         element.classList.add('critical');
@@ -2162,7 +2595,7 @@
                     }
                 }
             });
-            
+
             // PRODOTTI 17-20
             let prod17_20 = 0;
             for (let i = 17; i <= 20; i++) {
@@ -2178,7 +2611,7 @@
                     element17_20.classList.add('low');
                 }
             }
-            
+
             // PRODOTTI 21-30
             let prod21_30 = 0;
             for (let i = 21; i <= 30; i++) {
@@ -2199,43 +2632,43 @@
         function createStockCompositionChart() {
             const ctx = document.getElementById('stock-composition-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['stock-composition']) {
                 activeCharts['stock-composition'].destroy();
             }
-            
+
             const stock = {};
             ALL_PRODUCTS.forEach(p => stock[p] = 0);
-            
+
             // Calcolo stesso di prima...
-            allData.prodotti_aggiunti.forEach(record => {
+            stockData.prodotti_aggiunti.forEach(record => {
                 Object.keys(record).forEach(product => {
                     if (ALL_PRODUCTS.includes(product)) {
                         stock[product] += parseFloat(record[product]) || 0;
                     }
                 });
             });
-            
-            [...allData.vendite, ...allData.fatturato].forEach(record => {
+
+            [...stockData.vendite, ...stockData.fatturato].forEach(record => {
                 Object.keys(record).forEach(product => {
                     if (ALL_PRODUCTS.includes(product)) {
                         stock[product] -= parseFloat(record[product]) || 0;
                     }
                 });
-                
+
                 stock.formaggio -= (parseFloat(record.mezza_forma) || 0) * 0.5;
                 stock.forma_stagionata -= (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
             });
-            
+
             const positiveStock = Object.entries(stock)
                 .filter(([, value]) => value > 0.1)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 8);
-            
+
             if (positiveStock.length === 0) {
                 return;
             }
-            
+
             activeCharts['stock-composition'] = new Chart(ctx, {
                 type: 'pie',
                 data: {
@@ -2273,16 +2706,16 @@
             const today = new Date();
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            
-            document.getElementById('temp-start-date').value = yesterday.toISOString().split('T')[0];
-            document.getElementById('temp-end-date').value = yesterday.toISOString().split('T')[0];
-            
+
+            document.getElementById('temp-start-date').value = localISODate(yesterday);
+            document.getElementById('temp-end-date').value = localISODate(yesterday);
+
             document.getElementById('temp-quick-period').addEventListener('change', function() {
                 const period = this.value;
                 const today = new Date();
                 let start = new Date();
                 let end = new Date();
-                
+
                 switch(period) {
                     case 'today':
                         start = new Date();
@@ -2307,13 +2740,13 @@
                         end = today;
                         break;
                 }
-                
+
                 if (period !== 'custom') {
-                    document.getElementById('temp-start-date').value = start.toISOString().split('T')[0];
-                    document.getElementById('temp-end-date').value = end.toISOString().split('T')[0];
+                    document.getElementById('temp-start-date').value = localISODate(start);
+                    document.getElementById('temp-end-date').value = localISODate(end);
                 }
             });
-            
+
             applyTemporalFilter();
         }
 
@@ -2322,14 +2755,14 @@
             const endDate = document.getElementById('temp-end-date').value;
             const startTime = document.getElementById('temp-start-time').value;
             const endTime = document.getElementById('temp-end-time').value;
-            
+
             if (!startDate || !endDate) {
                 showError('Seleziona le date');
                 return;
             }
-            
+
             const filteredData = filterDataByDateAndTime(startDate, endDate, startTime, endTime);
-            
+
             const allOps = [];
             const stats = {
                 contanti: 0,
@@ -2343,36 +2776,36 @@
                 stats.contanti++;
                 allOps.push({...v, source: 'vendite'});
             });
-            
+
             filteredData.fatturato.forEach(f => {
                 const cat = categorizeTransaction(f, 'fatturato');
                 stats[cat.category]++;
                 allOps.push({...f, source: 'fatturato'});
             });
-            
+
             filteredData.prodotti_aggiunti.forEach(p => {
                 stats.aggiunte++;
                 allOps.push({...p, source: 'prodotti_aggiunti'});
             });
-            
+
             // Calcola incasso (solo con importi inseriti)
             let totalRevenue = 0;
             [...filteredData.vendite, ...filteredData.fatturato].forEach(transaction => {
                 const cat = categorizeTransaction(transaction, 
                     allData.vendite.includes(transaction) ? 'vendite' : 'fatturato');
-                
+
                 if (cat.isRevenue) {
                     totalRevenue += parseFloat(transaction.importo_inserito) || 0;
                 }
             });
-            
+
             // Aggiorna UI
             document.getElementById('temp-operations').textContent = allOps.length;
             document.getElementById('temp-contanti').textContent = stats.contanti;
             document.getElementById('temp-bancomat').textContent = stats.bancomat;
             document.getElementById('temp-fatturati').textContent = stats.fatturati;
             document.getElementById('temp-revenue').textContent = `€${Math.round(totalRevenue)}`;
-            
+
             createTempCategoriesChart(stats);
             createTempDailyTrendWithOperatorsChart(filteredData);
             createTempRevenueTrendChart(filteredData);
@@ -2382,11 +2815,11 @@
         function createTempCategoriesChart(stats) {
             const ctx = document.getElementById('temp-categories-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['temp-categories']) {
                 activeCharts['temp-categories'].destroy();
             }
-            
+
             activeCharts['temp-categories'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2423,38 +2856,38 @@
         function createTempDailyTrendWithOperatorsChart(filteredData) {
             const ctx = document.getElementById('temp-daily-trend-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['temp-daily-trend']) {
                 activeCharts['temp-daily-trend'].destroy();
             }
-            
+
             const dailyData = {};
             const operatorData = {};
-            
+
             // Prepara dati giornalieri
             [...filteredData.vendite, ...filteredData.fatturato].forEach(record => {
                 const date = record.data;
                 const operator = record.operatore || 'Sconosciuto';
-                
+
                 if (!dailyData[date]) {
                     dailyData[date] = { total: 0, operators: {} };
                 }
-                
+
                 dailyData[date].total++;
-                
+
                 if (!dailyData[date].operators[operator]) {
                     dailyData[date].operators[operator] = 0;
                 }
                 dailyData[date].operators[operator]++;
-                
+
                 if (!operatorData[operator]) {
                     operatorData[operator] = [];
                 }
             });
-            
+
             const sortedDates = Object.keys(dailyData).sort();
             const topOperators = Object.keys(operatorData).slice(0, 5); // Top 5 operatori
-            
+
             const datasets = [
                 {
                     label: 'Totale Operazioni',
@@ -2466,7 +2899,7 @@
                     yAxisID: 'y'
                 }
             ];
-            
+
             // Aggiungi linee per percentuali operatori
             const operatorColors = ['#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
             topOperators.forEach((operator, index) => {
@@ -2482,12 +2915,12 @@
                     yAxisID: 'y1'
                 });
             });
-            
+
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
                 return date.getDate() + '/' + (date.getMonth() + 1);
             });
-            
+
             activeCharts['temp-daily-trend'] = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -2549,40 +2982,40 @@
         function createTempRevenueTrendChart(filteredData) {
             const ctx = document.getElementById('temp-revenue-trend-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['temp-revenue-trend']) {
                 activeCharts['temp-revenue-trend'].destroy();
             }
-            
+
             const dailyRevenue = {};
-            
+
             [...filteredData.vendite, ...filteredData.fatturato].forEach(record => {
                 const date = record.data;
                 const cat = categorizeTransaction(record, 
                     allData.vendite.includes(record) ? 'vendite' : 'fatturato');
-                
+
                 if (!dailyRevenue[date]) {
                     dailyRevenue[date] = { contanti: 0, bancomat: 0, regalo: 0 };
                 }
-                
+
                 const revenue = parseFloat(record.importo_inserito) || 0;
-                
+
                 if (cat.isRevenue && revenue > 0) {
                     dailyRevenue[date][cat.category] += revenue;
                 }
-                
+
                 // Per i regali mostra comunque il conteggio anche senza valore monetario
                 if (cat.category === 'regalo') {
                     dailyRevenue[date].regalo += 1; // Conta numero regali invece del valore
                 }
             });
-            
+
             const sortedDates = Object.keys(dailyRevenue).sort();
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
                 return date.getDate() + '/' + (date.getMonth() + 1);
             });
-            
+
             activeCharts['temp-revenue-trend'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2638,56 +3071,56 @@
             });
         }
 
-        function displayTempTransactions(allOps) {
-            const container = document.getElementById('temp-transactions');
-            
+        function displayTempTransactions(allOps, containerId = 'temp-transactions') {
+            const container = document.getElementById(containerId);
+
             allOps.sort((a, b) => {
                 const dateComp = (b.data || '').localeCompare(a.data || '');
                 if (dateComp !== 0) return dateComp;
                 return (b.ora || '').localeCompare(a.ora || '');
             });
-            
+
             if (allOps.length === 0) {
                 container.innerHTML = '<p style="color: #94a3b8; text-align: center;">Nessuna transazione nel periodo</p>';
                 return;
             }
-            
+
             const opsToShow = allOps.slice(0, 100);
-            
+
             container.innerHTML = opsToShow.map(op => {
                 const date = new Date(op.data);
                 const dateStr = date.getDate() + '/' + (date.getMonth() + 1);
                 const time = op.ora || '00:00';
                 const operator = op.operatore || 'Sconosciuto';
-                
+
                 let transactionText = '';
                 let transactionClass = '';
-                
+
                 const products = collectProducts(op);
                 const category = categorizeTransaction(op, op.source);
-                
+
                 if (op.source === 'vendite') {
                     transactionClass = 'vendita';
                     const amount = parseFloat(op.importo_inserito) || 0;
                     const amountText = amount > 0 ? ` a <span class="transaction-amount">€${amount}</span>` : '';
                     transactionText = `<strong>${operator}</strong> ha venduto ${products.join(', ')}${amountText}`;
-                    
+
                 } else if (op.source === 'prodotti_aggiunti') {
                     transactionClass = 'aggiunta';
                     transactionText = `<strong>${operator}</strong> ha aggiunto ${products.join(', ')}`;
-                    
+
                 } else if (op.source === 'fatturato') {
                     if (category.category === 'bancomat') {
                         transactionClass = 'bancomat';
                         const amount = parseFloat(op.importo_inserito) || 0;
                         const amountText = amount > 0 ? ` a <span class="transaction-amount">€${amount}</span>` : '';
                         transactionText = `<strong>${operator}</strong> pagato con bancomat ${products.join(', ')}${amountText}`;
-                        
+
                     } else if (category.category === 'regalo') {
                         transactionClass = 'regalo';
                         const note = op.note ? ` - ${op.note}` : '';
                         transactionText = `<strong>${operator}</strong> ha regalato ${products.join(', ')}${note}`;
-                        
+
                     } else {
                         transactionClass = 'fatturato';
                         const amount = parseFloat(op.importo_inserito) || 0;
@@ -2695,7 +3128,7 @@
                         transactionText = `<strong>${operator}</strong> ha fatturato ${products.join(', ')} a ${op.fatturatore || 'Cliente'}${amountText}`;
                     }
                 }
-                
+
                 return `
                     <div class="transaction-item ${transactionClass}">
                         <div class="transaction-time">Alle ${time} del ${dateStr}</div>
@@ -2703,7 +3136,7 @@
                     </div>
                 `;
             }).join('');
-            
+
             if (allOps.length > 100) {
                 container.innerHTML += `<p style="color: #94a3b8; text-align: center; margin-top: 10px;">
                     Mostrate 100 di ${allOps.length} transazioni
@@ -2718,24 +3151,24 @@
             const today = new Date();
             const lastMonth = new Date();
             lastMonth.setDate(lastMonth.getDate() - 30);
-            
-            document.getElementById('op-start-date').value = lastMonth.toISOString().split('T')[0];
-            document.getElementById('op-end-date').value = today.toISOString().split('T')[0];
+
+            document.getElementById('op-start-date').value = localISODate(lastMonth);
+            document.getElementById('op-end-date').value = localISODate(today);
 
             applyOperatorFilter();
         }
 
         function loadOperatorStats(selectedOperator = null, startDate = null, endDate = null) {
             let dataToAnalyze = [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti];
-            
+
             if (startDate && endDate) {
                 dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             if (selectedOperator) {
                 dataToAnalyze = dataToAnalyze.filter(d => operatorMatches(d.operatore, selectedOperator));
             }
-            
+
             const stats = {
                 total: dataToAnalyze.length,
                 contanti: 0,
@@ -2743,7 +3176,7 @@
                 fatturati: 0,
                 revenue: 0
             };
-            
+
             dataToAnalyze.forEach(record => {
                 if (allData.vendite.includes(record)) {
                     stats.contanti++;
@@ -2758,7 +3191,7 @@
                     }
                 }
             });
-            
+
             document.getElementById('op-total-ops').textContent = stats.total;
             document.getElementById('op-contanti').textContent = stats.contanti;
             document.getElementById('op-bancomat').textContent = stats.bancomat;
@@ -2774,7 +3207,7 @@
             createOperatorsPerformanceChart(selectedOperator, startDate, endDate);
             createOperatorsRevenueChart(selectedOperator, startDate, endDate);
             createOperatorsProductsChart(selectedOperator, startDate, endDate);
-        
+
             const transactions = [
                 ...allData.vendite.map(v => ({ ...v, source: 'vendite' })),
                 ...allData.fatturato.map(f => ({ ...f, source: 'fatturato' })),
@@ -2784,30 +3217,30 @@
                 (!startDate || t.data >= startDate) &&
                 (!endDate || t.data <= endDate)
             );
-        
+
             const container = document.getElementById('operator-transactions');
-        
+
             if (!transactions.length) {
                 container.innerHTML = '<p style="color:#94a3b8;text-align:center;">Nessuna transazione trovata</p>';
                 return;
             }
-        
+
             transactions.sort((a, b) => {
                 const ta = (a.data || '') + (a.ora || '');
                 const tb = (b.data || '') + (b.ora || '');
                 return tb.localeCompare(ta);
             });
-        
+
             container.innerHTML = transactions.map(op => {
                 const time = op.ora || '--:--';
                 const products = collectProducts(op);
                 const amount = Number(op.importo_inserito || 0);
-        
+
                 let label = '';
                 if (op.source === 'vendite') label = 'Vendita';
                 if (op.source === 'fatturato') label = 'Fatturato';
                 if (op.source === 'prodotti_aggiunti') label = 'Aggiunta';
-        
+
                 return `
                     <div class="transaction-item ${op.source}">
                         <div class="transaction-time">${op.data} – ${time}</div>
@@ -2825,28 +3258,28 @@
         function createOperatorsPerformanceChart(selectedOperator = null, startDate = null, endDate = null) {
             const ctx = document.getElementById('operators-performance-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['operators-performance']) {
                 activeCharts['operators-performance'].destroy();
             }
-            
+
             let dataToAnalyze = [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti];
-            
+
             if (startDate && endDate) {
                 dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const operatorStats = {};
-            
+
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
                 if (!operatorMatches(op, selectedOperator)) return;
-                
+
                 if (!operatorStats[op]) {
                     operatorStats[op] = { contanti: 0, bancomat: 0, fatturati: 0, regalo: 0, aggiunte: 0 };
                 }
-                
+
                 if (allData.vendite.includes(record)) {
                     operatorStats[op].contanti++;
                 } else if (allData.fatturato.includes(record)) {
@@ -2856,9 +3289,9 @@
                     operatorStats[op].aggiunte++;
                 }
             });
-            
+
             const operators = Object.keys(operatorStats).sort();
-            
+
             activeCharts['operators-performance'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2921,36 +3354,36 @@
         function createOperatorsRevenueChart(selectedOperator = null, startDate = null, endDate = null) {
             const ctx = document.getElementById('operators-revenue-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['operators-revenue']) {
                 activeCharts['operators-revenue'].destroy();
             }
-            
+
             let dataToAnalyze = [...allData.vendite, ...allData.fatturato];
-            
+
             if (startDate && endDate) {
                 dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const operatorRevenue = {};
-            
+
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
                 if (!operatorMatches(op, selectedOperator)) return;
-                
+
                 if (!operatorRevenue[op]) operatorRevenue[op] = 0;
-                
+
                 const cat = categorizeTransaction(record, allData.vendite.includes(record) ? 'vendite' : 'fatturato');
                 if (cat.isRevenue) {
                     operatorRevenue[op] += parseFloat(record.importo_inserito) || 0;
                 }
             });
-            
+
             const sortedOps = Object.entries(operatorRevenue)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
-            
+
             activeCharts['operators-revenue'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2992,35 +3425,35 @@
         function createOperatorsProductsChart(selectedOperator = null, startDate = null, endDate = null) {
             const ctx = document.getElementById('operators-products-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['operators-products']) {
                 activeCharts['operators-products'].destroy();
             }
-            
+
             let dataToAnalyze = [...allData.vendite, ...allData.fatturato];
-            
+
             if (startDate && endDate) {
                 dataToAnalyze = dataToAnalyze.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const operatorProducts = {};
-            
+
             dataToAnalyze.forEach(record => {
                 const op = record.operatore;
                 if (!op) return;
                 if (!operatorMatches(op, selectedOperator)) return;
-                
+
                 if (!operatorProducts[op]) operatorProducts[op] = 0;
-                
+
                 ['formaggio', 'forma_stagionata', 'ricotta'].forEach(p => {
                     operatorProducts[op] += parseFloat(record[p]) || 0;
                 });
             });
-            
+
             const sortedOps = Object.entries(operatorProducts)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
-            
+
             activeCharts['operators-products'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -3091,8 +3524,8 @@
             const lastMonth = new Date();
             lastMonth.setDate(lastMonth.getDate() - 30);
 
-            document.getElementById('type-start-date').value = lastMonth.toISOString().split('T')[0];
-            document.getElementById('type-end-date').value = today.toISOString().split('T')[0];
+            document.getElementById('type-start-date').value = localISODate(lastMonth);
+            document.getElementById('type-end-date').value = localISODate(today);
 
             applyTypeFilter();
         }
@@ -3169,339 +3602,330 @@
         // ==========================================
         // ANALISI - CON RICAVI STIMATI
         // ==========================================
-        function loadAnalisi() {
-            loadAnalysisStats();
-            createWeeklyTrendChart();
-            createMonthlyComparisonChart();
-            createTopProductsAllTimeChart();
-        }
+        // ==========================================
+        // PREZZI PRODOTTI FATTURATI
+        // ==========================================
+        // Salvati solo in questo browser (localStorage): il database non viene toccato.
+        const PREZZI_KEY = 'medei_prezzi_fatture_v1';
 
-        function loadAnalysisStats() {
-            const stats = {
-                total: allData.vendite.length + allData.fatturato.length + allData.prodotti_aggiunti.length,
-                contanti: allData.vendite.length,
-                bancomat: 0,
-                fatturati: 0,
-                regalo: 0,
-                revenue: 0
-            };
-            
-            // Calcola totali con importi inseriti
-            allData.vendite.forEach(v => {
-                stats.revenue += parseFloat(v.importo_inserito) || 0;
-            });
-            
-            allData.fatturato.forEach(f => {
-                const cat = categorizeTransaction(f, 'fatturato');
-                if (cat.category === 'bancomat') {
-                    stats.bancomat++;
-                    stats.revenue += parseFloat(f.importo_inserito) || 0;
-                } else if (cat.category === 'regalo') {
-                    stats.regalo++;
-                } else {
-                    stats.fatturati++;
-                }
-            });
-            
-            document.getElementById('analysis-total-ops').textContent = stats.total;
-            document.getElementById('analysis-contanti').textContent = stats.contanti;
-            document.getElementById('analysis-bancomat').textContent = stats.bancomat;
-            document.getElementById('analysis-fatturati').textContent = stats.fatturati;
-            document.getElementById('analysis-revenue').textContent = `€${Math.round(stats.revenue)}`;
-        }
-
-        function createWeeklyTrendChart() {
-            const ctx = document.getElementById('weekly-trend-chart');
-            if (!ctx) return;
-            
-            if (activeCharts['weekly-trend']) {
-                activeCharts['weekly-trend'].destroy();
+        function caricaPrezziFatture() {
+            try {
+                return JSON.parse(localStorage.getItem(PREZZI_KEY)) || {};
+            } catch (e) {
+                return {};
             }
-            
-            const days = [];
-            const data = {
-                contanti: [],
-                bancomat: [],
-                fatturati: [],
-                regalo: [],
-                aggiunte: []
+        }
+
+        function salvaPrezziFatture(prezzi) {
+            try {
+                localStorage.setItem(PREZZI_KEY, JSON.stringify(prezzi));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Valore stimato di una fattura: pezzi x prezzo inserito
+        function valoreFatturaStimato(record, prezzi) {
+            let valore = 0;
+            let pezziSenzaPrezzo = 0;
+            ALL_PRODUCTS.forEach(p => {
+                const q = parseFloat(record[p]) || 0;
+                if (q <= 0) return;
+                const prezzo = parseFloat(prezzi[p]);
+                if (prezzo > 0) valore += q * prezzo;
+                else pezziSenzaPrezzo += q;
+            });
+            return { valore, pezziSenzaPrezzo };
+        }
+
+        function isFatturaCliente(record) {
+            return categorizeTransaction(record, 'fatturato').category === 'fatturati';
+        }
+
+        function renderPrezziPanel() {
+            const list = document.getElementById('prezzi-list');
+            if (!list) return;
+            const prezzi = caricaPrezziFatture();
+
+            // Prodotti presenti nelle fatture degli ultimi 12 mesi, con le quantita'
+            const da = new Date();
+            da.setFullYear(da.getFullYear() - 1);
+            const daStr = localISODate(da);
+            const qty = {};
+            allData.fatturato.filter(r => r.data >= daStr && isFatturaCliente(r)).forEach(r => {
+                ALL_PRODUCTS.forEach(p => {
+                    const q = parseFloat(r[p]) || 0;
+                    if (q > 0) qty[p] = (qty[p] || 0) + q;
+                });
+            });
+            // Anche i prodotti con un prezzo gia' salvato restano in lista
+            const prodotti = ALL_PRODUCTS.filter(p => qty[p] || prezzi[p]);
+
+            document.getElementById('prezzi-info').textContent = prodotti.length
+                ? 'Prezzi salvati su questo dispositivo. Sotto ogni prodotto: pezzi fatturati negli ultimi 12 mesi.'
+                : 'Nessun prodotto fatturato negli ultimi 12 mesi.';
+
+            list.innerHTML = prodotti.map(p => {
+                // mostrato con la virgola, come si scrive in italiano
+                const val = prezzi[p] != null ? String(prezzi[p]).replace('.', ',') : '';
+                const missing = !(parseFloat(val) > 0) && qty[p];
+                return `
+                    <div class="prezzi-row${missing ? ' missing' : ''}">
+                        <div class="prezzi-name">
+                            <strong>${PRODUCT_LABELS[p] || p}</strong>
+                            <span>${Math.round((qty[p] || 0) * 10) / 10} pezzi fatturati</span>
+                        </div>
+                        <label class="prezzi-input-wrap">
+                            €
+                            <input type="text" inputmode="decimal" autocomplete="off" class="prezzi-input"
+                                   data-col="${p}" value="${val}" placeholder="0,00"
+                                   aria-label="Prezzo ${PRODUCT_LABELS[p] || p}">
+                        </label>
+                    </div>`;
+            }).join('');
+        }
+
+        function initPrezziPanel() {
+            const btn = document.getElementById('prezzi-save-btn');
+            if (!btn || btn.dataset.bound) return;
+            btn.dataset.bound = 'true';
+            btn.addEventListener('click', () => {
+                const prezzi = caricaPrezziFatture();
+                document.querySelectorAll('.prezzi-input').forEach(input => {
+                    const v = parseFloat(String(input.value).replace(',', '.'));
+                    if (v > 0) prezzi[input.dataset.col] = Math.round(v * 100) / 100;
+                    else delete prezzi[input.dataset.col];
+                });
+                const ok = salvaPrezziFatture(prezzi);
+                const msg = document.getElementById('prezzi-saved');
+                msg.style.color = ok ? '#10b981' : '#ef4444';
+                msg.textContent = ok
+                    ? '✅ Prezzi salvati. Trovi il giro d\'affari in Analisi.'
+                    : '⚠️ Non riesco a salvare su questo browser (navigazione privata?).';
+                renderPrezziPanel();
+                setTimeout(() => { msg.textContent = ''; }, 4000);
+            });
+        }
+
+        // ==========================================
+        // ANALISI MENSILE
+        // ==========================================
+        // Incasso = importo_inserito delle vendite in contanti + delle vendite bancomat.
+        // Fatture e regali non hanno importo in cassa e non entrano nell'incasso.
+        const M_NAMES = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+            'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+        let mInitialized = false;
+
+        function mLabel(key, short = false) {
+            const [y, m] = key.split('-').map(Number);
+            const name = M_NAMES[m - 1];
+            return short ? `${name.slice(0, 3)} ${String(y).slice(2)}` : `${name} ${y}`;
+        }
+
+        function mShift(key, delta) {
+            const [y, m] = key.split('-').map(Number);
+            const d = new Date(y, m - 1 + delta, 1);
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+        }
+
+        // Riepilogo di un mese (chiave 'YYYY-MM')
+        // maxDay: considera solo i giorni fino a quello indicato (per confrontare un mese in corso)
+        function mSummary(key, maxDay = 31) {
+            const inMonth = r => (r.data || '').startsWith(key) && Number(r.data.slice(8, 10)) <= maxDay;
+            const s = {
+                contanti: 0, bancomat: 0, fatturati: 0, regalo: 0,
+                incassoContanti: 0, incassoBancomat: 0,
+                senzaImporto: 0, forme: 0, daily: {}, dailyFatture: {}, products: {},
+                fattureStimate: 0, pezziSenzaPrezzo: 0
             };
-            
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                const dayLabel = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][date.getDay()] + 
-                               ' ' + date.getDate() + '/' + (date.getMonth() + 1);
-                days.push(dayLabel);
-                
-                const dayData = filterDataByDate(dateStr, dateStr);
-                
-                data.contanti.push(dayData.vendite.length);
-                data.aggiunte.push(dayData.prodotti_aggiunti.length);
-                
-                let bancomat = 0;
-                let fatturati = 0;
-                let regalo = 0;
-                
-                dayData.fatturato.forEach(f => {
-                    const cat = categorizeTransaction(f, 'fatturato');
-                    if (cat.category === 'bancomat') {
-                        bancomat++;
-                    } else if (cat.category === 'regalo') {
-                        regalo++;
+            const prezzi = caricaPrezziFatture();
+            const add = (r, cat) => {
+                s[cat]++;
+                const amount = parseFloat(r.importo_inserito) || 0;
+                if (cat === 'fatturati') {
+                    const stima = valoreFatturaStimato(r, prezzi);
+                    s.fattureStimate += stima.valore;
+                    s.pezziSenzaPrezzo += stima.pezziSenzaPrezzo;
+                    s.dailyFatture[r.data] = (s.dailyFatture[r.data] || 0) + stima.valore;
+                }
+                if (cat === 'contanti' || cat === 'bancomat') {
+                    if (amount > 0) {
+                        if (cat === 'contanti') s.incassoContanti += amount; else s.incassoBancomat += amount;
+                        s.daily[r.data] = (s.daily[r.data] || 0) + amount;
                     } else {
-                        fatturati++;
-                    }
-                });
-                
-                data.bancomat.push(bancomat);
-                data.fatturati.push(fatturati);
-                data.regalo.push(regalo);
-            }
-            
-            activeCharts['weekly-trend'] = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: days,
-                    datasets: [
-                        {
-                            label: 'Contanti',
-                            data: data.contanti,
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Bancomat',
-                            data: data.bancomat,
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Fatturati',
-                            data: data.fatturati,
-                            borderColor: '#8b5cf6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Regalo',
-                            data: data.regalo,
-                            borderColor: '#ec4899',
-                            backgroundColor: 'rgba(236, 72, 153, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Aggiunte',
-                            data: data.aggiunte,
-                            borderColor: '#f59e0b',
-                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#94a3b8',
-                                font: { size: 10 }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        }
+                        s.senzaImporto++;
                     }
                 }
-            });
+                s.forme += (parseFloat(r.formaggio) || 0) + (parseFloat(r.forma_stagionata) || 0)
+                    + 0.5 * ((parseFloat(r.mezza_forma) || 0) + (parseFloat(r.mezzaforma_stag) || 0));
+                ALL_PRODUCTS.forEach(p => {
+                    const q = parseFloat(r[p]) || 0;
+                    if (q > 0) s.products[p] = (s.products[p] || 0) + q;
+                });
+            };
+            allData.vendite.filter(inMonth).forEach(r => add(r, 'contanti'));
+            allData.fatturato.filter(inMonth).forEach(r => add(r, categorizeTransaction(r, 'fatturato').category));
+            s.ops = s.contanti + s.bancomat + s.fatturati + s.regalo;
+            s.incasso = s.incassoContanti + s.incassoBancomat;
+            s.giroAffari = s.incasso + s.fattureStimate;
+            const conIncasso = s.contanti + s.bancomat;
+            // Mese incompleto: piu' del 10% delle vendite contanti/bancomat senza importo
+            s.incompleto = conIncasso > 0 && s.senzaImporto / conIncasso > 0.1;
+            return s;
         }
 
-        function createMonthlyComparisonChart() {
-            const ctx = document.getElementById('monthly-comparison-chart');
-            if (!ctx) return;
-            
-            if (activeCharts['monthly-comparison']) {
-                activeCharts['monthly-comparison'].destroy();
-            }
-            
-            const monthlyData = {};
-            const today = new Date();
-            
-            for (let i = 5; i >= 0; i--) {
-                const month = new Date(today.getFullYear(), today.getMonth() - i, 1);
-                const monthKey = month.getFullYear() + '-' + String(month.getMonth() + 1).padStart(2, '0');
-                const monthLabel = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'][month.getMonth()];
-                
-                monthlyData[monthLabel] = {
-                    contanti: 0,
-                    bancomat: 0,
-                    fatturati: 0,
-                    regalo: 0
-                };
-                
-                allData.vendite.forEach(v => {
-                    if (v.data && v.data.startsWith(monthKey)) {
-                        monthlyData[monthLabel].contanti++;
-                    }
-                });
-                
-                allData.fatturato.forEach(f => {
-                    if (f.data && f.data.startsWith(monthKey)) {
-                        const cat = categorizeTransaction(f, 'fatturato');
-                        monthlyData[monthLabel][cat.category]++;
-                    }
-                });
-            }
-            
-            const labels = Object.keys(monthlyData);
-            
-            activeCharts['monthly-comparison'] = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Contanti',
-                            data: labels.map(l => monthlyData[l].contanti),
-                            backgroundColor: '#10b981'
-                        },
-                        {
-                            label: 'Bancomat',
-                            data: labels.map(l => monthlyData[l].bancomat),
-                            backgroundColor: '#3b82f6'
-                        },
-                        {
-                            label: 'Fatturati',
-                            data: labels.map(l => monthlyData[l].fatturati),
-                            backgroundColor: '#8b5cf6'
-                        },
-                        {
-                            label: 'Regalo',
-                            data: labels.map(l => monthlyData[l].regalo),
-                            backgroundColor: '#ec4899'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#94a3b8',
-                                font: { size: 10 }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        }
-                    }
-                }
-            });
+        function mDelta(elId, now, before, isMoney) {
+            const el = document.getElementById(elId);
+            el.className = 'm-delta';
+            if (!before) { el.textContent = ''; return; }
+            const pct = Math.round((now - before) / before * 100);
+            const prev = isMoney ? `€${Math.round(before)}` : before;
+            el.textContent = `${pct >= 0 ? '▲' : '▼'} ${Math.abs(pct)}% sul mese prima (${prev})`;
+            el.classList.add(pct >= 0 ? 'up' : 'down');
         }
 
-        function createTopProductsAllTimeChart() {
-            const ctx = document.getElementById('top-products-alltime-chart');
-            if (!ctx) return;
-            
-            if (activeCharts['top-products-alltime']) {
-                activeCharts['top-products-alltime'].destroy();
-            }
-            
-            const products = {};
-            ALL_PRODUCTS.forEach(p => products[p] = 0);
-            
-            [...allData.vendite, ...allData.fatturato].forEach(record => {
-                ALL_PRODUCTS.forEach(product => {
-                    products[product] += parseFloat(record[product]) || 0;
-                });
-            });
-            
-            const sortedProducts = Object.entries(products)
-                .sort((a, b) => b[1] - a[1])
-                .filter(([, value]) => value > 0)
-                .slice(0, 8);
-            
-            activeCharts['top-products-alltime'] = new Chart(ctx, {
+        function mInit() {
+            const months = new Set();
+            [...allData.vendite, ...allData.fatturato].forEach(r => { if (r.data) months.add(r.data.slice(0, 7)); });
+            const sorted = [...months].sort().reverse();
+            const select = document.getElementById('m-month');
+            select.innerHTML = sorted.map(k => `<option value="${k}">${mLabel(k)}</option>`).join('');
+            select.addEventListener('change', renderAnalisi);
+            const step = delta => {
+                const i = select.selectedIndex - delta; // lista dal piu' recente
+                if (i >= 0 && i < select.options.length) { select.selectedIndex = i; renderAnalisi(); }
+            };
+            document.getElementById('m-prev').addEventListener('click', () => step(-1));
+            document.getElementById('m-next').addEventListener('click', () => step(1));
+            mInitialized = true;
+        }
+
+        function loadAnalisi() {
+            if (!mInitialized) mInit();
+            renderAnalisi();
+        }
+
+        function renderAnalisi() {
+            const select = document.getElementById('m-month');
+            const key = select.value;
+            if (!key) return;
+            document.getElementById('m-prev').disabled = select.selectedIndex >= select.options.length - 1;
+            document.getElementById('m-next').disabled = select.selectedIndex <= 0;
+
+            const s = mSummary(key);
+            const prevKey = mShift(key, -1);
+            const isCurrentMonth = key === localISODate(new Date()).slice(0, 7);
+            const todayDay = new Date().getDate();
+            // Mese in corso: confronto con gli stessi giorni del mese prima
+            const prev = mSummary(prevKey, isCurrentMonth ? todayDay : 31);
+
+            const warning = document.getElementById('m-warning');
+            const notes = [];
+            if (s.pezziSenzaPrezzo > 0) notes.push(`💶 ${Math.round(s.pezziSenzaPrezzo * 10) / 10} pezzi fatturati non hanno un prezzo: la stima delle fatture è parziale. <a href="#" onclick="document.querySelector('[onclick*=configprodotti]').click(); return false;" style="color:#fbbf24">Inserisci i prezzi</a>`);
+            if (s.incompleto) notes.push(`⚠️ In questo mese ${s.senzaImporto} vendite su ${s.contanti + s.bancomat} non hanno l'importo: l'incasso è incompleto.`);
+            if (isCurrentMonth) notes.push(`📆 Mese in corso: il confronto è con i primi ${todayDay} giorni di ${mLabel(prevKey)}.`);
+            warning.style.display = notes.length ? '' : 'none';
+            warning.innerHTML = notes.join('<br>');
+
+            document.getElementById('m-giro').textContent = `€${Math.round(s.giroAffari)}`;
+            document.getElementById('m-fatture').textContent = `€${Math.round(s.fattureStimate)}`;
+            if (!s.incompleto && !prev.incompleto) mDelta('m-giro-delta', s.giroAffari, prev.giroAffari, true);
+            else document.getElementById('m-giro-delta').textContent = '';
+            document.getElementById('m-revenue').textContent = `€${Math.round(s.incasso)}`;
+            document.getElementById('m-revenue-split').textContent = `€${Math.round(s.incassoContanti)} · €${Math.round(s.incassoBancomat)}`;
+            document.getElementById('m-ops').textContent = s.ops;
+            document.getElementById('m-ops-split').textContent = `${s.contanti} · ${s.bancomat} · ${s.fatturati} · ${s.regalo}`;
+            const conImporto = s.contanti + s.bancomat - s.senzaImporto;
+            document.getElementById('m-avg').textContent = conImporto > 0 ? `€${(s.incasso / conImporto).toFixed(2)}` : '–';
+            document.getElementById('m-forms').textContent = Math.round(s.forme * 10) / 10;
+            if (!s.incompleto && !prev.incompleto) mDelta('m-revenue-delta', s.incasso, prev.incasso, true);
+            else document.getElementById('m-revenue-delta').textContent = '';
+            mDelta('m-ops-delta', s.ops, prev.ops, false);
+
+            // Ultimi 12 mesi fino al mese scelto
+            const keys = [];
+            for (let i = 11; i >= 0; i--) keys.push(mShift(key, -i));
+            const sums = keys.map(k => mSummary(k));
+            const labels = keys.map((k, i) => mLabel(k, true) + (sums[i].incompleto ? ' ⚠️' : ''));
+            const highlight = (color) => keys.map(k => k === key ? color : color + '99');
+
+            vDrawChart('m-revenue', 'm-revenue-chart', {
                 type: 'bar',
                 data: {
-                    labels: sortedProducts.map(([name]) => PRODUCT_LABELS[name] || name),
-                    datasets: [{
-                        label: 'Quantità Venduta',
-                        data: sortedProducts.map(([, value]) => Math.round(value)),
-                        backgroundColor: [
-                            '#10b981', '#3b82f6', '#f59e0b', '#ef4444',
-                            '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
-                        ],
-                        borderWidth: 2,
-                        borderColor: '#1e293b'
-                    }]
+                    labels,
+                    datasets: [
+                        { label: 'Contanti', data: sums.map(x => Math.round(x.incassoContanti)), backgroundColor: highlight('#10b981') },
+                        { label: 'Bancomat', data: sums.map(x => Math.round(x.incassoBancomat)), backgroundColor: highlight('#3b82f6') },
+                        { label: 'Fatture (stima)', data: sums.map(x => Math.round(x.fattureStimate)), backgroundColor: highlight('#f59e0b') }
+                    ]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        }
-                    }
-                }
+                options: vChartOptions()
+            });
+
+            vDrawChart('m-ops', 'm-ops-chart', {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: ['contanti', 'bancomat', 'fatturati', 'regalo'].map(cat => ({
+                        label: V_CATEGORIES[cat].label,
+                        data: sums.map(x => x[cat]),
+                        backgroundColor: highlight(V_CATEGORIES[cat].color)
+                    }))
+                },
+                options: vChartOptions()
+            });
+
+            // Giorno per giorno nel mese scelto
+            const [y, m] = key.split('-').map(Number);
+            const nDays = new Date(y, m, 0).getDate();
+            const days = Array.from({ length: nDays }, (_, i) => `${key}-${String(i + 1).padStart(2, '0')}`);
+            vDrawChart('m-daily', 'm-daily-chart', {
+                type: 'bar',
+                data: {
+                    labels: days.map(d => Number(d.slice(8))),
+                    datasets: [
+                        { label: 'Incasso', data: days.map(d => Math.round(s.daily[d] || 0)), backgroundColor: '#10b981' },
+                        { label: 'Fatture (stima)', data: days.map(d => Math.round(s.dailyFatture[d] || 0)), backgroundColor: '#f59e0b' }
+                    ]
+                },
+                options: vChartOptions()
+            });
+
+            // Prodotti del mese
+            const top = Object.entries(s.products).sort((a, b) => b[1] - a[1]).slice(0, 12);
+            vDrawChart('m-products', 'm-products-chart', {
+                type: 'bar',
+                data: {
+                    labels: top.map(([p]) => PRODUCT_LABELS[p] || p),
+                    datasets: [{ label: 'Pezzi', data: top.map(([, q]) => q), backgroundColor: '#06b6d4' }]
+                },
+                options: vChartOptions({ indexAxis: 'y', plugins: { legend: { display: false } } })
             });
         }
 
         function createClientsAnalysisChart() {
             const ctx = document.getElementById('clients-analysis-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['clients-analysis']) {
                 activeCharts['clients-analysis'].destroy();
             }
-            
+
             const clients = {};
-            
+
             allData.fatturato.forEach(f => {
                 const client = normalizeText(f.fatturatore);
                 if (!client || isBancomatValue(client) || isRegaloValue(client)) return;
-                
+
                 if (!clients[client]) clients[client] = 0;
                 clients[client]++;
             });
-            
+
             const sortedClients = Object.entries(clients)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
-            
+
             activeCharts['clients-analysis'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -3541,21 +3965,21 @@
             const today = new Date();
             const lastMonth = new Date();
             lastMonth.setDate(lastMonth.getDate() - 30);
-            
-            document.getElementById('prod-start-date').value = lastMonth.toISOString().split('T')[0];
-            document.getElementById('prod-end-date').value = today.toISOString().split('T')[0];
+
+            document.getElementById('prod-start-date').value = localISODate(lastMonth);
+            document.getElementById('prod-end-date').value = localISODate(today);
         }
 
         function applyProductFilter() {
             const product = document.getElementById('product-filter').value;
             const startDate = document.getElementById('prod-start-date').value;
             const endDate = document.getElementById('prod-end-date').value;
-            
+
             if (!product) {
                 showError('Seleziona un prodotto');
                 return;
             }
-            
+
             loadProductStats(product, startDate, endDate);
             createProductSalesTrendChart(product, startDate, endDate);
             createProductOperatorsChart(product, startDate, endDate);
@@ -3565,25 +3989,25 @@
         function loadProductStats(product, startDate = null, endDate = null) {
             let salesData = [...allData.vendite, ...allData.fatturato];
             let addedData = [...allData.prodotti_aggiunti];
-            
+
             if (startDate && endDate) {
                 salesData = salesData.filter(d => d.data >= startDate && d.data <= endDate);
                 addedData = addedData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             let totalSold = 0;
             let totalAdded = 0;
             let estimatedRevenue = 0;
-            
+
             // Calcola vendite (solo con importi effettivi)
             salesData.forEach(record => {
                 const qty = parseFloat(record[product]) || 0;
                 totalSold += qty;
-                
+
                 if (qty > 0) {
                     estimatedRevenue += parseFloat(record.importo_inserito) || 0;
                 }
-                
+
                 // Gestisci mezze forme
                 if (product === 'formaggio') {
                     const mezze = parseFloat(record.mezza_forma) || 0;
@@ -3593,15 +4017,15 @@
                     totalSold += mezzeStag * 0.5;
                 }
             });
-            
+
             // Calcola aggiunti
             addedData.forEach(record => {
                 totalAdded += parseFloat(record[product]) || 0;
             });
-            
+
             // Stock attuale
             const currentStock = totalAdded - totalSold;
-            
+
             document.getElementById('prod-total-sold').textContent = Math.round(totalSold * 10) / 10;
             document.getElementById('prod-total-added').textContent = Math.round(totalAdded * 10) / 10;
             document.getElementById('prod-current-stock').textContent = Math.round(currentStock * 10) / 10;
@@ -3611,26 +4035,26 @@
         function createProductSalesTrendChart(product, startDate, endDate) {
             const ctx = document.getElementById('product-sales-trend-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['product-sales-trend']) {
                 activeCharts['product-sales-trend'].destroy();
             }
-            
+
             let salesData = [...allData.vendite, ...allData.fatturato];
-            
+
             if (startDate && endDate) {
                 salesData = salesData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const dailySales = {};
-            
+
             salesData.forEach(record => {
                 const date = record.data;
                 const qty = parseFloat(record[product]) || 0;
-                
+
                 if (!dailySales[date]) dailySales[date] = 0;
                 dailySales[date] += qty;
-                
+
                 // Aggiungi mezze forme
                 if (product === 'formaggio') {
                     dailySales[date] += (parseFloat(record.mezza_forma) || 0) * 0.5;
@@ -3638,13 +4062,13 @@
                     dailySales[date] += (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
                 }
             });
-            
+
             const sortedDates = Object.keys(dailySales).sort();
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
                 return date.getDate() + '/' + (date.getMonth() + 1);
             });
-            
+
             activeCharts['product-sales-trend'] = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -3681,26 +4105,26 @@
         function createProductOperatorsChart(product, startDate, endDate) {
             const ctx = document.getElementById('product-operators-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['product-operators']) {
                 activeCharts['product-operators'].destroy();
             }
-            
+
             let salesData = [...allData.vendite, ...allData.fatturato];
-            
+
             if (startDate && endDate) {
                 salesData = salesData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const operatorSales = {};
-            
+
             salesData.forEach(record => {
                 const operator = record.operatore || 'Sconosciuto';
                 const qty = parseFloat(record[product]) || 0;
-                
+
                 if (!operatorSales[operator]) operatorSales[operator] = 0;
                 operatorSales[operator] += qty;
-                
+
                 // Aggiungi mezze forme
                 if (product === 'formaggio') {
                     operatorSales[operator] += (parseFloat(record.mezza_forma) || 0) * 0.5;
@@ -3708,11 +4132,11 @@
                     operatorSales[operator] += (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
                 }
             });
-            
+
             const sortedOperators = Object.entries(operatorSales)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 8);
-            
+
             activeCharts['product-operators'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -3748,42 +4172,42 @@
         function createProductSalesTypesChart(product, startDate, endDate) {
             const ctx = document.getElementById('product-sales-types-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['product-sales-types']) {
                 activeCharts['product-sales-types'].destroy();
             }
-            
+
             let salesData = [...allData.vendite, ...allData.fatturato];
-            
+
             if (startDate && endDate) {
                 salesData = salesData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const salesTypes = {
                 contanti: 0,
                 bancomat: 0,
                 fatturati: 0,
                 regalo: 0
             };
-            
+
             salesData.forEach(record => {
                 const qty = parseFloat(record[product]) || 0;
                 let totalQty = qty;
-                
+
                 // Aggiungi mezze forme
                 if (product === 'formaggio') {
                     totalQty += (parseFloat(record.mezza_forma) || 0) * 0.5;
                 } else if (product === 'forma_stagionata') {
                     totalQty += (parseFloat(record.mezzaforma_stag) || 0) * 0.5;
                 }
-                
+
                 if (totalQty > 0) {
                     const cat = categorizeTransaction(record, 
                         allData.vendite.includes(record) ? 'vendite' : 'fatturato');
                     salesTypes[cat.category] += totalQty;
                 }
             });
-            
+
             activeCharts['product-sales-types'] = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -3818,10 +4242,10 @@
             const today = new Date();
             const lastMonth = new Date();
             lastMonth.setDate(lastMonth.getDate() - 90); // 3 mesi
-            
-            document.getElementById('client-start-date').value = lastMonth.toISOString().split('T')[0];
-            document.getElementById('client-end-date').value = today.toISOString().split('T')[0];
-            
+
+            document.getElementById('client-start-date').value = localISODate(lastMonth);
+            document.getElementById('client-end-date').value = localISODate(today);
+
             createTopClientsChart();
         }
 
@@ -3829,7 +4253,7 @@
             const client = document.getElementById('client-filter').value;
             const startDate = document.getElementById('client-start-date').value;
             const endDate = document.getElementById('client-end-date').value;
-            
+
             loadClientStats(client, startDate, endDate);
             createClientInvoicesTrendChart(client, startDate, endDate);
             createClientProductsChart(client, startDate, endDate);
@@ -3842,30 +4266,30 @@
                 !isBancomatValue(f.fatturatore) && 
                 !isRegaloValue(f.fatturatore)
             );
-            
+
             if (startDate && endDate) {
                 invoiceData = invoiceData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             if (selectedClient) {
                 invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
-            
+
             const stats = {
                 totalInvoices: invoiceData.length,
                 totalProducts: 0,
                 totalValue: 0
             };
-            
+
             invoiceData.forEach(record => {
                 ALL_PRODUCTS.forEach(product => {
                     stats.totalProducts += parseFloat(record[product]) || 0;
                 });
                 stats.totalValue += parseFloat(record.importo_inserito) || 0;
             });
-            
+
             const avgInvoice = stats.totalInvoices > 0 ? stats.totalValue / stats.totalInvoices : 0;
-            
+
             document.getElementById('client-total-invoices').textContent = stats.totalInvoices;
             document.getElementById('client-total-products').textContent = Math.round(stats.totalProducts);
             document.getElementById('client-avg-invoice').textContent = `€${Math.round(avgInvoice)}`;
@@ -3875,45 +4299,45 @@
         function createClientInvoicesTrendChart(selectedClient, startDate, endDate) {
             const ctx = document.getElementById('client-invoices-trend-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['client-invoices-trend']) {
                 activeCharts['client-invoices-trend'].destroy();
             }
-            
+
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
                 !isBancomatValue(f.fatturatore) && 
                 !isRegaloValue(f.fatturatore)
             );
-            
+
             if (startDate && endDate) {
                 invoiceData = invoiceData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             if (selectedClient) {
                 invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
-            
+
             const monthlyData = {};
-            
+
             invoiceData.forEach(record => {
                 const date = new Date(record.data);
                 const monthKey = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
-                
+
                 if (!monthlyData[monthKey]) {
                     monthlyData[monthKey] = { count: 0, value: 0 };
                 }
-                
+
                 monthlyData[monthKey].count++;
                 monthlyData[monthKey].value += parseFloat(record.importo_inserito) || 0;
             });
-            
+
             const sortedMonths = Object.keys(monthlyData).sort();
             const labels = sortedMonths.map(m => {
                 const [year, month] = m.split('-');
                 return ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'][parseInt(month) - 1];
             });
-            
+
             activeCharts['client-invoices-trend'] = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -3981,39 +4405,39 @@
         function createClientProductsChart(selectedClient, startDate, endDate) {
             const ctx = document.getElementById('client-products-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['client-products']) {
                 activeCharts['client-products'].destroy();
             }
-            
+
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
                 !isBancomatValue(f.fatturatore) && 
                 !isRegaloValue(f.fatturatore)
             );
-            
+
             if (startDate && endDate) {
                 invoiceData = invoiceData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             if (selectedClient) {
                 invoiceData = invoiceData.filter(d => clientMatches(d.fatturatore, selectedClient));
             }
-            
+
             const productTotals = {};
             ALL_PRODUCTS.forEach(p => productTotals[p] = 0);
-            
+
             invoiceData.forEach(record => {
                 ALL_PRODUCTS.forEach(product => {
                     productTotals[product] += parseFloat(record[product]) || 0;
                 });
             });
-            
+
             const topProducts = Object.entries(productTotals)
                 .sort((a, b) => b[1] - a[1])
                 .filter(([, value]) => value > 0)
                 .slice(0, 8);
-            
+
             activeCharts['client-products'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -4049,37 +4473,37 @@
         function createTopClientsChart(startDate = null, endDate = null) {
             const ctx = document.getElementById('top-clients-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['top-clients']) {
                 activeCharts['top-clients'].destroy();
             }
-            
+
             let invoiceData = allData.fatturato.filter(f => 
                 f.fatturatore && 
                 !isBancomatValue(f.fatturatore) && 
                 !isRegaloValue(f.fatturatore)
             );
-            
+
             if (startDate && endDate) {
                 invoiceData = invoiceData.filter(d => d.data >= startDate && d.data <= endDate);
             }
-            
+
             const clientStats = {};
-            
+
             invoiceData.forEach(record => {
                 const client = normalizeText(record.fatturatore);
                 if (!clientStats[client]) {
                     clientStats[client] = { count: 0, value: 0 };
                 }
-                
+
                 clientStats[client].count++;
                 clientStats[client].value += parseFloat(record.importo_inserito) || 0;
             });
-            
+
             const topClients = Object.entries(clientStats)
                 .sort((a, b) => b[1].value - a[1].value)
                 .slice(0, 10);
-            
+
             activeCharts['top-clients'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -4125,10 +4549,10 @@
             const today = new Date();
             const lastMonth = new Date();
             lastMonth.setDate(lastMonth.getDate() - 30);
-            
-            document.getElementById('frigo-start-date').value = lastMonth.toISOString().split('T')[0];
-            document.getElementById('frigo-end-date').value = today.toISOString().split('T')[0];
-            
+
+            document.getElementById('frigo-start-date').value = localISODate(lastMonth);
+            document.getElementById('frigo-end-date').value = localISODate(today);
+
             calculateCurrentFrigoForms();
             createFrigoTrendChart();
             createFrigoBalanceChart();
@@ -4138,36 +4562,301 @@
         function applyFrigoFilter() {
             const startDate = document.getElementById('frigo-start-date').value;
             const endDate = document.getElementById('frigo-end-date').value;
-            
+
             if (!startDate || !endDate) {
                 showError('Seleziona le date');
                 return;
             }
-            
+
             createFrigoTrendChart(startDate, endDate);
             createFrigoBalanceChart(startDate, endDate);
             createFrigoDailyProductionChart(startDate, endDate);
         }
 
+        // ==========================================
+        // VENDITE - pagina unica con filtri
+        // (sostituisce Temporale, Tipologie, Prodotto e Clienti)
+        // ==========================================
+        const V_CATEGORIES = {
+            contanti:  { label: 'Contanti', color: '#10b981' },
+            bancomat:  { label: 'Bancomat', color: '#3b82f6' },
+            fatturati: { label: 'Fattura',  color: '#f59e0b' },
+            regalo:    { label: 'Regalo',   color: '#ec4899' },
+            aggiunte:  { label: 'Aggiunte', color: '#8b5cf6' }
+        };
+        let vPeriod = 'today';
+        let vInitialized = false;
+
+        function vPeriodRange(period) {
+            const today = new Date();
+            const start = new Date();
+            const end = new Date();
+            if (period === 'yesterday') {
+                start.setDate(today.getDate() - 1);
+                end.setDate(today.getDate() - 1);
+            } else if (period === 'last7') {
+                start.setDate(today.getDate() - 6);
+            } else if (period === 'last30') {
+                start.setDate(today.getDate() - 29);
+            } else if (period === 'thisMonth') {
+                start.setDate(1);
+            } else if (period === 'custom') {
+                return {
+                    start: document.getElementById('v-start-date').value,
+                    end: document.getElementById('v-end-date').value
+                };
+            }
+            return { start: localISODate(start), end: localISODate(end) };
+        }
+
+        function vFillSelect(id, options) {
+            const select = document.getElementById(id);
+            const first = select.options[0].outerHTML;
+            select.innerHTML = first + options
+                .map(o => `<option value="${o.value}">${o.label}</option>`)
+                .join('');
+        }
+
+        function vPopulateFilters() {
+            const operators = new Set();
+            const clients = new Set();
+            const products = new Set();
+            // Operatori solo da vendite e aggiunte: nelle fatture vecchie il campo operatore a volte contiene il cliente
+            [...allData.vendite, ...allData.prodotti_aggiunti].forEach(r => {
+                if (r.operatore) operators.add(r.operatore.trim());
+            });
+            [...allData.vendite, ...allData.fatturato, ...allData.prodotti_aggiunti].forEach(r => {
+                ALL_PRODUCTS.forEach(p => { if ((parseFloat(r[p]) || 0) > 0) products.add(p); });
+            });
+            allData.fatturato.forEach(r => {
+                if (categorizeTransaction(r, 'fatturato').category === 'fatturati' && r.fatturatore) {
+                    clients.add(r.fatturatore.trim());
+                }
+            });
+            const byName = (a, b) => a.label.localeCompare(b.label, 'it');
+            vFillSelect('v-operator', [...operators].map(o => ({ value: o, label: o })).sort(byName));
+            vFillSelect('v-client', [...clients].map(c => ({ value: c, label: c })).sort(byName));
+            vFillSelect('v-product', ALL_PRODUCTS.filter(p => products.has(p))
+                .map(p => ({ value: p, label: PRODUCT_LABELS[p] || p })));
+        }
+
+        function vInit() {
+            document.querySelectorAll('#v-period-chips .v-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    vPeriod = chip.dataset.period;
+                    document.querySelectorAll('#v-period-chips .v-chip')
+                        .forEach(c => c.classList.toggle('active', c === chip));
+                    const custom = document.getElementById('v-custom-dates');
+                    custom.style.display = vPeriod === 'custom' ? 'flex' : 'none';
+                    if (vPeriod === 'custom' && !document.getElementById('v-start-date').value) {
+                        const r = vPeriodRange('last30');
+                        document.getElementById('v-start-date').value = r.start;
+                        document.getElementById('v-end-date').value = r.end;
+                    }
+                    renderVendite();
+                });
+            });
+            ['v-start-date', 'v-end-date', 'v-type', 'v-operator', 'v-product', 'v-client', 'v-notes']
+                .forEach(id => document.getElementById(id).addEventListener('change', renderVendite));
+            document.getElementById('v-reset').addEventListener('click', () => {
+                ['v-type', 'v-operator', 'v-product', 'v-client'].forEach(id => document.getElementById(id).value = '');
+                document.getElementById('v-notes').checked = false;
+                renderVendite();
+            });
+            vInitialized = true;
+        }
+
+        function loadVendite() {
+            if (!vInitialized) vInit();
+            vPopulateFilters();
+            renderVendite();
+        }
+
+        function vFilteredOps() {
+            const { start, end } = vPeriodRange(vPeriod);
+            const type = document.getElementById('v-type').value;
+            const operator = document.getElementById('v-operator').value;
+            const product = document.getElementById('v-product').value;
+            const client = document.getElementById('v-client').value;
+            const onlyNotes = document.getElementById('v-notes').checked;
+
+            const inRange = r => (!start || r.data >= start) && (!end || r.data <= end);
+            let ops;
+            if (type === 'aggiunte') {
+                ops = allData.prodotti_aggiunti.filter(inRange)
+                    .map(r => ({ ...r, source: 'prodotti_aggiunti', _cat: 'aggiunte' }));
+            } else {
+                ops = [
+                    ...allData.vendite.filter(inRange).map(r => ({ ...r, source: 'vendite', _cat: 'contanti' })),
+                    ...allData.fatturato.filter(inRange).map(r => ({
+                        ...r, source: 'fatturato', _cat: categorizeTransaction(r, 'fatturato').category
+                    }))
+                ];
+                if (type) ops = ops.filter(op => op._cat === type);
+            }
+            if (operator) ops = ops.filter(op => (op.operatore || '').trim() === operator);
+            if (product) ops = ops.filter(op => (parseFloat(op[product]) || 0) > 0);
+            if (client) ops = ops.filter(op => op._cat === 'fatturati' && clientMatches(op.fatturatore, client));
+            if (onlyNotes) ops = ops.filter(op => (op.note || '').trim() !== '');
+            return { ops, start, end, product };
+        }
+
+        function vChartOptions(extra = {}) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+                scales: {
+                    x: { stacked: true, ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                    y: { stacked: true, beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 }, precision: 0 }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+                },
+                ...extra
+            };
+        }
+
+        function vDrawChart(key, canvasId, config) {
+            if (activeCharts[key]) activeCharts[key].destroy();
+            const ctx = document.getElementById(canvasId);
+            if (ctx) activeCharts[key] = new Chart(ctx, config);
+        }
+
+        function renderVendite() {
+            const { ops, start, end, product } = vFilteredOps();
+            const qtyOf = op => product
+                ? (parseFloat(op[product]) || 0)
+                : ALL_PRODUCTS.reduce((t, p) => t + (parseFloat(op[p]) || 0), 0);
+
+            // Numeri in alto
+            const count = cat => ops.filter(op => op._cat === cat).length;
+            const revenue = ops
+                .filter(op => op._cat === 'contanti' || op._cat === 'bancomat')
+                .reduce((t, op) => t + (parseFloat(op.importo_inserito) || 0), 0);
+            document.getElementById('v-stat-ops').textContent = ops.length;
+            document.getElementById('v-stat-revenue').textContent = `€${Math.round(revenue)}`;
+            document.getElementById('v-stat-qty').textContent = Math.round(ops.reduce((t, op) => t + qtyOf(op), 0) * 10) / 10;
+            document.getElementById('v-stat-qty-label').textContent = product
+                ? `Pezzi di ${PRODUCT_LABELS[product] || product}` : 'Pezzi totali';
+            document.getElementById('v-stat-split').textContent =
+                `${count('contanti')} · ${count('bancomat')} · ${count('fatturati')} · ${count('regalo')}`;
+
+            // Andamento: per ora se un solo giorno, altrimenti per giorno
+            const singleDay = start && start === end;
+            const bucketOf = op => singleDay ? `${(op.ora || '00').slice(0, 2)}:00` : op.data;
+            const buckets = [...new Set(ops.map(bucketOf))].sort();
+            const cats = Object.keys(V_CATEGORIES).filter(c => ops.some(op => op._cat === c));
+            const datasets = cats.map(cat => ({
+                label: V_CATEGORIES[cat].label,
+                backgroundColor: V_CATEGORIES[cat].color,
+                data: buckets.map(b => ops
+                    .filter(op => op._cat === cat && bucketOf(op) === b)
+                    .reduce((t, op) => t + (product ? qtyOf(op) : 1), 0))
+            }));
+            const labels = buckets.map(b => singleDay ? b : (() => {
+                const d = new Date(b);
+                return d.getDate() + '/' + (d.getMonth() + 1);
+            })());
+            document.getElementById('v-trend-title').textContent = (singleDay ? '🕐 Per ora' : '📈 Per giorno')
+                + (product ? ` · pezzi di ${PRODUCT_LABELS[product] || product}` : ' · numero di operazioni');
+            vDrawChart('v-trend', 'v-trend-chart', { type: 'bar', data: { labels, datasets }, options: vChartOptions() });
+
+            // Prodotti (o, con un prodotto scelto, chi lo ha venduto)
+            const totals = {};
+            if (product) {
+                ops.forEach(op => {
+                    const k = (op.operatore || 'Sconosciuto').trim();
+                    totals[k] = (totals[k] || 0) + qtyOf(op);
+                });
+            } else {
+                ops.forEach(op => ALL_PRODUCTS.forEach(p => {
+                    const q = parseFloat(op[p]) || 0;
+                    if (q > 0) totals[PRODUCT_LABELS[p] || p] = (totals[PRODUCT_LABELS[p] || p] || 0) + q;
+                }));
+            }
+            const top = Object.entries(totals).sort((a, b) => b[1] - a[1]).slice(0, 12);
+            document.getElementById('v-products-title').textContent = product
+                ? `👥 ${PRODUCT_LABELS[product] || product} per operatore` : '📦 Prodotti più venduti';
+            vDrawChart('v-products', 'v-products-chart', {
+                type: 'bar',
+                data: { labels: top.map(t => t[0]), datasets: [{ label: 'Pezzi', data: top.map(t => t[1]), backgroundColor: '#06b6d4' }] },
+                options: vChartOptions({ indexAxis: 'y', plugins: { legend: { display: false } } })
+            });
+
+            // Clienti (solo fatture)
+            const clientTotals = {};
+            ops.filter(op => op._cat === 'fatturati').forEach(op => {
+                const k = (op.fatturatore || 'Cliente').trim();
+                clientTotals[k] = (clientTotals[k] || 0) + 1;
+            });
+            const topClients = Object.entries(clientTotals).sort((a, b) => b[1] - a[1]).slice(0, 10);
+            document.getElementById('v-clients-card').style.display = topClients.length ? '' : 'none';
+            if (topClients.length) {
+                vDrawChart('v-clients', 'v-clients-chart', {
+                    type: 'bar',
+                    data: { labels: topClients.map(t => t[0]), datasets: [{ label: 'Fatture', data: topClients.map(t => t[1]), backgroundColor: '#f59e0b' }] },
+                    options: vChartOptions({ indexAxis: 'y', plugins: { legend: { display: false } } })
+                });
+            }
+
+            // Elenco operazioni (stesso formato della vecchia pagina Temporale)
+            displayTempTransactions(ops, 'v-transactions');
+        }
+
+        // ==========================================
+        // CELLA FRIGO - modello di calcolo
+        // ==========================================
+        // Forme uscite dalla cella = vendute (vendite + fatturato), come nel programma cassa del PC.
+        // prodotti_aggiunti non va usato: e' il rifornimento del bancone, non un'uscita dalla cella.
+        //
+        // Fino al 20/07/2025 fresche, stagionate e mezze forme erano separate; quel giorno e' stata
+        // registrata una produzione fittizia per far tornare il conto. Tutto cio' che e' successo fino
+        // a quel giorno compreso diventa la GIACENZA INIZIALE e non viene mostrato come produzione.
+        const FRIGO_INIZIO = '2025-07-20';
+        const FRIGO_CAPIENZA = 3000;
+
+        function frigoPrelievi() {
+            return [...stockData.vendite, ...stockData.fatturato];
+        }
+
+        function formeUscite(r) {
+            return (parseFloat(r.formaggio) || 0) + (parseFloat(r.forma_stagionata) || 0);
+        }
+
+        function frigoGiacenzaIniziale() {
+            let tot = 0;
+            allData.produzione_cella_frigo.forEach(r => { if (r.data <= FRIGO_INIZIO) tot += parseFloat(r.forme) || 0; });
+            frigoPrelievi().forEach(r => { if (r.data <= FRIGO_INIZIO) tot -= formeUscite(r); });
+            return tot;
+        }
+
+        // Solo movimenti reali (dopo la data di inizio), eventualmente filtrati per periodo
+        function frigoMovimenti(startDate = null, endDate = null) {
+            const inPeriodo = d => d > FRIGO_INIZIO && (!startDate || d >= startDate) && (!endDate || d <= endDate);
+            return {
+                produzione: allData.produzione_cella_frigo.filter(r => inPeriodo(r.data)),
+                prelievi: frigoPrelievi().filter(r => inPeriodo(r.data))
+            };
+        }
+
+        function frigoGiacenzaAl(dataInclusa) {
+            let tot = frigoGiacenzaIniziale();
+            const { produzione, prelievi } = frigoMovimenti(null, dataInclusa);
+            produzione.forEach(r => tot += parseFloat(r.forme) || 0);
+            prelievi.forEach(r => tot -= formeUscite(r));
+            return tot;
+        }
+
         function calculateCurrentFrigoForms() {
-            // Forme prodotte (aggiunte alla cella frigo)
-            let formsProduced = 0;
-            allData.produzione_cella_frigo.forEach(record => {
-                formsProduced += parseFloat(record.forme) || 0;
-            });
-            
-            // Forme prelevate (aggiunte al negozio = tolte dalla cella)
-            let formsTaken = 0;
-            allData.prodotti_aggiunti.forEach(record => {
-                // Conte forme fresche e stagionate
-                formsTaken += parseFloat(record.formaggio) || 0;
-                formsTaken += parseFloat(record.forma_stagionata) || 0;
-            });
-            
-            const currentForms = formsProduced - formsTaken;
-            const capacity = formsProduced > 0 ? Math.round((currentForms / formsProduced) * 100) : 0;
-            
-            document.getElementById('frigo-current-forms').textContent = Math.round(currentForms);
+            const { produzione, prelievi } = frigoMovimenti();
+            const formsProduced = produzione.reduce((t, r) => t + (parseFloat(r.forme) || 0), 0);
+            const formsTaken = prelievi.reduce((t, r) => t + formeUscite(r), 0);
+            const currentForms = frigoGiacenzaIniziale() + formsProduced - formsTaken;
+            const capacity = Math.round((currentForms / FRIGO_CAPIENZA) * 100);
+
+            const currentEl = document.getElementById('frigo-current-forms');
+            currentEl.textContent = Math.round(currentForms);
+            currentEl.classList.remove('low', 'critical');
+            if (currentForms < 0 || currentForms > FRIGO_CAPIENZA) currentEl.classList.add('critical');
+
             document.getElementById('frigo-produced-forms').textContent = Math.round(formsProduced);
             document.getElementById('frigo-taken-forms').textContent = Math.round(formsTaken);
             document.getElementById('frigo-capacity').textContent = `${capacity}%`;
@@ -4176,66 +4865,32 @@
         function createFrigoTrendChart(startDate = null, endDate = null) {
             const ctx = document.getElementById('frigo-trend-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['frigo-trend']) {
                 activeCharts['frigo-trend'].destroy();
             }
-            
-            let productionData = [...allData.produzione_cella_frigo];
-            let addedData = [...allData.prodotti_aggiunti];
-            
-            if (startDate && endDate) {
-                productionData = productionData.filter(d => d.data >= startDate && d.data <= endDate);
-                addedData = addedData.filter(d => d.data >= startDate && d.data <= endDate);
+
+            // Saldo alla fine del giorno prima dell'inizio del periodo
+            let runningTotal = frigoGiacenzaIniziale();
+            if (startDate && startDate > FRIGO_INIZIO) {
+                const giornoPrima = new Date(startDate + 'T12:00:00');
+                giornoPrima.setDate(giornoPrima.getDate() - 1);
+                runningTotal = frigoGiacenzaAl(localISODate(giornoPrima));
             }
-            
-            // Calcola stock cumulativo per ogni giorno
-            const allDates = new Set();
-            productionData.forEach(r => allDates.add(r.data));
-            addedData.forEach(r => allDates.add(r.data));
-            
-            const sortedDates = Array.from(allDates).sort();
-            const cumulativeStock = [];
-            let runningTotal = 0;
-            
-            // Calcola stock iniziale (dati prima del periodo)
-            if (startDate) {
-                allData.produzione_cella_frigo.forEach(r => {
-                    if (r.data < startDate) {
-                        runningTotal += parseFloat(r.forme) || 0;
-                    }
-                });
-                
-                allData.prodotti_aggiunti.forEach(r => {
-                    if (r.data < startDate) {
-                        runningTotal -= (parseFloat(r.formaggio) || 0) + (parseFloat(r.forma_stagionata) || 0);
-                    }
-                });
-            }
-            
-            sortedDates.forEach(date => {
-                // Aggiungi produzioni del giorno
-                productionData.forEach(r => {
-                    if (r.data === date) {
-                        runningTotal += parseFloat(r.forme) || 0;
-                    }
-                });
-                
-                // Sottrai prelievi del giorno
-                addedData.forEach(r => {
-                    if (r.data === date) {
-                        runningTotal -= (parseFloat(r.formaggio) || 0) + (parseFloat(r.forma_stagionata) || 0);
-                    }
-                });
-                
-                cumulativeStock.push(Math.round(runningTotal));
-            });
-            
+
+            const { produzione, prelievi } = frigoMovimenti(startDate, endDate);
+            const daily = {};
+            produzione.forEach(r => daily[r.data] = (daily[r.data] || 0) + (parseFloat(r.forme) || 0));
+            prelievi.forEach(r => daily[r.data] = (daily[r.data] || 0) - formeUscite(r));
+
+            const sortedDates = Object.keys(daily).sort();
+            const cumulativeStock = sortedDates.map(d => Math.round(runningTotal += daily[d]));
+
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
-                return date.getDate() + '/' + (date.getMonth() + 1);
+                return date.getDate() + '/' + (date.getMonth() + 1) + '/' + String(date.getFullYear()).slice(2);
             });
-            
+
             activeCharts['frigo-trend'] = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -4245,23 +4900,33 @@
                         data: cumulativeStock,
                         borderColor: '#06b6d4',
                         backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                        tension: 0.4,
+                        tension: 0.2,
+                        pointRadius: 0,
                         fill: true
+                    }, {
+                        label: `Capienza massima (${FRIGO_CAPIENZA})`,
+                        data: sortedDates.map(() => FRIGO_CAPIENZA),
+                        borderColor: '#ef4444',
+                        borderDash: [6, 4],
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { labels: { color: '#94a3b8', font: { size: 10 } } }
                     },
                     scales: {
                         y: {
+                            min: 0,
                             ticks: { color: '#94a3b8', font: { size: 10 } },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         },
                         x: {
-                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 8 },
                             grid: { color: 'rgba(148, 163, 184, 0.1)' }
                         }
                     }
@@ -4272,21 +4937,15 @@
         function createFrigoBalanceChart(startDate = null, endDate = null) {
             const ctx = document.getElementById('frigo-balance-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['frigo-balance']) {
                 activeCharts['frigo-balance'].destroy();
             }
-            
-            let productionData = [...allData.produzione_cella_frigo];
-            let addedData = [...allData.prodotti_aggiunti];
-            
-            if (startDate && endDate) {
-                productionData = productionData.filter(d => d.data >= startDate && d.data <= endDate);
-                addedData = addedData.filter(d => d.data >= startDate && d.data <= endDate);
-            }
-            
+
+            const { produzione: productionData, prelievi: addedData } = frigoMovimenti(startDate, endDate);
+
             const dailyBalance = {};
-            
+
             // Produzioni (positive)
             productionData.forEach(record => {
                 const date = record.data;
@@ -4295,7 +4954,7 @@
                 }
                 dailyBalance[date].produced += parseFloat(record.forme) || 0;
             });
-            
+
             // Prelievi (negative)
             addedData.forEach(record => {
                 const date = record.data;
@@ -4304,13 +4963,13 @@
                 }
                 dailyBalance[date].taken += (parseFloat(record.formaggio) || 0) + (parseFloat(record.forma_stagionata) || 0);
             });
-            
+
             const sortedDates = Object.keys(dailyBalance).sort();
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
                 return date.getDate() + '/' + (date.getMonth() + 1);
             });
-            
+
             activeCharts['frigo-balance'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -4356,19 +5015,15 @@
         function createFrigoDailyProductionChart(startDate = null, endDate = null) {
             const ctx = document.getElementById('frigo-daily-production-chart');
             if (!ctx) return;
-            
+
             if (activeCharts['frigo-daily-production']) {
                 activeCharts['frigo-daily-production'].destroy();
             }
-            
-            let productionData = [...allData.produzione_cella_frigo];
-            
-            if (startDate && endDate) {
-                productionData = productionData.filter(d => d.data >= startDate && d.data <= endDate);
-            }
-            
+
+            const productionData = frigoMovimenti(startDate, endDate).produzione;
+
             const dailyProduction = {};
-            
+
             productionData.forEach(record => {
                 const date = record.data;
                 if (!dailyProduction[date]) {
@@ -4376,13 +5031,13 @@
                 }
                 dailyProduction[date] += parseFloat(record.forme) || 0;
             });
-            
+
             const sortedDates = Object.keys(dailyProduction).sort();
             const labels = sortedDates.map(d => {
                 const date = new Date(d);
                 return date.getDate() + '/' + (date.getMonth() + 1);
             });
-            
+
             activeCharts['frigo-daily-production'] = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -4505,11 +5160,12 @@
 
             initOperatorFilterEvents();
             initTypeFilterEvents();
-            
+
             if (SUPABASE_URL !== 'TUA_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'TUA_SUPABASE_ANON_KEY') {
                 const success = await loadAllData();
                 if (success) {
                     loadDashboard();
+                    renderPrezziPanel(); // se la pagina Impostazioni era gia' aperta mentre i dati arrivavano
                 } else {
                     showError('⚠️ Impossibile caricare i dati');
                 }
@@ -4524,7 +5180,7 @@
                 event.preventDefault();
             }
         });
-        
+
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             const now = Date.now();
@@ -4536,7 +5192,7 @@
     </script>
 
     <!-- PAGINA CONFIGURAZIONE PRODOTTI -->
-    <div id="page-configprodotti" class="page" style="display:none; padding:15px; padding-bottom:100px;">
+    <div id="page-configprodotti" class="page" style="padding:15px; padding-bottom:100px;">
         <div style="background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:14px;padding:16px;margin-bottom:16px;">
             <h2 style="font-size:1.3em;margin-bottom:4px;">⚙️ Configura Prodotti</h2>
             <p style="font-size:0.85em;opacity:0.8;">Rinomina, nascondi o riordina i prodotti nel gestionale. Le colonne del database non cambiano.</p>
@@ -4544,6 +5200,16 @@
         <div id="config-prod-list"></div>
         <button class="config-save-btn" onclick="salvaConfigProdotti()">💾 Salva configurazione</button>
         <button class="config-reset-btn" onclick="resetConfigProdotti()">🔄 Ripristina valori originali</button>
+
+        <!-- PREZZI PRODOTTI FATTURATI (per la stima del giro d'affari) -->
+        <div style="background:linear-gradient(135deg,#78350f,#d97706);border-radius:14px;padding:16px;margin:28px 0 16px;">
+            <h2 style="font-size:1.3em;margin-bottom:4px;">💶 Prezzi prodotti fatturati</h2>
+            <p style="font-size:0.85em;opacity:0.9;">In cassa le fatture non hanno l'importo. Inserisci il prezzo a pezzo che fai ai clienti: l'Analisi mensile calcola il valore delle fatture e il giro d'affari totale.</p>
+        </div>
+        <div class="prezzi-info" id="prezzi-info"></div>
+        <div id="prezzi-list"></div>
+        <button class="prezzi-save-btn" id="prezzi-save-btn" type="button">💾 Salva prezzi</button>
+        <div class="prezzi-saved" id="prezzi-saved"></div>
     </div>
 
 </body>
